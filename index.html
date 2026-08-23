@@ -17,6 +17,7 @@
   #stage{position:relative;overflow:hidden;width:100%}
   .board{transform-origin:top left;position:absolute;top:0;left:0;display:none}
   .board.on{display:block}
+  .board.framed{border-radius:26px;overflow:hidden;box-shadow:0 24px 60px rgba(35,42,28,.28);margin-top:16px}
   #switch{position:fixed;top:14px;right:14px;z-index:100;display:none;gap:4px;padding:4px;
           background:rgba(35,42,28,.86);border-radius:999px;backdrop-filter:blur(8px)}
   #switch button{font:500 13px/1 'Golos Text',system-ui,sans-serif;color:#EFE7D6;background:none;border:0;
@@ -75,11 +76,15 @@
     elOther.classList.remove('on'); el.classList.add('on');
 
     var base = W[mode];
-    // телефон — всегда во всю ширину экрана (без полей по краям); компьютер — не крупнее 100 %
-    var s = (mode === 'phone') ? (vw / base) : Math.min(1, vw / base);
+    // на телефоне мобильный макет — во всю ширину экрана (без полей по краям);
+    // на компьютере мобильный макет показываем в натуральную величину (390 px), не растягивая
+    var s = (mode === 'phone')
+      ? (vw < BREAK ? vw / base : 1)
+      : Math.min(1, vw / base);
+    el.classList.toggle('framed', mode === 'phone' && vw >= BREAK);
     el.style.transform = 'scale(' + s + ')';
     el.style.left = Math.max(0, (vw - base * s) / 2) + 'px';
-    document.getElementById('stage').style.height = (el.scrollHeight * s) + 'px';
+    document.getElementById('stage').style.height = (el.scrollHeight * s + (el.classList.contains('framed') ? 32 : 0)) + 'px';
 
     document.getElementById('btnPhone').className = mode === 'phone' ? 'act' : '';
     document.getElementById('btnDesk').className = mode === 'desktop' ? 'act' : '';
