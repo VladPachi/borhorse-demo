@@ -18,6 +18,11 @@
 /* Полоски кнопки меню: display держим в классе, инлайновый Alpine стирает */
 .dch-line { display: block; }
 .artboard-desktop { display: none; }
+/* Компьютерный макет нарисован на 1440 px. Шире не растягиваем — иначе
+   разделы разъезжаются и страница перестаёт совпадать с согласованным
+   макетом; вместо этого держим нарисованную ширину и ставим по центру.
+   Уже 1440 страница ужимается целиком, пропорционально (скрипт в base.html). */
+.artboard-desktop { max-width: 1440px; margin-left: auto; margin-right: auto; }
 @media (min-width: 1024px) {
   .artboard-phone { display: none; }
   .artboard-desktop { display: block; }

@@ -22,6 +22,24 @@
   <link rel="stylesheet" href="../../static/css/output.css">
   <link rel="stylesheet" href="../../static/design.css">
 
+  
+  
+
+  
+  <script>
+    (function () {
+      function fit() {
+        var board = document.querySelector('.artboard-desktop');
+        if (!board) return;
+        var width = document.documentElement.clientWidth;
+        board.style.zoom = width < 1440 && width >= 1024 ? width / 1440 : '';
+      }
+      addEventListener('resize', fit, {passive: true});
+      addEventListener('DOMContentLoaded', fit);
+      document.addEventListener('htmx:afterSwap', fit);
+    })();
+  </script>
+
   <script src="../../static/vendor/htmx.min.js" defer></script>
   <script src="../../static/vendor/alpine.min.js" defer></script>
   
@@ -99,6 +117,7 @@
 
   
 
+
 <div class="design-artboard artboard-phone design-footer mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
 <div style="background:#232B1C;padding:36px 22px 30px">
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
@@ -109,8 +128,8 @@
 <a href="../../progulki/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Конные прогулки</a>
 <a href="../../prozhivanie/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Проживание</a>
 <a href="../../banya/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Баня</a>
-<a href="#prices" style="font-size:14px;color:rgba(241,234,218,.8)">Цены</a>
-<a href="#about" style="font-size:14px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="/#prices" style="font-size:14px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="/#about" style="font-size:14px;color:rgba(241,234,218,.8)">О нас</a>
 <a href="../../kontakty/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Контакты</a>
 <a href="../../albomy/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
 <a href="../../novosti/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Новости</a>
@@ -132,6 +151,7 @@
 </div>
 </div>
 
+
 <div class="design-artboard artboard-desktop bg-[#F2F0E5]">
 <div style="background:#232B1C;padding:70px 64px 44px">
 <div style="display:flex;justify-content:space-between;gap:60px;margin-bottom:56px">
@@ -149,8 +169,8 @@
 <a href="../../albomy/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
 </div>
 <div style="display:flex;flex-direction:column;gap:14px">
-<a href="#prices" style="font-size:15px;color:rgba(241,234,218,.8)">Цены</a>
-<a href="#about" style="font-size:15px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="/#prices" style="font-size:15px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="/#about" style="font-size:15px;color:rgba(241,234,218,.8)">О нас</a>
 <a href="../../kontakty/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Контакты</a>
 <a href="../../novosti/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Новости</a>
 </div>
@@ -174,6 +194,7 @@
 </div>
 </div>
 </div>
+
 
 
   

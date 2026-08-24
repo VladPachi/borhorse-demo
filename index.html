@@ -22,6 +22,24 @@
   <link rel="stylesheet" href="static/css/output.css">
   <link rel="stylesheet" href="static/design.css">
 
+  
+  
+
+  
+  <script>
+    (function () {
+      function fit() {
+        var board = document.querySelector('.artboard-desktop');
+        if (!board) return;
+        var width = document.documentElement.clientWidth;
+        board.style.zoom = width < 1440 && width >= 1024 ? width / 1440 : '';
+      }
+      addEventListener('resize', fit, {passive: true});
+      addEventListener('DOMContentLoaded', fit);
+      document.addEventListener('htmx:afterSwap', fit);
+    })();
+  </script>
+
   <script src="static/vendor/htmx.min.js" defer></script>
   <script src="static/vendor/alpine.min.js" defer></script>
   
@@ -44,6 +62,7 @@
 
   <main id="content">
     
+
 <div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" style="position:relative" x-data="{ menu: false, menuTop: 0, stuck: false, footerNear: false, check() { this.stuck = this.$refs.header.getBoundingClientRect().bottom <= 0; const footer = document.querySelector('.design-footer'); this.footerNear = footer ? footer.getBoundingClientRect().top <= window.innerHeight - 16 : false } }" @scroll.window.passive="check()" @resize.window.passive="check()" x-init="$nextTick(() => { check(); menuTop = $refs.header.getBoundingClientRect().height })" @keydown.escape.window="menu = false" x-effect="document.body.style.overflow = menu ? 'hidden' : ''">
 
 
@@ -170,7 +189,7 @@
 </div>
 
 <div style="padding:44px 22px 8px;background:#F2F0E5">
-<h2 id="prices" style="font-family:Prata,serif;font-weight:400;font-size:29px;line-height:1.18;color:#2F3A26;margin:0 0 18px;scroll-margin-top:16px">Цены</h2>
+<h2 id="prices" style="scroll-margin-top:80px;font-family:Prata,serif;font-weight:400;font-size:29px;line-height:1.18;color:#2F3A26;margin:0 0 18px">Цены</h2>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:6px 18px">
 <div style="display:flex;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(44,54,35,.09)"><span style="font-size:14.5px;color:#3A4130">Конная прогулка, 2 часа</span><span style="font-size:14.5px;color:#232A1C;font-weight:600;white-space:nowrap">4 000 ₽</span></div>
 <div style="display:flex;justify-content:space-between;gap:14px;padding:14px 0;border-bottom:1px solid rgba(44,54,35,.09)"><span style="font-size:14.5px;color:#3A4130">Индивидуальный инструктор</span><span style="font-size:14.5px;color:#232A1C;font-weight:600;white-space:nowrap">+5 000 ₽</span></div>
@@ -215,7 +234,7 @@
 <div style="margin-top:44px;background:#232B1C;padding:44px 22px;position:relative;overflow:hidden">
 <svg viewBox="0 0 390 900" style="position:absolute;inset:0;width:100%;height:100%" fill="none" preserveAspectRatio="none"><path d="M-30 250 C 130 200, 210 120, 220 -20" stroke="#C4A56A" stroke-opacity=".3" stroke-width="1"></path><path d="M420 620 C 300 690, 210 790, 230 940" stroke="#C4A56A" stroke-opacity=".2" stroke-width="1"></path></svg>
 <div style="position:relative;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#C4A56A;font-weight:600;margin-bottom:12px">О нас</div>
-<h2 style="position:relative;font-family:Prata,serif;font-weight:400;font-size:29px;line-height:1.18;color:#F1EADA;margin:0 0 16px">Добро пожаловать в Бородинский хутор!</h2>
+<h2 id="about" style="scroll-margin-top:80px;position:relative;font-family:Prata,serif;font-weight:400;font-size:29px;line-height:1.18;color:#F1EADA;margin:0 0 16px">Добро пожаловать в Бородинский хутор!</h2>
 <p style="position:relative;font-size:15px;line-height:1.62;color:rgba(241,234,218,.78);margin:0 0 12px">Мы не просто конно-туристическая база, мы целый эко-мир, олицетворение любви людей и животных.</p>
 <p style="position:relative;font-size:15px;line-height:1.62;color:rgba(241,234,218,.78);margin:0 0 18px">Животный мир, свежий воздух, лошади проносящиеся мимо вас, это то что дает внутреннюю гармонию и истинное ощущение свободы.</p>
 <div style="position:relative;display:flex;flex-wrap:wrap;gap:7px;margin-bottom:22px">
@@ -328,8 +347,8 @@
 <a href="progulki/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Конные прогулки<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="prozhivanie/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Проживание<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="banya/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Баня<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="/#prices" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="/#about" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="albomy/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Фотоальбомы<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="novosti/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Новости<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500">Адрес и контакты<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
@@ -363,6 +382,7 @@
 
 </div>
 
+
 <div class="design-artboard artboard-desktop bg-[#F2F0E5]">
 
 
@@ -381,8 +401,8 @@
 <a href="progulki/index.html" style="font-size:15px;color:#F1EADA" class="dch-d0">Конные прогулки</a>
 <a href="prozhivanie/index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-d1">Проживание</a>
 <a href="banya/index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-d2">Баня</a>
-<a href="#prices" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-d3">Цены</a>
-<a href="#about" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-d4">О нас</a>
+<a href="/#prices" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-d3">Цены</a>
+<a href="/#about" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-d4">О нас</a>
 <a href="kontakty/index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-d5">Контакты</a>
 <a href="tel:+79099903667" style="font-size:15px;color:#F1EADA;font-weight:500;margin-left:8px">8 (909) 990-36-67</a>
 </div>
@@ -517,7 +537,7 @@
 </div>
 
 <div style="padding:110px 64px 0;background:#F2F0E5">
-<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#2F3A26;margin:0 0 40px">Цены</h2>
+<h2 id="prices" style="scroll-margin-top:80px;font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#2F3A26;margin:0 0 40px">Цены</h2>
 <div style="display:flex;gap:20px">
 <div style="flex:1;background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;padding:14px 32px">
 <div style="display:flex;justify-content:space-between;gap:20px;padding:22px 0;border-bottom:1px solid rgba(44,54,35,.09)"><span style="font-size:17px;color:#3A4130">Конная прогулка, 2 часа</span><span style="font-size:17px;color:#232A1C;font-weight:600;white-space:nowrap">4 000 ₽ / всадник</span></div>
@@ -583,7 +603,7 @@
 <div style="position:relative;display:flex;gap:56px;align-items:flex-start">
 <div style="flex:none;width:500px">
 <div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#C4A56A;font-weight:600;margin-bottom:20px">О нас</div>
-<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#F1EADA;margin:0 0 26px">Добро пожаловать в Бородинский хутор!</h2>
+<h2 id="about" style="scroll-margin-top:80px;font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#F1EADA;margin:0 0 26px">Добро пожаловать в Бородинский хутор!</h2>
 <p style="font-size:18px;line-height:1.65;color:rgba(241,234,218,.78);margin:0 0 16px;max-width:480px">Мы не просто конно-туристическая база, мы целый эко-мир, олицетворение любви людей и животных.</p>
 <p style="font-size:18px;line-height:1.65;color:rgba(241,234,218,.78);margin:0 0 26px;max-width:480px">Животный мир, свежий воздух, лошади проносящиеся мимо вас, это то что дает внутреннюю гармонию и истинное ощущение свободы.</p>
 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:36px;max-width:520px">
@@ -711,9 +731,11 @@
 </div>
 </div>
 
+
   </main>
 
   
+
 
 <div class="design-artboard artboard-phone design-footer mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
 <div style="background:#232B1C;padding:36px 22px 30px">
@@ -725,8 +747,8 @@
 <a href="progulki/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Конные прогулки</a>
 <a href="prozhivanie/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Проживание</a>
 <a href="banya/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Баня</a>
-<a href="#prices" style="font-size:14px;color:rgba(241,234,218,.8)">Цены</a>
-<a href="#about" style="font-size:14px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="/#prices" style="font-size:14px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="/#about" style="font-size:14px;color:rgba(241,234,218,.8)">О нас</a>
 <a href="kontakty/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Контакты</a>
 <a href="albomy/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
 <a href="novosti/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Новости</a>
@@ -748,6 +770,7 @@
 </div>
 </div>
 
+
 <div class="design-artboard artboard-desktop bg-[#F2F0E5]">
 <div style="background:#232B1C;padding:70px 64px 44px">
 <div style="display:flex;justify-content:space-between;gap:60px;margin-bottom:56px">
@@ -765,8 +788,8 @@
 <a href="albomy/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
 </div>
 <div style="display:flex;flex-direction:column;gap:14px">
-<a href="#prices" style="font-size:15px;color:rgba(241,234,218,.8)">Цены</a>
-<a href="#about" style="font-size:15px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="/#prices" style="font-size:15px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="/#about" style="font-size:15px;color:rgba(241,234,218,.8)">О нас</a>
 <a href="kontakty/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Контакты</a>
 <a href="novosti/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Новости</a>
 </div>
@@ -790,6 +813,7 @@
 </div>
 </div>
 </div>
+
 
 
   
