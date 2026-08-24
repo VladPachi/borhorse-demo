@@ -34,159 +34,349 @@
   </a>
 
   
-<header x-data="{ open: false }"
-        class="relative z-40 safe-top bg-page text-ink">
-  <div class="mx-auto flex max-w-3xl items-center justify-between px-5 py-4">
-    <a href="../index.html" class="font-display text-lg ">
-      Бородинский хутор
-    </a>
-
-    <div class="flex items-center gap-2">
-      
-        <a href="tel:89099903667"
-           class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface"
-           aria-label="Позвонить">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/>
-          </svg>
-        </a>
-      
-      <button type="button" @click="open = !open"
-              class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface"
-              :aria-expanded="open" aria-label="Меню">
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path x-show="!open" d="M4 7h16M4 12h16M4 17h16"/>
-          <path x-show="open" x-cloak d="M6 6l12 12M18 6L6 18"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  
-<nav x-show="open" x-cloak x-transition.opacity
-     class="absolute inset-x-0 top-full border-t border-ink/10 bg-page px-5 pb-6 text-ink shadow-lg">
-  <ul class="mx-auto max-w-3xl divide-y divide-ink/10 text-[17px]">
-    <li><a href="../progulki/index.html" class="flex min-h-[52px] items-center">Конные прогулки</a></li>
-    <li><a href="../prozhivanie/index.html" class="flex min-h-[52px] items-center">Проживание</a></li>
-    <li><a href="../banya/index.html" class="flex min-h-[52px] items-center">Баня</a></li>
-    <li><a href="../albomy/index.html" class="flex min-h-[52px] items-center">Фотоальбомы</a></li>
-    <li><a href="../novosti/index.html" class="flex min-h-[52px] items-center">Новости</a></li>
-    <li><a href="../kontakty/index.html" class="flex min-h-[52px] items-center">Адрес и контакты</a></li>
-  </ul>
-  <a href="../zayavka/index.html" class="btn-primary mt-5 w-full">Запросить смену</a>
-</nav>
-
-</header>
-
 
   <main id="content">
     
-<section class="bg-forest-deep text-surface">
-  <div class="mx-auto max-w-3xl px-5 pb-12 pt-14">
-    <h1 class="font-display text-[32px] leading-[1.15]">Этот мир выглядит иначе, если смотреть на него из седла</h1>
-    <p class="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-surface/85">Наши обычные прогулки верхом длятся 2 часа, маршруты проходят через поля и леса в окрестностях Бородинского хутора.
-Во время прогулок в поводу никого не водим.</p>
-    <p class="mt-7 font-display text-2xl">
-      4 000 ₽
-      <span class="font-body text-sm text-surface/70">с всадника · 2 часа</span>
-    </p>
-  </div>
-</section>
-
-<section class="mx-auto max-w-3xl px-5 py-14">
-  <h2 class="section-title">Группы по уровню</h2>
-  <p class="mt-3 text-[15px] text-muted">Уровень выбирать не нужно — на месте инструктор подберёт лошадь и группу.</p>
-  <div class="mt-7 space-y-4">
-    
-      <article class="card p-5">
-        <div class="flex items-baseline gap-3">
-          <span class="font-display text-xl text-gold">1</span>
-          <h3 class="text-[17px] font-semibold text-ink">Начинающие</h3>
-        </div>
-        <p class="mt-2 text-[15px] leading-relaxed text-muted">Для тех, кто впервые садится в седло или уже ездил несколько раз. Перед прогулкой проводим инструктаж; каждый самостоятельно управляет лошадью, инструктор сопровождает верхом и уже в полях помогает освоить рысь.</p>
-      </article>
-    
-      <article class="card p-5">
-        <div class="flex items-baseline gap-3">
-          <span class="font-display text-xl text-gold">2</span>
-          <h3 class="text-[17px] font-semibold text-ink">Уверенная рысь</h3>
-        </div>
-        <p class="mt-2 text-[15px] leading-relaxed text-muted">Для всадников с небольшим опытом, которые знают основы и уверенно ездят рысью. В маршруте преобладает езда рысью.</p>
-      </article>
-    
-      <article class="card p-5">
-        <div class="flex items-baseline gap-3">
-          <span class="font-display text-xl text-gold">3</span>
-          <h3 class="text-[17px] font-semibold text-ink">Опытные всадники</h3>
-        </div>
-        <p class="mt-2 text-[15px] leading-relaxed text-muted">Для тех, кто давно занимается верховой ездой, уверенно ездит рысью и галопом, в том числе по пересечённой местности.</p>
-      </article>
-    
-  </div>
-</section>
-
-<section id="shifts" class="bg-surface">
-  <div class="mx-auto max-w-3xl px-5 py-14">
-    <h2 class="section-title">Ближайшие смены</h2>
-    
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
 
 
-  <div class="mt-6 space-y-3">
-    
-      <a href="" class="flex items-center justify-between rounded-3xl bg-surface p-5">
-        <div>
-          <p class="text-sm text-muted"> · </p>
-          <p class="mt-1 text-[17px] font-semibold text-ink">Утренняя смена</p>
-        </div>
-        <span class="chip">Свободно  из </span>
-      </a>
-    
-      <a href="" class="flex items-center justify-between rounded-3xl bg-surface p-5">
-        <div>
-          <p class="text-sm text-muted"> · </p>
-          <p class="mt-1 text-[17px] font-semibold text-ink">Дневная смена</p>
-        </div>
-        <span class="chip">Свободно  из </span>
-      </a>
-    
-      <a href="" class="flex items-center justify-between rounded-3xl bg-surface p-5">
-        <div>
-          <p class="text-sm text-muted"> · </p>
-          <p class="mt-1 text-[17px] font-semibold text-ink">Утренняя смена</p>
-        </div>
-        <span class="chip">Свободно  из </span>
-      </a>
-    
-      <a href="" class="flex items-center justify-between rounded-3xl bg-surface p-5">
-        <div>
-          <p class="text-sm text-muted"> · </p>
-          <p class="mt-1 text-[17px] font-semibold text-ink">Дневная смена</p>
-        </div>
-        <span class="chip">Свободно  из </span>
-      </a>
-    
-  </div>
+<div style="position:relative;overflow:hidden;background:#241D14">
+<img src="../static/img/walks-mood.webp" alt="Лошади на закате" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%" loading="lazy">
+<div style="position:absolute;inset:0;background:linear-gradient(179deg,rgba(26,20,13,.7) 0%,rgba(28,22,14,.46) 24%,rgba(24,19,12,.66) 52%,rgba(19,14,9,.9) 100%)"></div>
+<svg viewBox="0 0 390 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none" preserveAspectRatio="none"><path d="M-20 220 C 90 186, 176 208, 250 268 C 318 322, 300 410, 196 428 C 96 444, 30 494, 40 588" stroke="#C4A56A" stroke-opacity=".34" stroke-width="1"></path></svg>
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:16px 20px">
+<div style="display:flex;align-items:center;gap:10px">
+<svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#EFE7D6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#EFE7D6;line-height:1.5;font-weight:500">Конная база<br>Бородинский хутор</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px">
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;align-items:center;justify-content:center;color:#EFE7D6"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px"><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span></div>
+</div>
+</div>
+
+<div style="position:relative;padding:30px 22px 34px">
+<div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(246,239,224,.62);margin-bottom:16px"><a href="Главная.dc.html" style="color:rgba(246,239,224,.62)">Главная</a><span>·</span><span style="color:#C4A56A">Конные прогулки</span></div>
+<h1 style="font-family:Prata,serif;font-weight:400;font-size:40px;line-height:1.1;color:#F6EFE0;margin:0 0 14px">Конные<br>прогулки</h1>
+<p style="font-size:15.5px;line-height:1.55;color:rgba(246,239,224,.8);margin:0 0 24px">Два часа по полям и лесным дорогам — с инструктором и лошадью, подобранной под вас.</p>
+<div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px">
+<span style="padding:8px 14px;border-radius:999px;border:1px solid rgba(246,239,224,.28);background:rgba(246,239,224,.1);font-size:13px;color:#F1EADA">2 часа</span>
+<span style="padding:8px 14px;border-radius:999px;border:1px solid rgba(246,239,224,.28);background:rgba(246,239,224,.1);font-size:13px;color:#F1EADA">4 000 ₽ с всадника</span>
+</div>
+<a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:14px;padding:7px 8px 7px 22px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15.5px;font-weight:500" class="dch-w-m0">Выбрать смену<span style="width:38px;height:38px;border-radius:50%;background:rgba(255,244,231,.92);display:flex;align-items:center;justify-content:center;color:#B46633"><svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></span></a>
+</div>
+</div>
+
+<div style="padding:34px 22px 36px;background:#F2F0E5">
+<div style="position:relative;border-radius:22px;overflow:hidden;height:300px;margin-bottom:22px"><img src="../static/img/walks-hero.webp" alt="Портрет лошади" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:30px;line-height:1.16;color:#2F3A26;margin:0 0 16px">Время замедлиться</h2>
+<p style="font-size:15px;line-height:1.64;color:#4B5142;margin:0 0 12px">Два часа шагом и рысью по полям и лесным дорогам вокруг хутора. Инструктор подбирает лошадь под вас и проводит инструктаж — дальше вы едете сами, а он сопровождает группу верхом.</p>
+<p style="font-size:15px;line-height:1.64;color:#4B5142;margin:0 0 24px">В полях группа разбирается по уровню: кто-то остаётся шагом, кто-то пробует рысь.</p>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:22px 20px">
+<div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:16px">Что входит</div>
+<div style="display:flex;flex-direction:column;gap:11px">
+<div style="display:flex;gap:11px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:14.5px;color:#3A4130">Подбор лошади под всадника</span></div>
+<div style="display:flex;gap:11px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:14.5px;color:#3A4130">Инструктаж перед выездом</span></div>
+<div style="display:flex;gap:11px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:14.5px;color:#3A4130">Шлем</span></div>
+<div style="display:flex;gap:11px;align-items:center"><span style="width:6px;height:6px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:14.5px;color:#3A4130">Инструктор в группе</span></div>
+</div>
+</div>
+</div>
+
+<div style="padding:0 22px 36px;background:#F2F0E5">
+<div style="display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;gap:14px;align-items:flex-start"><span style="width:44px;height:44px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:19px;height:19px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><circle cx="16" cy="9.5" r="2.4"></circle><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5M14.5 19c.2-2 1.4-3.4 3.2-3.6"></path></svg></span><div><div style="font-size:15px;color:#2F3A26;font-weight:600;margin-bottom:3px">Для двоих</div><div style="font-size:13.5px;line-height:1.5;color:#5E6553">Индивидуальный инструктор на пару — доплата 5 000 ₽ с компании</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><span style="width:44px;height:44px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:19px;height:19px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path></svg></span><div><div style="font-size:15px;color:#2F3A26;font-weight:600;margin-bottom:3px">На закате</div><div style="font-size:13.5px;line-height:1.5;color:#5E6553">Вечерние смены — мягкий свет и тёплые поля</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><span style="width:44px;height:44px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:19px;height:19px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 5.4v6.2c0 4.2-2.9 7.2-7 8.4-4.1-1.2-7-4.2-7-8.4V5.4L12 3Z"></path><path d="m9 12 2.2 2.2L15.4 10"></path></svg></span><div><div style="font-size:15px;color:#2F3A26;font-weight:600;margin-bottom:3px">Впервые верхом</div><div style="font-size:13.5px;line-height:1.5;color:#5E6553">Спокойные лошади и инструктаж для новичков</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><span style="width:44px;height:44px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:19px;height:19px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c1.6-1.6 3.2-1.6 4.8 0s3.2 1.6 4.8 0 3.2-1.6 4.8 0 3.2 1.6 4.6 0"></path><path d="M3 19.5c1.6-1.6 3.2-1.6 4.8 0s3.2 1.6 4.8 0 3.2-1.6 4.8 0 3.2 1.6 4.6 0"></path><path d="M12 3c1.8 2 2.8 3.6 2.8 5a2.8 2.8 0 0 1-5.6 0c0-1.4 1-3 2.8-5Z"></path></svg></span><div><div style="font-size:15px;color:#2F3A26;font-weight:600;margin-bottom:3px">С купанием</div><div style="font-size:13.5px;line-height:1.5;color:#5E6553">Бывают в жару, когда позволяет уровень воды в реке. Заранее записаться нельзя — ими заменяют обычные прогулки. Новичков на купание не берут, они в это время едут шагом</div></div></div>
+</div>
+</div>
+
+<div style="padding:36px 22px;background:#232B1C;position:relative;overflow:hidden">
+<svg viewBox="0 0 390 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none" preserveAspectRatio="none"><path d="M420 90 C 280 170, 200 300, 230 620" stroke="#C4A56A" stroke-opacity=".25" stroke-width="1"></path><path d="M-30 460 C 90 420, 150 340, 140 200" stroke="#C4A56A" stroke-opacity=".18" stroke-width="1"></path></svg>
+<h2 style="position:relative;font-family:Prata,serif;font-weight:400;font-size:30px;line-height:1.16;color:#F1EADA;margin:0 0 12px">Группы по уровню</h2>
+<p style="position:relative;font-size:14.5px;line-height:1.6;color:rgba(241,234,218,.72);margin:0 0 22px">Уровень выбирать не нужно — на месте инструктор подберёт лошадь и группу.</p>
+<div style="position:relative;display:flex;flex-direction:column;gap:12px">
+<div style="border:1px solid rgba(196,165,106,.35);border-radius:22px;padding:22px 20px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><span style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(196,165,106,.5);color:#C4A56A;display:flex;align-items:center;justify-content:center;font-size:14px;font-family:Prata,serif">1</span><h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#F1EADA;margin:0">Начинающие</h3></div>
+<p style="font-size:14.5px;line-height:1.62;color:rgba(241,234,218,.75);margin:0">Для тех, кто впервые садится в седло или уже ездил несколько раз. Перед прогулкой проводим инструктаж; каждый самостоятельно управляет лошадью, инструктор сопровождает верхом и уже в полях помогает освоить рысь.</p>
+</div>
+<div style="border:1px solid rgba(196,165,106,.35);border-radius:22px;padding:22px 20px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><span style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(196,165,106,.5);color:#C4A56A;display:flex;align-items:center;justify-content:center;font-size:14px;font-family:Prata,serif">2</span><h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#F1EADA;margin:0">Уверенная рысь</h3></div>
+<p style="font-size:14.5px;line-height:1.62;color:rgba(241,234,218,.75);margin:0">Для всадников с небольшим опытом, которые знают основы и уверенно ездят рысью. В маршруте преобладает езда рысью. Вы пробежитесь резвой рысью по нашим бескрайним полям. Желающие могут научиться ездить манежным галопом.</p>
+</div>
+<div style="border:1px solid rgba(196,165,106,.35);border-radius:22px;padding:22px 20px">
+<div style="display:flex;align-items:center;gap:12px;margin-bottom:12px"><span style="width:34px;height:34px;border-radius:50%;border:1px solid rgba(196,165,106,.5);color:#C4A56A;display:flex;align-items:center;justify-content:center;font-size:14px;font-family:Prata,serif">3</span><h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#F1EADA;margin:0">Опытные всадники</h3></div>
+<p style="font-size:14.5px;line-height:1.62;color:rgba(241,234,218,.75);margin:0">Для тех, кто давно занимается верховой ездой, уверенно ездит рысью и галопом, в том числе по пересечённой местности. Вы отправитесь покорять самые большие бородинские поля, пробежитесь галопом вдоль можайского водохранилища, а также перейдёте брод реки Колочь.</p>
+</div>
+</div>
+</div>
+
+<div style="padding:26px 22px 0;background:#F2F0E5">
+<div style="display:flex;gap:14px;align-items:flex-start;background:#EDE7D6;border-radius:20px;padding:18px 20px">
+<span style="width:40px;height:40px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:18px;height:18px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 20.5 15 12l-3-3-8.5 8.5a2.1 2.1 0 0 0 3 3Z"></path><path d="M14 6c1.2-1.6 3-2.4 5-2-.4 2-1.4 3.6-3 4.6"></path><path d="M17 10.5c1.6-.4 3 .2 4 1.5-1.6 1.2-3.4 1.6-5 1"></path></svg></span>
+<div><div style="font-size:15px;color:#2F3A26;font-weight:600;margin-bottom:4px">Можно угостить лошадь</div><div style="font-size:13.5px;line-height:1.55;color:#5E6553">Морковью или яблоками, больше ничем. И нельзя кормить тех, у кого на деннике написано «кормить нельзя».</div></div>
+</div>
+</div>
+
+<div style="padding:36px 22px;background:#F2F0E5">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:28px;line-height:1.16;color:#2F3A26;margin:0 0 18px">Кому подойдёт и ограничения</h2>
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:18px;padding:16px 18px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:6px">Возраст</div><div style="font-size:14.5px;line-height:1.55;color:#3A4130">С 16 лет</div></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:18px;padding:16px 18px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:6px">Вес</div><div style="font-size:14.5px;line-height:1.55;color:#3A4130">До 110 кг</div></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:18px;padding:16px 18px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">Как одеться</div><div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:14.5px;line-height:1.5;color:#3A4130">Одежда свободная, чтобы легко поднимать ноги и руки</div><div style="font-size:14.5px;line-height:1.5;color:#3A4130">Лучше длинные штаны, а не шорты — чтобы не стереть ноги об седло</div><div style="font-size:14.5px;line-height:1.5;color:#3A4130">Обувь без каблука или с очень низким: подойдут кроссовки или сапоги</div><div style="font-size:14.5px;line-height:1.5;color:#3A4130">Шлемы выдаём желающим</div><div style="font-size:14.5px;line-height:1.5;color:#3A4130">Желательно иметь перчатки</div></div></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:18px;padding:16px 18px"><div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:6px">Здоровье</div><div style="font-size:14.5px;line-height:1.55;color:#3A4130">Без медицинских противопоказаний к верховой езде</div></div>
+</div>
+</div>
+
+<div style="padding:0 22px 36px;background:#F2F0E5">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:28px;line-height:1.16;color:#2F3A26;margin:0 0 18px">Ближайшие смены</h2>
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:16px 18px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="font-size:15px;color:#2F3A26;font-weight:600">Сб 22 авг · 11:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">Утренняя смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m1">Выбрать</a></div>
+<div style="height:5px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:7px"><div style="width:69%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
+<div style="font-size:12.5px;color:#6C7159">Свободно 8 из 26</div>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:16px 18px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="font-size:15px;color:#2F3A26;font-weight:600">Сб 22 авг · 15:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">Дневная смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m2">Выбрать</a></div>
+<div style="height:5px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:7px"><div style="width:46%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
+<div style="font-size:12.5px;color:#6C7159">Свободно 14 из 26</div>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(203,122,69,.3);border-radius:20px;padding:16px 18px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:15px;color:#2F3A26;font-weight:600">Вс 23 авг · 11:00</span><span style="padding:3px 9px;border-radius:999px;background:#F3E0D0;color:#A9541F;font-size:11px;font-weight:600">Мало мест</span></div><div style="font-size:13px;color:#6C7159;margin-top:2px">Утренняя смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m3">Выбрать</a></div>
+<div style="height:5px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:7px"><div style="width:88%;height:100%;background:#CB7A45;border-radius:99px"></div></div>
+<div style="font-size:12.5px;color:#6C7159">Свободно 3 из 26</div>
+</div>
+</div>
+<div style="padding:16px 18px;border-radius:18px;background:rgba(140,154,108,.14)"><div style="font-size:14px;line-height:1.55;color:#4B5142;margin-bottom:10px">На выходных смены есть всегда. В будни бывают отдельные смены — если их нет, соберём смену под вашу компанию.</div><a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:13.5px;font-weight:500">Запросить индивидуальную смену<svg viewBox="0 0 24 24" style="width:15px;height:15px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
+</div>
+
+<div style="padding:0 22px 36px;background:#F2F0E5">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:28px;line-height:1.16;color:#2F3A26;margin:0 0 18px">Частые вопросы</h2>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:18px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><span style="font-size:15px;color:#2F3A26;font-weight:600">Если дождь?</span><span style="color:#8A7F5C;font-size:18px;line-height:1">−</span></div>
+<p style="font-size:14px;line-height:1.6;color:#5E6553;margin:0">В грязь и дождь прогулки не отменяются — выезжаем как обычно. Возьмите сухую сменку: на хуторе можно переодеться после прогулки. Если погода опасная, администратор позвонит и перенесёт смену.</p>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:18px;display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font-size:15px;color:#2F3A26;font-weight:600">Можно ли записать компанию?</span><span style="color:#8A7F5C;font-size:18px;line-height:1">+</span></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:18px;display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font-size:15px;color:#2F3A26;font-weight:600">Нужна ли предоплата?</span><span style="color:#8A7F5C;font-size:18px;line-height:1">+</span></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:18px;display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font-size:15px;color:#2F3A26;font-weight:600">Можно приехать посмотреть без прогулки?</span><span style="color:#8A7F5C;font-size:18px;line-height:1">+</span></div>
+</div>
+</div>
+
+<div style="padding:0 22px 120px;background:#F2F0E5">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:28px;line-height:1.16;color:#2F3A26;margin:0 0 18px">А ещё у нас есть</h2>
+<div style="display:flex;flex-direction:column;gap:14px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;overflow:hidden">
+<div style="position:relative;height:170px"><img src="../static/img/cabin-porch.webp" alt="Домик с верандой" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="padding:18px 20px">
+<h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#2F3A26;margin:0 0 8px">Проживание</h3>
+<p style="font-size:14.5px;line-height:1.6;color:#4B5142;margin:0 0 14px">Что может быть лучше, чем домик в деревне?</p>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:15px;color:#CB7A45;font-weight:600">от 3 750 ₽ / сутки</span><a href="Проживание.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500">Подробнее<svg viewBox="0 0 24 24" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
+</div>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;overflow:hidden">
+<div style="position:relative;height:170px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span></div>
+<div style="padding:18px 20px">
+<h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#2F3A26;margin:0 0 8px">Баня</h3>
+<p style="font-size:14.5px;line-height:1.6;color:#8A7F5C;margin:0 0 14px">[текст от заказчика]</p>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:15px;color:#8A7F5C;font-weight:500">Цена уточняется</span><a href="Баня.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500">Подробнее<svg viewBox="0 0 24 24" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="design-artboard artboard-desktop bg-[#F2F0E5]">
 
 
-  </div>
-</section>
+<div style="position:relative;overflow:hidden;background:#241D14">
+<img src="../static/img/walks-mood.webp" alt="Лошади на закате" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 55%" loading="lazy">
+<div style="position:absolute;inset:0;background:linear-gradient(96deg,rgba(28,21,13,.86) 0%,rgba(30,23,15,.62) 34%,rgba(36,28,17,.18) 62%,rgba(26,20,13,.42) 100%)"></div>
+<svg viewBox="0 0 1440 700" style="position:absolute;inset:0;width:100%;height:100%" fill="none" preserveAspectRatio="none"><path d="M-40 170 C 240 100, 520 150, 660 260 C 790 360, 700 474, 520 498 C 330 522, 190 576, 200 700" stroke="#C4A56A" stroke-opacity=".42" stroke-width="1.1"></path><path d="M1090 46 C 1210 148, 1290 256, 1300 366" stroke="#C4A56A" stroke-opacity=".26" stroke-width="1"></path></svg>
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:30px 64px">
+<div style="display:flex;align-items:center;gap:14px">
+<svg viewBox="0 0 32 32" style="width:44px;height:44px;color:#EFE7D6" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="width:1px;height:34px;background:rgba(239,231,214,.3)"></div>
+<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#EFE7D6;line-height:1.6;font-weight:500">Конная база<br>Бородинский хутор</div>
+</div>
+<div style="display:flex;align-items:center;gap:34px">
+<a href="Главная.dc.html" style="font-size:15px;color:#C4A56A;font-weight:500;border-bottom:2px solid #C4A56A;padding-bottom:4px">Конные прогулки</a>
+<a href="Проживание.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-w-d0">Проживание</a>
+<a href="Баня.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-w-d1">Баня</a>
+<a href="Главная.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-w-d2">Цены</a>
+<a href="Главная.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-w-d3">О нас</a>
+<a href="Главная.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-w-d4">Контакты</a>
+<a href="tel:+79099903667" style="font-size:15px;color:#F1EADA;font-weight:500;margin-left:8px">8 (909) 990-36-67</a>
+</div>
+</div>
 
-<section class="mx-auto max-w-3xl px-5 py-14">
-  <h2 class="section-title">Важная информация</h2>
-  <ul class="mt-5 space-y-1.5 text-[15px] text-muted">
-    <li>С 16 лет, вес всадника — до 110 кг.</li><li>Нужны брюки и закрытая обувь. Шлем даём.</li><li>Приезжайте минимум за 30 минут до начала смены.</li><li>Оплата на сайте полностью, место держим 15 минут.</li><li>При отказе гостя оплата не возвращается. Чек и подтверждение придут на почту.</li>
-  </ul>
-  <ul class="mt-6 space-y-1.5 text-[15px] text-muted">
-    <li>На выходных смены есть всегда.</li><li>В будни бывают отдельные — если их нет, соберём смену под вашу компанию.</li>
-  </ul>
-</section>
+<div style="position:relative;padding:86px 64px 104px;max-width:760px">
+<div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:rgba(246,239,224,.6);margin-bottom:26px"><a href="Главная.dc.html" style="color:rgba(246,239,224,.6)">Главная</a><span>·</span><span style="color:#C4A56A">Конные прогулки</span></div>
+<h1 style="font-family:Prata,serif;font-weight:400;font-size:82px;line-height:1.06;color:#F6EFE0;margin:0 0 26px">Конные<br>прогулки</h1>
+<p style="font-size:19px;line-height:1.55;color:rgba(246,239,224,.82);margin:0 0 36px;max-width:500px">Два часа по полям и лесным дорогам вокруг хутора — с инструктором и лошадью, подобранной под вас.</p>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px">
+<span style="padding:11px 20px;border-radius:999px;border:1px solid rgba(246,239,224,.32);background:rgba(246,239,224,.1);font-size:15px;color:#F1EADA">2 часа</span>
+<span style="padding:11px 20px;border-radius:999px;border:1px solid rgba(246,239,224,.32);background:rgba(246,239,224,.1);font-size:15px;color:#F1EADA">4 000 ₽ с всадника</span>
+</div>
+<a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:16px;padding:9px 10px 9px 28px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:17px;font-weight:500" class="dch-w-d5">Выбрать смену<span style="width:44px;height:44px;border-radius:50%;background:rgba(255,244,231,.9);display:flex;align-items:center;justify-content:center;color:#B46633"><svg viewBox="0 0 24 24" style="width:18px;height:18px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></span></a>
+</div>
+</div>
 
+<div style="padding:110px 64px 0;background:#F2F0E5">
+<div style="display:flex;gap:70px;align-items:flex-start">
+<div style="position:relative;flex:none;width:480px;border-radius:26px;overflow:hidden;height:640px"><img src="../static/img/walks-hero.webp" alt="Портрет лошади" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="flex:1;padding-top:20px">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:56px;line-height:1.12;color:#2F3A26;margin:0 0 28px">Время<br>замедлиться</h2>
+<p style="font-size:18px;line-height:1.65;color:#4B5142;margin:0 0 16px;max-width:560px">Два часа шагом и рысью по полям и лесным дорогам вокруг хутора. Инструктор подбирает лошадь под вас и проводит инструктаж — дальше вы едете сами, а он сопровождает группу верхом.</p>
+<p style="font-size:18px;line-height:1.65;color:#4B5142;margin:0 0 36px;max-width:560px">В полях группа разбирается по уровню: кто-то остаётся шагом, кто-то пробует рысь.</p>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;padding:32px 34px;max-width:560px">
+<div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:22px">Что входит</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px 30px">
+<div style="display:flex;gap:12px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:16px;color:#3A4130">Подбор лошади</span></div>
+<div style="display:flex;gap:12px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:16px;color:#3A4130">Инструктаж</span></div>
+<div style="display:flex;gap:12px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:16px;color:#3A4130">Шлем</span></div>
+<div style="display:flex;gap:12px;align-items:center"><span style="width:7px;height:7px;border-radius:50%;background:#C4A56A;flex:none"></span><span style="font-size:16px;color:#3A4130">Инструктор в группе</span></div>
+</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:26px 36px;margin-top:40px;max-width:560px">
+<div style="display:flex;gap:14px;align-items:flex-start"><span style="width:48px;height:48px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:21px;height:21px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"></circle><circle cx="16" cy="9.5" r="2.4"></circle><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5M14.5 19c.2-2 1.4-3.4 3.2-3.6"></path></svg></span><div><div style="font-size:16px;color:#2F3A26;font-weight:600;margin-bottom:5px">Для двоих</div><div style="font-size:14.5px;line-height:1.5;color:#5E6553">Индивидуальный инструктор&nbsp; — доплата 5 000 ₽ с компании</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start;flex:1"><span style="width:48px;height:48px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:21px;height:21px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"></path></svg></span><div><div style="font-size:16px;color:#2F3A26;font-weight:600;margin-bottom:5px">На закате</div><div style="font-size:14.5px;line-height:1.5;color:#5E6553">Вечерние смены — мягкий свет и тёплые поля</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><span style="width:48px;height:48px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:21px;height:21px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 19 5.4v6.2c0 4.2-2.9 7.2-7 8.4-4.1-1.2-7-4.2-7-8.4V5.4L12 3Z"></path><path d="m9 12 2.2 2.2L15.4 10"></path></svg></span><div><div style="font-size:16px;color:#2F3A26;font-weight:600;margin-bottom:5px">Впервые верхом</div><div style="font-size:14.5px;line-height:1.5;color:#5E6553">Спокойные лошади и инструктаж для новичков</div></div></div>
+<div style="display:flex;gap:14px;align-items:flex-start"><span style="width:48px;height:48px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:21px;height:21px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15c1.6-1.6 3.2-1.6 4.8 0s3.2 1.6 4.8 0 3.2-1.6 4.8 0 3.2 1.6 4.6 0"></path><path d="M3 19.5c1.6-1.6 3.2-1.6 4.8 0s3.2 1.6 4.8 0 3.2-1.6 4.8 0 3.2 1.6 4.6 0"></path><path d="M12 3c1.8 2 2.8 3.6 2.8 5a2.8 2.8 0 0 1-5.6 0c0-1.4 1-3 2.8-5Z"></path></svg></span><div><div style="font-size:16px;color:#2F3A26;font-weight:600;margin-bottom:5px">С купанием</div><div style="font-size:14.5px;line-height:1.5;color:#5E6553">Бывают в жару, когда позволяет уровень воды в реке.&nbsp;</div></div></div>
+</div>
+</div>
+</div>
+</div>
 
-<div class="sticky bottom-0 z-30 border-t border-ink/10 bg-page/95 px-5 pt-3 backdrop-blur safe-bottom">
-  <div class="mx-auto flex max-w-3xl items-center justify-between gap-4">
-    <p class="font-display text-lg text-ink">4 000 ₽</p>
-    <a href="#shifts" class="btn-primary flex-1">Выбрать смену</a>
-  </div>
+<div style="margin-top:110px;background:#232B1C;padding:100px 64px;position:relative;overflow:hidden">
+<svg viewBox="0 0 1440 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M1480 120 C 1200 200, 1100 380, 1140 620" stroke="#C4A56A" stroke-opacity=".25" stroke-width="1"></path></svg>
+<div style="position:relative;display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#F1EADA;margin:0">Группы по уровню</h2>
+<p style="font-size:17px;line-height:1.6;color:rgba(241,234,218,.72);margin:0;max-width:440px;text-align:right">Уровень выбирать не нужно — на месте инструктор подберёт лошадь и группу.</p>
+</div>
+<div style="position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:20px">
+<div style="border:1px solid rgba(196,165,106,.35);border-radius:26px;padding:36px 32px">
+<span style="display:flex;width:48px;height:48px;border-radius:50%;border:1px solid rgba(196,165,106,.5);color:#C4A56A;align-items:center;justify-content:center;font-size:19px;font-family:Prata,serif;margin-bottom:22px">1</span>
+<h3 style="font-family:Prata,serif;font-weight:400;font-size:26px;color:#F1EADA;margin:0 0 16px">Начинающие</h3>
+<p style="font-size:16.5px;line-height:1.65;color:rgba(241,234,218,.75);margin:0">Для тех, кто впервые садится в седло или уже ездил несколько раз. Перед прогулкой проводим инструктаж; каждый самостоятельно управляет лошадью, инструктор сопровождает верхом и уже в полях помогает освоить рысь.</p>
+</div>
+<div style="border:1px solid rgba(196,165,106,.35);border-radius:26px;padding:36px 32px">
+<span style="display:flex;width:48px;height:48px;border-radius:50%;border:1px solid rgba(196,165,106,.5);color:#C4A56A;align-items:center;justify-content:center;font-size:19px;font-family:Prata,serif;margin-bottom:22px">2</span>
+<h3 style="font-family:Prata,serif;font-weight:400;font-size:26px;color:#F1EADA;margin:0 0 16px">Уверенная рысь</h3>
+<p style="font-size:16.5px;line-height:1.65;color:rgba(241,234,218,.75);margin:0">Для всадников с небольшим опытом, которые знают основы и уверенно ездят рысью. В маршруте преобладает езда рысью. Вы пробежитесь резвой рысью по нашим бескрайним полям. Желающие могут научиться ездить манежным галопом.</p>
+</div>
+<div style="border:1px solid rgba(196,165,106,.35);border-radius:26px;padding:36px 32px">
+<span style="display:flex;width:48px;height:48px;border-radius:50%;border:1px solid rgba(196,165,106,.5);color:#C4A56A;align-items:center;justify-content:center;font-size:19px;font-family:Prata,serif;margin-bottom:22px">3</span>
+<h3 style="font-family:Prata,serif;font-weight:400;font-size:26px;color:#F1EADA;margin:0 0 16px">Опытные всадники</h3>
+<p style="font-size:16.5px;line-height:1.65;color:rgba(241,234,218,.75);margin:0">Для тех, кто давно занимается верховой ездой, уверенно ездит рысью и галопом, в том числе по пересечённой местности. Вы отправитесь покорять самые большие бородинские поля, пробежитесь галопом вдоль можайского водохранилища, а также перейдёте брод реки Колочь.</p>
+</div>
+</div>
+</div>
+
+<div style="padding:70px 64px 0;background:#F2F0E5">
+<div style="display:flex;gap:22px;align-items:center;background:#EDE7D6;border-radius:26px;padding:26px 32px">
+<span style="width:52px;height:52px;flex:none;border-radius:50%;background:#DFE2CD;display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:23px;height:23px" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 20.5 15 12l-3-3-8.5 8.5a2.1 2.1 0 0 0 3 3Z"></path><path d="M14 6c1.2-1.6 3-2.4 5-2-.4 2-1.4 3.6-3 4.6"></path><path d="M17 10.5c1.6-.4 3 .2 4 1.5-1.6 1.2-3.4 1.6-5 1"></path></svg></span>
+<div style="display:flex;align-items:baseline;gap:16px;flex-wrap:wrap"><span style="font-size:20px;color:#2F3A26;font-weight:600">Можно угостить лошадь</span><span style="font-size:17px;line-height:1.5;color:#5E6553">Морковью или яблоками, больше ничем. И нельзя кормить тех, у кого на деннике написано «кормить нельзя».</span></div>
+</div>
+</div>
+
+<div style="padding:110px 64px 0;background:#F2F0E5">
+<div style="display:flex;gap:70px;align-items:flex-start">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#2F3A26;margin:0;width:420px;flex:none">Кому подойдёт<br>и ограничения</h2>
+<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:26px 28px"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">Возраст</div><div style="font-size:18px;line-height:1.5;color:#3A4130">С 16 лет</div></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:26px 28px"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">Вес</div><div style="font-size:18px;line-height:1.5;color:#3A4130">До 110 кг</div></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:26px 28px;grid-column:span 2"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:14px">Как одеться</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 30px"><div style="font-size:17px;line-height:1.5;color:#3A4130">Одежда свободная, чтобы легко поднимать ноги и руки</div><div style="font-size:17px;line-height:1.5;color:#3A4130">Лучше длинные штаны, а не шорты — чтобы не стереть ноги об седло</div><div style="font-size:17px;line-height:1.5;color:#3A4130">Обувь без каблука или с очень низким: подойдут кроссовки или сапоги</div><div style="font-size:17px;line-height:1.5;color:#3A4130">Шлемы выдаём желающим</div><div style="font-size:17px;line-height:1.5;color:#3A4130">Желательно иметь перчатки</div></div></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:26px 28px"><div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">Здоровье</div><div style="font-size:18px;line-height:1.5;color:#3A4130">Без медицинских противопоказаний к верховой езде</div></div>
+</div>
+</div>
+</div>
+
+<div style="padding:110px 64px 0;background:#F2F0E5">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#2F3A26;margin:0 0 40px">Ближайшие смены</h2>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;margin-bottom:24px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;padding:28px 26px">
+<div style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">Сб 22 авг</div>
+<div style="font-family:Prata,serif;font-size:32px;color:#2F3A26;margin-bottom:4px">11:00</div>
+<div style="font-size:14.5px;color:#6C7159;margin-bottom:22px">Утренняя смена</div>
+<div style="height:6px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:10px"><div style="width:69%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
+<div style="font-size:14px;color:#4B5142;margin-bottom:22px">Свободно 8 из 26</div>
+<a href="../progulki/index.html" style="display:block;text-align:center;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15px;font-weight:500" class="dch-w-d6">Выбрать смену</a>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;padding:28px 26px">
+<div style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">Сб 22 авг</div>
+<div style="font-family:Prata,serif;font-size:32px;color:#2F3A26;margin-bottom:4px">15:00</div>
+<div style="font-size:14.5px;color:#6C7159;margin-bottom:22px">Дневная смена</div>
+<div style="height:6px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:10px"><div style="width:46%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
+<div style="font-size:14px;color:#4B5142;margin-bottom:22px">Свободно 14 из 26</div>
+<a href="../progulki/index.html" style="display:block;text-align:center;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15px;font-weight:500" class="dch-w-d7">Выбрать смену</a>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(203,122,69,.32);border-radius:26px;padding:28px 26px">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#8A7F5C;font-weight:600">Вс 23 авг</div><span style="padding:5px 11px;border-radius:999px;background:#F3E0D0;color:#A9541F;font-size:11.5px;font-weight:600">Мало мест</span></div>
+<div style="font-family:Prata,serif;font-size:32px;color:#2F3A26;margin-bottom:4px">11:00</div>
+<div style="font-size:14.5px;color:#6C7159;margin-bottom:22px">Утренняя смена</div>
+<div style="height:6px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:10px"><div style="width:88%;height:100%;background:#CB7A45;border-radius:99px"></div></div>
+<div style="font-size:14px;color:#4B5142;margin-bottom:22px">Свободно 3 из 26</div>
+<a href="../progulki/index.html" style="display:block;text-align:center;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15px;font-weight:500" class="dch-w-d8">Выбрать смену</a>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;padding:28px 26px">
+<div style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">Вс 23 авг</div>
+<div style="font-family:Prata,serif;font-size:32px;color:#2F3A26;margin-bottom:4px">15:00</div>
+<div style="font-size:14.5px;color:#6C7159;margin-bottom:22px">Дневная смена</div>
+<div style="height:6px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:10px"><div style="width:27%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
+<div style="font-size:14px;color:#4B5142;margin-bottom:22px">Свободно 19 из 26</div>
+<a href="../progulki/index.html" style="display:block;text-align:center;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15px;font-weight:500" class="dch-w-d9">Выбрать смену</a>
+</div>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:24px 30px;border-radius:22px;background:rgba(140,154,108,.14)">
+<div style="font-size:17px;line-height:1.5;color:#4B5142">На выходных смены есть всегда. В будни бывают отдельные смены — если их нет, соберём смену под вашу компанию, до 26 человек.</div>
+<a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:14px;padding:15px 26px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:15px;font-weight:500;flex:none" class="dch-w-d10">Запросить индивидуальную смену<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+</div>
+</div>
+
+<div style="padding:110px 64px 110px;background:#F2F0E5">
+<div style="display:flex;gap:70px;align-items:flex-start">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#2F3A26;margin:0;width:420px;flex:none">Частые<br>вопросы</h2>
+<div style="flex:1;display:flex;flex-direction:column;gap:14px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:28px 32px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:14px"><span style="font-size:20px;color:#2F3A26;font-weight:600">Если дождь?</span><span style="color:#8A7F5C;font-size:22px;line-height:1">−</span></div>
+<p style="font-size:16.5px;line-height:1.65;color:#5E6553;margin:0;max-width:640px">В грязь и дождь прогулки не отменяются — выезжаем как обычно. Стоит взять сухую сменку: на хуторе можно переодеться после прогулки. Если погода опасная, администратор позвонит и перенесёт смену на другую дату.</p>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px"><span style="font-size:20px;color:#2F3A26;font-weight:600">Можно ли записать компанию?</span><span style="color:#8A7F5C;font-size:22px;line-height:1">+</span></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px"><span style="font-size:20px;color:#2F3A26;font-weight:600">Нужна ли предоплата?</span><span style="color:#8A7F5C;font-size:22px;line-height:1">+</span></div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;padding:28px 32px;display:flex;justify-content:space-between;align-items:center;gap:20px"><span style="font-size:20px;color:#2F3A26;font-weight:600">Можно приехать посмотреть без прогулки?</span><span style="color:#8A7F5C;font-size:22px;line-height:1">+</span></div>
+</div>
+</div>
+</div>
+
+<div style="padding:0 64px 110px;background:#F2F0E5">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#2F3A26;margin:0 0 40px">А ещё у нас есть</h2>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;overflow:hidden;display:flex;flex-direction:column">
+<div style="position:relative;height:300px"><img src="../static/img/cabin-porch.webp" alt="Домик с верандой" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="padding:30px 32px 32px;display:flex;flex-direction:column;flex:1">
+<h3 style="font-family:Prata,serif;font-weight:400;font-size:28px;color:#2F3A26;margin:0 0 12px">Проживание</h3>
+<p style="font-size:17px;line-height:1.6;color:#4B5142;margin:0 0 22px;max-width:440px">Что может быть лучше, чем домик в деревне?</p>
+<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:16px">
+<span style="font-size:19px;color:#CB7A45;font-weight:600">от 3 750 ₽ / сутки</span>
+<a href="Проживание.dc.html" style="display:inline-flex;align-items:center;gap:12px;padding:14px 24px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:15px;font-weight:500" class="dch-w-d11">Подробнее<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+</div>
+</div>
+</div>
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;overflow:hidden;display:flex;flex-direction:column">
+<div style="position:relative;height:300px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span></div>
+<div style="padding:30px 32px 32px;display:flex;flex-direction:column;flex:1">
+<h3 style="font-family:Prata,serif;font-weight:400;font-size:28px;color:#2F3A26;margin:0 0 12px">Баня</h3>
+<p style="font-size:17px;line-height:1.6;color:#8A7F5C;margin:0 0 22px;max-width:440px">[текст от заказчика]</p>
+<div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:16px">
+<span style="font-size:19px;color:#8A7F5C;font-weight:500">Цена уточняется</span>
+<a href="Баня.dc.html" style="display:inline-flex;align-items:center;gap:12px;padding:14px 24px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:15px;font-weight:500" class="dch-w-d12">Подробнее<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 
   </main>
