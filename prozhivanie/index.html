@@ -26,6 +26,12 @@
   <script src="../static/vendor/htmx.min.js" defer></script>
   <script src="../static/vendor/alpine.min.js" defer></script>
   
+  <script>
+    document.addEventListener('htmx:beforeSwap', function () {
+      document.body.style.overflow = '';
+    });
+  </script>
+  
 </head>
 <body hx-boost="true">
 
@@ -37,51 +43,25 @@
 
   <main id="content">
     
-<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" x-data="{ menu: false }">
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" style="position:relative" x-data="{ menu: false, menuTop: 0, stuck: false, footerNear: false, check() { this.stuck = this.$refs.header.getBoundingClientRect().bottom <= 0; const footer = document.querySelector('.design-footer'); this.footerNear = footer ? footer.getBoundingClientRect().top <= window.innerHeight - 16 : false } }" @scroll.window.passive="check()" @resize.window.passive="check()" x-init="$nextTick(() => { check(); menuTop = $refs.header.getBoundingClientRect().height })" @keydown.escape.window="menu = false" x-effect="document.body.style.overflow = menu ? 'hidden' : ''">
 
 
 <div style="position:relative;overflow:hidden;background:#241D14">
 <img src="../static/img/houses-wide.webp" alt="Домики хутора" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 55%" loading="lazy">
 <div style="position:absolute;inset:0;background:linear-gradient(179deg,rgba(22,17,11,.72) 0%,rgba(24,19,12,.5) 22%,rgba(20,16,10,.74) 50%,rgba(16,12,8,.94) 100%)"></div>
 <svg viewBox="0 0 390 724" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M-20 250 C 90 214, 176 236, 250 300 C 318 358, 300 452, 196 470 C 96 487, 30 540, 40 640" stroke="#C4A56A" stroke-opacity=".55" stroke-width="1"></path></svg>
-<div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:16px 20px">
-<div style="display:flex;align-items:center;gap:10px">
+<div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:16px 20px" data-header x-ref="header">
+<a href="../index.html" aria-label="На главную" style="display:flex;align-items:center;gap:10px">
 <svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#EFE7D6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
 <div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#EFE7D6;line-height:1.5;font-weight:500">Конная база<br>Бородинский хутор</div>
-</div>
+</a>
 <div style="display:flex;align-items:center;gap:8px">
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;align-items:center;justify-content:center;color:#EFE7D6"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
-<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" @click="menu = !menu" role="button" :aria-expanded="menu" aria-label="Меню"><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.getBoundingClientRect().bottom })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#EFE7D6"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#EFE7D6"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
 </div>
-
-
-<div x-show="menu" x-cloak x-transition.opacity @click="menu = false" style="position:fixed;inset:0;background:rgba(20,16,10,.45);z-index:40"></div>
-<div x-show="menu" x-cloak x-transition.opacity.duration.150ms style="position:absolute;left:0;right:0;top:100%;z-index:41;background:#FBFAF3;border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:0 26px 50px rgba(20,16,10,.24);padding:8px 22px 24px">
-<div style="display:flex;flex-direction:column">
-<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Конные прогулки<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="Проживание.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Проживание<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="Баня.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Баня<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="../albomy/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Фотоальбомы<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="../novosti/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Новости<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500">Адрес и контакты<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-</div>
-<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:16px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:15.5px;font-weight:500" class="dch-menu0">Запросить смену<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
-<div style="display:flex;flex-direction:column;gap:4px;margin-top:20px">
-<a href="tel:+79099903667" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">8 (909) 990-36-67</a>
-<a href="tel:+79771055599" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">+7 (977) 105-55-99</a>
-</div>
-<div style="display:flex;gap:10px;margin-top:16px">
-<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:14px;font-weight:500" class="dch-menu1">Telegram</a>
-<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
-</div>
-</div>
-
-
 <div style="position:relative;padding:30px 22px 34px">
-<div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(246,239,224,.62);margin-bottom:16px"><a href="Главная.dc.html" style="color:rgba(246,239,224,.62)">Главная</a><span>·</span><span style="color:#C4A56A">Проживание</span></div>
+<div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(246,239,224,.62);margin-bottom:16px"><a href="../index.html" style="color:rgba(246,239,224,.62)">Главная</a><span>·</span><span style="color:#C4A56A">Проживание</span></div>
 <h1 style="font-family:Prata,serif;font-weight:400;font-size:40px;line-height:1.1;color:#F6EFE0;margin:0 0 14px">Проживание</h1>
 <p style="font-size:15.5px;line-height:1.55;color:rgba(246,239,224,.8);margin:0 0 24px">Десять бревенчатых домиков с камином и мангальной зоной — от двух до пятнадцати гостей.</p>
 <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px">
@@ -203,19 +183,67 @@
 <div style="padding:18px 20px">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#2F3A26;margin:0 0 8px">Конные прогулки</h3>
 <p style="font-size:14.5px;line-height:1.6;color:#4B5142;margin:0 0 14px">Этот мир выглядит иначе, если смотреть на него из седла</p>
-<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:15px;color:#CB7A45;font-weight:600">4 000 ₽ с всадника</span><a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500">Подробнее<svg viewBox="0 0 24 24" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:15px;color:#CB7A45;font-weight:600">4 000 ₽ с всадника</span><a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500">Подробнее<svg viewBox="0 0 24 24" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
 </div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;overflow:hidden">
-<div style="position:relative;height:170px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span><img src="../static/img/bath.webp" alt="Баня изнутри" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="position:relative;height:170px"><img src="../static/img/bath.webp" alt="Баня изнутри" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:18px 20px">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#2F3A26;margin:0 0 8px">Баня</h3>
-<p style="font-size:14.5px;line-height:1.6;color:#8A7F5C;margin:0 0 14px">[текст от заказчика]</p>
-<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:15px;color:#8A7F5C;font-weight:500">Цена уточняется</span><a href="Баня.dc.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500">Подробнее<svg viewBox="0 0 24 24" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
+<p style="font-size:14.5px;line-height:1.6;color:#4B5142;margin:0 0 14px">Спокойный вечер после прогулки — топим к назначенному времени</p>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px"><span style="font-size:15px;color:#CB7A45;font-weight:600">2 500 ₽ / час</span><a href="../banya/index.html" style="display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500">Подробнее<svg viewBox="0 0 24 24" style="width:14px;height:14px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
 </div>
 </div>
 </div>
 </div>
+
+
+<div x-show="menu" x-cloak x-transition:enter="dch-anim" x-transition:enter-start="dch-fade-off" x-transition:enter-end="dch-fade-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-fade-on" x-transition:leave-end="dch-fade-off" @click="menu = false" style="position:fixed;inset:0;background:rgba(20,16,10,.45);z-index:40"></div>
+<div x-show="menu" x-cloak x-transition:enter="dch-anim" x-transition:enter-start="dch-drop-off" x-transition:enter-end="dch-drop-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-drop-on" x-transition:leave-end="dch-drop-off" :style="{ top: menuTop + 'px' }" style="position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:41;background:#FBFAF3;border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:0 26px 50px rgba(20,16,10,.24);padding:8px 22px 24px">
+<div style="display:flex;flex-direction:column">
+<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Конные прогулки<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../prozhivanie/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Проживание<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../banya/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Баня<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../albomy/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Фотоальбомы<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../novosti/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Новости<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500">Адрес и контакты<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+</div>
+<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:16px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:15.5px;font-weight:500" class="dch-menu0">Запросить смену<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<div style="display:flex;flex-direction:column;gap:4px;margin-top:20px">
+<a href="tel:+79099903667" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">8 (909) 990-36-67</a>
+<a href="tel:+79771055599" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">+7 (977) 105-55-99</a>
+</div>
+<div style="display:flex;gap:10px;margin-top:16px">
+<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:14px;font-weight:500" class="dch-menu1">Telegram</a>
+<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
+</div>
+</div>
+
+
+
+<div x-show="stuck || menu" x-cloak x-transition:enter="dch-anim" x-transition:enter-start="dch-drop-off" x-transition:enter-end="dch-drop-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-drop-on" x-transition:leave-end="dch-drop-off" x-ref="stickybar" class="design-sticky" style="position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:42">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(44,54,35,.12);background:#F2F0E5">
+<a href="../index.html" aria-label="На главную" style="display:flex;align-items:center;gap:10px">
+<svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#3E4A2C" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#3E4A2C;line-height:1.5;font-weight:600">Конная база<br>Бородинский хутор</div>
+</a>
+<div style="display:flex;align-items:center;gap:8px">
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.getBoundingClientRect().bottom })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+</div>
+</div>
+</div>
+
+
+<div class="design-sticky" x-show="!footerNear" x-transition:enter="dch-anim" x-transition:enter-start="dch-rise-off" x-transition:enter-end="dch-rise-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-rise-on" x-transition:leave-end="dch-rise-off" style="position:fixed;left:50%;transform:translateX(-50%);width:calc(100% - 28px);max-width:402px;bottom:16px;z-index:38">
+<div style="border-radius:22px;padding:12px 12px 12px 20px;background:rgba(250,247,238,.66);backdrop-filter:blur(26px) saturate(1.3);-webkit-backdrop-filter:blur(26px) saturate(1.3);border:1px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:space-between;gap:12px">
+<div><div style="font-size:18px;color:#232A1C;font-weight:600;line-height:1.2">от 3 750 ₽</div><div style="font-size:12px;color:#6C7159">в сутки · 10 домиков</div></div>
+<a href="../prozhivanie/index.html" style="padding:15px 22px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:14.5px;font-weight:500" class="dch-h-mbar0">Выбрать даты</a>
+</div>
+</div>
+
 </div>
 
 <div class="design-artboard artboard-desktop bg-[#F2F0E5]">
@@ -226,23 +254,23 @@
 <div style="position:absolute;inset:0;background:linear-gradient(96deg,rgba(20,16,10,.93) 0%,rgba(22,17,11,.8) 30%,rgba(26,21,13,.42) 58%,rgba(20,16,10,.6) 100%)"></div>
 <svg viewBox="0 0 1440 900" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M-40 210 C 240 130, 520 190, 660 330 C 790 460, 700 610, 520 640 C 330 672, 190 740, 200 900" stroke="#C4A56A" stroke-opacity=".45" stroke-width="1.1"></path><path d="M1090 60 C 1210 190, 1290 330, 1300 470" stroke="#C4A56A" stroke-opacity=".28" stroke-width="1"></path></svg>
 <div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:30px 64px">
-<div style="display:flex;align-items:center;gap:14px">
+<a href="../index.html" aria-label="На главную" style="display:flex;align-items:center;gap:14px">
 <svg viewBox="0 0 32 32" style="width:44px;height:44px;color:#EFE7D6" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
 <div style="width:1px;height:34px;background:rgba(239,231,214,.3)"></div>
 <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#EFE7D6;line-height:1.6;font-weight:500">Конная база<br>Бородинский хутор</div>
-</div>
+</a>
 <div style="display:flex;align-items:center;gap:34px">
 <a href="../progulki/index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d0">Конные прогулки</a>
-<a href="Проживание.dc.html" style="font-size:15px;color:#C4A56A;font-weight:500;border-bottom:2px solid #C4A56A;padding-bottom:4px">Проживание</a>
-<a href="Баня.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d1">Баня</a>
-<a href="Главная.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d2">Цены</a>
-<a href="Главная.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d3">О нас</a>
-<a href="Главная.dc.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d4">Контакты</a>
+<a href="../prozhivanie/index.html" style="font-size:15px;color:#C4A56A;font-weight:500;border-bottom:2px solid #C4A56A;padding-bottom:4px">Проживание</a>
+<a href="../banya/index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d1">Баня</a>
+<a href="../index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d2">Цены</a>
+<a href="../index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d3">О нас</a>
+<a href="../index.html" style="font-size:15px;color:rgba(241,234,218,.82)" class="dch-h-d4">Контакты</a>
 <a href="tel:+79099903667" style="font-size:15px;color:#F1EADA;font-weight:500;margin-left:8px">8 (909) 990-36-67</a>
 </div>
 </div>
 <div style="position:relative;padding:86px 64px 104px;max-width:820px">
-<div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:rgba(246,239,224,.6);margin-bottom:26px"><a href="Главная.dc.html" style="color:rgba(246,239,224,.6)">Главная</a><span>·</span><span style="color:#C4A56A">Проживание</span></div>
+<div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:rgba(246,239,224,.6);margin-bottom:26px"><a href="../index.html" style="color:rgba(246,239,224,.6)">Главная</a><span>·</span><span style="color:#C4A56A">Проживание</span></div>
 <h1 style="font-family:Prata,serif;font-weight:400;font-size:82px;line-height:1.06;color:#F6EFE0;margin:0 0 26px">Проживание</h1>
 <p style="font-size:19px;line-height:1.55;color:rgba(246,239,224,.82);margin:0 0 36px;max-width:540px">Десять бревенчатых домиков с камином и мангальной зоной — от двух до пятнадцати гостей.</p>
 <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:40px">
@@ -370,9 +398,9 @@
 
 <div style="margin-top:110px;background:#232B1C;padding:100px 64px;position:relative;overflow:hidden">
 <svg viewBox="0 0 1440 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M1480 120 C 1200 200, 1100 380, 1140 620" stroke="#C4A56A" stroke-opacity=".25" stroke-width="1"></path><path d="M-40 520 C 260 470, 420 350, 470 120" stroke="#C4A56A" stroke-opacity=".3" stroke-width="1"></path></svg>
-<div style="position:relative;display:flex;gap:70px;align-items:flex-start">
-<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#F1EADA;margin:0;width:420px;flex:none">Важно<br>знать</h2>
-<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:18px 40px">
+<div style="position:relative">
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#F1EADA;margin:0 0 40px">Важно знать</h2>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px 40px">
 <div style="display:flex;gap:13px"><span style="width:6px;height:6px;border-radius:50%;background:#C4A56A;flex:none;margin-top:10px"></span><span style="font-size:17px;line-height:1.55;color:rgba(241,234,218,.82)">Заезд с 18:00, выезд до 16:00.</span></div>
 <div style="display:flex;gap:13px"><span style="width:6px;height:6px;border-radius:50%;background:#C4A56A;flex:none;margin-top:10px"></span><span style="font-size:17px;line-height:1.55;color:rgba(241,234,218,.82)">На выходных — от двух ночей, в будни можно одну.</span></div>
 <div style="display:flex;gap:13px"><span style="width:6px;height:6px;border-radius:50%;background:#C4A56A;flex:none;margin-top:10px"></span><span style="font-size:17px;line-height:1.55;color:rgba(241,234,218,.82)">Предоплата — стоимость первых суток, остаток на месте.</span></div>
@@ -391,19 +419,19 @@
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:28px;color:#2F3A26;margin:0 0 12px">Конные прогулки</h3>
 <p style="font-size:17px;line-height:1.6;color:#4B5142;margin:0 0 22px;max-width:440px">Этот мир выглядит иначе, если смотреть на него из седла</p>
 <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:16px">
-<span style="font-size:19px;color:#CB7A45;font-weight:600">4 000 ₽ с всадника</span>
+<span style="font-size:19px;color:#CB7A45;font-weight:600">4 000 ₽ с всадника</span>
 <a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:12px;padding:14px 24px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:15px;font-weight:500" class="dch-h-d11">Подробнее<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
 </div>
 </div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;overflow:hidden;display:flex;flex-direction:column">
-<div style="position:relative;height:300px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span><img src="../static/img/bath.webp" alt="Баня изнутри" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="position:relative;height:300px"><img src="../static/img/bath.webp" alt="Баня изнутри" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:30px 32px 32px;display:flex;flex-direction:column;flex:1">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:28px;color:#2F3A26;margin:0 0 12px">Баня</h3>
-<p style="font-size:17px;line-height:1.6;color:#8A7F5C;margin:0 0 22px;max-width:440px">[текст от заказчика]</p>
+<p style="font-size:17px;line-height:1.6;color:#4B5142;margin:0 0 22px;max-width:440px">Спокойный вечер после прогулки — топим к назначенному времени</p>
 <div style="margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:16px">
-<span style="font-size:19px;color:#8A7F5C;font-weight:500">Цена уточняется</span>
-<a href="Баня.dc.html" style="display:inline-flex;align-items:center;gap:12px;padding:14px 24px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:15px;font-weight:500" class="dch-h-d12">Подробнее<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<span style="font-size:19px;color:#CB7A45;font-weight:600">2 500 ₽ / час</span>
+<a href="../banya/index.html" style="display:inline-flex;align-items:center;gap:12px;padding:14px 24px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:15px;font-weight:500" class="dch-h-d12">Подробнее<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
 </div>
 </div>
 </div>
@@ -415,7 +443,7 @@
 
   
 
-<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" x-data="{ menu: false }">
+<div class="design-artboard artboard-phone design-footer mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
 <div style="background:#232B1C;padding:36px 22px 30px">
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
 <svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#C4A56A" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
