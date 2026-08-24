@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Баня — Бородинский хутор</title>
+  <meta name="description" content="">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="manifest" href="../static/manifest.webmanifest">
+  <meta name="theme-color" content="#2F3A26">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="../static/icons/apple-touch-icon.png">
+  <link rel="icon" href="../static/icons/icon-192.png" sizes="192x192">
+  <link rel="shortcut icon" href="../static/icons/icon-192.png">
+
+  
+  <link rel="preload" href="../static/fonts/GolosText-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../static/fonts/Prata-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../static/css/output.css">
+  <link rel="stylesheet" href="../static/design.css">
+
+  <script src="../static/vendor/htmx.min.js" defer></script>
+  <script src="../static/vendor/alpine.min.js" defer></script>
+  
+</head>
+<body hx-boost="true">
+
+  <a href="#content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-surface">
+    Перейти к содержимому
+  </a>
+
+  
+<header x-data="{ open: false }"
+        class="relative z-40 safe-top bg-page text-ink">
+  <div class="mx-auto flex max-w-3xl items-center justify-between px-5 py-4">
+    <a href="../index.html" class="font-display text-lg ">
+      Бородинский хутор
+    </a>
+
+    <div class="flex items-center gap-2">
+      
+        <a href="tel:89099903667"
+           class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface"
+           aria-label="Позвонить">
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/>
+          </svg>
+        </a>
+      
+      <button type="button" @click="open = !open"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface"
+              :aria-expanded="open" aria-label="Меню">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path x-show="!open" d="M4 7h16M4 12h16M4 17h16"/>
+          <path x-show="open" x-cloak d="M6 6l12 12M18 6L6 18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  
+<nav x-show="open" x-cloak x-transition.opacity
+     class="absolute inset-x-0 top-full border-t border-ink/10 bg-page px-5 pb-6 text-ink shadow-lg">
+  <ul class="mx-auto max-w-3xl divide-y divide-ink/10 text-[17px]">
+    <li><a href="../progulki/index.html" class="flex min-h-[52px] items-center">Конные прогулки</a></li>
+    <li><a href="../prozhivanie/index.html" class="flex min-h-[52px] items-center">Проживание</a></li>
+    <li><a href="../banya/index.html" class="flex min-h-[52px] items-center">Баня</a></li>
+    <li><a href="../albomy/index.html" class="flex min-h-[52px] items-center">Фотоальбомы</a></li>
+    <li><a href="../novosti/index.html" class="flex min-h-[52px] items-center">Новости</a></li>
+    <li><a href="../kontakty/index.html" class="flex min-h-[52px] items-center">Адрес и контакты</a></li>
+  </ul>
+  <a href="../zayavka/index.html" class="btn-primary mt-5 w-full">Запросить смену</a>
+</nav>
+
+</header>
+
+
+  <main id="content">
+    
+  <section class="mx-auto max-w-3xl px-5 py-14">
+    <h1 class="section-title">Баня</h1>
+    
+  <p class="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-muted">[текст от заказчика]
+2–3 строки: чем хороша баня на хуторе, что внутри, чем запомнится.</p>
+  
+    <p class="mt-6 text-sm text-muted">Цена уточняется</p>
+  
+  <ul class="mt-8 space-y-1.5 text-[15px] text-muted">
+    <li>По часам, минимум два часа.</li><li>Между бронями — технический перерыв 30 минут.</li>
+  </ul>
+
+  </section>
+
+  </main>
+
+  
+
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
+<div style="background:#232B1C;padding:36px 22px 30px">
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
+<svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#C4A56A" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#EFE7D6;line-height:1.5;font-weight:500">Конная база<br>Бородинский хутор</div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 16px;margin-bottom:26px">
+<a href="../progulki/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Конные прогулки</a>
+<a href="../prozhivanie/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Проживание</a>
+<a href="../banya/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Баня</a>
+<a href="#prices" style="font-size:14px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="#about" style="font-size:14px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="../kontakty/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Контакты</a>
+<a href="../albomy/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
+<a href="../novosti/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Новости</a>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+<a href="tel:+79099903667" style="font-size:15px;color:#F1EADA;white-space:nowrap">8 (909) 990-36-67</a>
+<a href="tel:+79771055599" style="font-size:15px;color:#F1EADA;white-space:nowrap">+7 (977) 105-55-99</a>
+</div>
+<div style="display:flex;gap:8px;margin-bottom:24px">
+<a href="#" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">Telegram</a>
+<a href="#" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">WhatsApp</a>
+</div>
+<div style="height:1px;background:rgba(241,234,218,.14);margin-bottom:16px"></div>
+<div style="display:flex;flex-wrap:wrap;gap:10px 18px">
+<a href="../dokumenty/offer/index.html" style="font-size:12.5px;color:rgba(241,234,218,.55)">Оферта</a>
+<a href="../dokumenty/privacy-policy/index.html" style="font-size:12.5px;color:rgba(241,234,218,.55)">Политика конфиденциальности</a>
+<a href="../dokumenty/club-rules/index.html" style="font-size:12.5px;color:rgba(241,234,218,.55)">Возвраты</a>
+</div>
+</div>
+</div>
+
+<div class="design-artboard artboard-desktop bg-[#F2F0E5]">
+<div style="background:#232B1C;padding:70px 64px 44px">
+<div style="display:flex;justify-content:space-between;gap:60px;margin-bottom:56px">
+<div style="width:300px;flex:none">
+<div style="display:flex;align-items:center;gap:14px;margin-bottom:18px">
+<svg viewBox="0 0 32 32" style="width:44px;height:44px;color:#C4A56A" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#EFE7D6;line-height:1.6;font-weight:500">Конная база<br>Бородинский хутор</div>
+</div>
+<div style="font-size:14px;color:rgba(241,234,218,.5);line-height:1.6">дер. Горки, Можайский округ<br>110 км от Москвы</div>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<a href="../progulki/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Конные прогулки</a>
+<a href="../prozhivanie/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Проживание</a>
+<a href="../banya/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Баня</a>
+<a href="../albomy/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
+</div>
+<div style="display:flex;flex-direction:column;gap:14px">
+<a href="#prices" style="font-size:15px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="#about" style="font-size:15px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="../kontakty/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Контакты</a>
+<a href="../novosti/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Новости</a>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<a href="tel:+79099903667" style="font-family:Prata,serif;font-size:24px;color:#F1EADA">8 (909) 990-36-67</a>
+<a href="tel:+79771055599" style="font-family:Prata,serif;font-size:24px;color:#F1EADA">+7 (977) 105-55-99</a>
+<div style="display:flex;gap:10px;margin-top:12px">
+<a href="#" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">Telegram</a>
+<a href="#" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">WhatsApp</a>
+</div>
+</div>
+</div>
+<div style="height:1px;background:rgba(241,234,218,.14);margin-bottom:24px"></div>
+<div style="display:flex;justify-content:space-between;align-items:center">
+<div style="display:flex;gap:28px">
+<a href="../dokumenty/offer/index.html" style="font-size:13.5px;color:rgba(241,234,218,.55)">Оферта</a>
+<a href="../dokumenty/privacy-policy/index.html" style="font-size:13.5px;color:rgba(241,234,218,.55)">Политика конфиденциальности</a>
+<a href="../dokumenty/club-rules/index.html" style="font-size:13.5px;color:rgba(241,234,218,.55)">Возвраты</a>
+</div>
+<div style="font-size:13.5px;color:rgba(241,234,218,.4)">© 2026 Бородинский хутор</div>
+</div>
+</div>
+</div>
+
+
+  
+  
+</body>
+</html>
