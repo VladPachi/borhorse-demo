@@ -2,6 +2,13 @@
    Здесь состояния наведения из макета (атрибут style-hover, который браузер
    не понимает) и переключение между мобильным и десктопным артбордами. */
 .design-artboard a { transition: background-color .15s, border-color .15s, color .15s; }
+/* В макете часть фотографий шире своей рамки и намеренно обрезается ею.
+   Tailwind по умолчанию ужимает картинку до ширины контейнера и ломает
+   такой кадр, поэтому внутри артборда ограничение снимаем. */
+.design-artboard img { max-width: none; }
+/* Шапка внутренних страниц прилипает к верху при прокрутке. На главной
+   она лежит поверх фото первого экрана и остаётся на месте. */
+.design-header { position: sticky; top: 0; z-index: 39; }
 .artboard-desktop { display: none; }
 @media (min-width: 1024px) {
   .artboard-phone { display: none; }

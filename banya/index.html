@@ -37,12 +37,14 @@
 
   <main id="content">
     
-<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" x-data="{ menu: false }">
 
 
 <div style="position:relative;overflow:hidden;background:#241D14">
-<image-slot id="banya-hero" shape="rect" placeholder="Фото: баня" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+<image-slot id="banya-hero" shape="rect" placeholder="Фото: баня" style="position:absolute;inset:0;width:100%;height:100%;display:none"></image-slot>
+<img src="../static/img/bath.webp" alt="Баня изнутри" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%" loading="lazy">
 <div style="position:absolute;inset:0;background:linear-gradient(179deg,rgba(26,20,13,.72) 0%,rgba(28,22,14,.5) 24%,rgba(24,19,12,.7) 52%,rgba(19,14,9,.92) 100%)"></div>
+<svg viewBox="0 0 390 724" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M-20 250 C 90 214, 176 236, 250 300 C 318 358, 300 452, 196 470 C 96 487, 30 540, 40 640" stroke="#C4A56A" stroke-opacity=".55" stroke-width="1"></path></svg>
 <div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:16px 20px">
 <div style="display:flex;align-items:center;gap:10px">
 <svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#EFE7D6" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
@@ -50,9 +52,35 @@
 </div>
 <div style="display:flex;align-items:center;gap:8px">
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;align-items:center;justify-content:center;color:#EFE7D6"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
-<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px"><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" @click="menu = !menu" role="button" :aria-expanded="menu" aria-label="Меню"><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span></div>
 </div>
 </div>
+
+
+<div x-show="menu" x-cloak x-transition.opacity @click="menu = false" style="position:fixed;inset:0;background:rgba(20,16,10,.45);z-index:40"></div>
+<div x-show="menu" x-cloak x-transition.opacity.duration.150ms style="position:absolute;left:0;right:0;top:100%;z-index:41;background:#FBFAF3;border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:0 26px 50px rgba(20,16,10,.24);padding:8px 22px 24px">
+<div style="display:flex;flex-direction:column">
+<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Конные прогулки<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Проживание.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Проживание<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Баня.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Баня<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../albomy/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Фотоальбомы<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../novosti/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Новости<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500">Адрес и контакты<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+</div>
+<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:16px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:15.5px;font-weight:500" class="dch-menu0">Запросить смену<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<div style="display:flex;flex-direction:column;gap:4px;margin-top:20px">
+<a href="tel:+79099903667" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">8 (909) 990-36-67</a>
+<a href="tel:+79771055599" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">+7 (977) 105-55-99</a>
+</div>
+<div style="display:flex;gap:10px;margin-top:16px">
+<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:14px;font-weight:500" class="dch-menu1">Telegram</a>
+<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
+</div>
+</div>
+
+
 <div style="position:relative;padding:30px 22px 34px">
 <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(246,239,224,.62);margin-bottom:16px"><a href="Главная.dc.html" style="color:rgba(246,239,224,.62)">Главная</a><span>·</span><span style="color:#C4A56A">Баня</span></div>
 <h1 style="font-family:Prata,serif;font-weight:400;font-size:40px;line-height:1.1;color:#F6EFE0;margin:0 0 14px">Баня</h1>
@@ -113,7 +141,7 @@
 </div>
 
 <div style="padding:36px 22px;background:#232B1C;position:relative;overflow:hidden">
-<svg viewBox="0 0 390 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none" preserveAspectRatio="none"><path d="M420 90 C 280 170, 200 300, 230 620" stroke="#C4A56A" stroke-opacity=".25" stroke-width="1"></path></svg>
+<svg viewBox="0 0 390 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none" preserveAspectRatio="none"><path d="M420 90 C 280 170, 200 300, 230 620" stroke="#C4A56A" stroke-opacity=".25" stroke-width="1"></path><path d="M-30 250 C 130 200, 210 120, 220 -20" stroke="#C4A56A" stroke-opacity=".3" stroke-width="1"></path></svg>
 <h2 style="position:relative;font-family:Prata,serif;font-weight:400;font-size:30px;line-height:1.16;color:#F1EADA;margin:0 0 20px">Важно знать</h2>
 <div style="position:relative;display:flex;flex-direction:column;gap:11px">
 <div style="display:flex;gap:11px"><span style="width:5px;height:5px;border-radius:50%;background:#C4A56A;flex:none;margin-top:9px"></span><span style="font-size:14.5px;line-height:1.55;color:rgba(241,234,218,.8)">Баня по часам, минимум два часа.</span></div>
@@ -134,7 +162,7 @@
 </div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;overflow:hidden">
-<div style="position:relative;height:170px"><img src="../static/img/cabin-porch.webp" alt="Домик с верандой" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="position:relative;height:170px"><img src="../static/img/houses-wide.webp" alt="Домики хутора" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:18px 20px">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#2F3A26;margin:0 0 8px">Проживание</h3>
 <p style="font-size:14.5px;line-height:1.6;color:#4B5142;margin:0 0 14px">Что может быть лучше, чем домик в деревне?</p>
@@ -149,8 +177,10 @@
 
 
 <div style="position:relative;overflow:hidden;background:#241D14">
-<image-slot id="banya-hero-d" shape="rect" placeholder="Фото: баня" style="position:absolute;inset:0;width:100%;height:100%"></image-slot>
+<image-slot id="banya-hero-d" shape="rect" placeholder="Фото: баня" style="position:absolute;inset:0;width:100%;height:100%;display:none"></image-slot>
+<img src="../static/img/bath.webp" alt="Баня изнутри" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 45%" loading="lazy">
 <div style="position:absolute;inset:0;background:linear-gradient(96deg,rgba(28,21,13,.88) 0%,rgba(30,23,15,.66) 34%,rgba(36,28,17,.24) 62%,rgba(26,20,13,.46) 100%)"></div>
+<svg viewBox="0 0 1440 900" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M-40 210 C 240 130, 520 190, 660 330 C 790 460, 700 610, 520 640 C 330 672, 190 740, 200 900" stroke="#C4A56A" stroke-opacity=".45" stroke-width="1.1"></path><path d="M1090 60 C 1210 190, 1290 330, 1300 470" stroke="#C4A56A" stroke-opacity=".28" stroke-width="1"></path></svg>
 <div style="position:relative;display:flex;align-items:center;justify-content:space-between;padding:30px 64px">
 <div style="display:flex;align-items:center;gap:14px">
 <svg viewBox="0 0 32 32" style="width:44px;height:44px;color:#EFE7D6" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
@@ -181,7 +211,7 @@
 
 <div style="padding:110px 64px 0;background:#F2F0E5">
 <div style="display:flex;gap:60px;align-items:center;background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:32px;padding:20px">
-<div style="position:relative;flex:none;width:560px;height:400px;border-radius:24px;overflow:hidden"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD;border-radius:24px">Фото: баня внутри</span></div>
+<div style="position:relative;flex:none;width:560px;height:400px;border-radius:24px;overflow:hidden"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD;border-radius:24px">Фото: баня внутри</span><img src="../static/img/bath.webp" alt="Баня изнутри" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="flex:1;padding-right:44px">
 <div style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:18px">Про баню</div>
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:44px;line-height:1.14;color:#2F3A26;margin:0 0 22px">Топим по вашему времени</h2>
@@ -251,7 +281,7 @@
 </div>
 
 <div style="margin-top:110px;background:#232B1C;padding:100px 64px;position:relative;overflow:hidden">
-<svg viewBox="0 0 1440 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M1480 120 C 1200 200, 1100 380, 1140 620" stroke="#C4A56A" stroke-opacity=".25" stroke-width="1"></path></svg>
+<svg viewBox="0 0 1440 620" style="position:absolute;inset:0;width:100%;height:100%" fill="none"><path d="M1480 120 C 1200 200, 1100 380, 1140 620" stroke="#C4A56A" stroke-opacity=".25" stroke-width="1"></path><path d="M-40 520 C 260 470, 420 350, 470 120" stroke="#C4A56A" stroke-opacity=".3" stroke-width="1"></path></svg>
 <div style="position:relative;display:flex;gap:70px;align-items:flex-start">
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#F1EADA;margin:0;width:420px;flex:none">Важно<br>знать</h2>
 <div style="flex:1;display:grid;grid-template-columns:1fr 1fr;gap:18px 40px">
@@ -277,7 +307,7 @@
 </div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;overflow:hidden;display:flex;flex-direction:column">
-<div style="position:relative;height:300px"><img src="../static/img/cabin-porch.webp" alt="Домик с верандой" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="position:relative;height:300px"><img src="../static/img/houses-wide.webp" alt="Домики хутора" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:30px 32px 32px;display:flex;flex-direction:column;flex:1">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:28px;color:#2F3A26;margin:0 0 12px">Проживание</h3>
 <p style="font-size:17px;line-height:1.6;color:#4B5142;margin:0 0 22px;max-width:440px">Что может быть лучше, чем домик в деревне?</p>
@@ -295,7 +325,7 @@
 
   
 
-<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" x-data="{ menu: false }">
 <div style="background:#232B1C;padding:36px 22px 30px">
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
 <svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#C4A56A" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>

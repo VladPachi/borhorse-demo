@@ -37,7 +37,7 @@
 
   <main id="content">
     
-<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" x-data="{ menu: false }">
 
 
 <div style="position:relative;overflow:hidden;background:#241D14">
@@ -51,9 +51,35 @@
 </div>
 <div style="display:flex;align-items:center;gap:8px">
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;align-items:center;justify-content:center;color:#EFE7D6"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
-<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px"><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" @click="menu = !menu" role="button" :aria-expanded="menu" aria-label="Меню"><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span><span style="display:block;width:16px;height:1.3px;background:#EFE7D6"></span></div>
 </div>
 </div>
+
+
+<div x-show="menu" x-cloak x-transition.opacity @click="menu = false" style="position:fixed;inset:0;background:rgba(20,16,10,.45);z-index:40"></div>
+<div x-show="menu" x-cloak x-transition.opacity.duration.150ms style="position:absolute;left:0;right:0;top:100%;z-index:41;background:#FBFAF3;border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:0 26px 50px rgba(20,16,10,.24);padding:8px 22px 24px">
+<div style="display:flex;flex-direction:column">
+<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Конные прогулки<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Проживание.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Проживание<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Баня.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Баня<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../albomy/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Фотоальбомы<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../novosti/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Новости<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="Главная.dc.html" style="display:flex;align-items:center;justify-content:space-between;min-height:52px;font-size:17px;color:#2F3A26;font-weight:500">Адрес и контакты<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+</div>
+<a href="../progulki/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:18px;padding:16px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:15.5px;font-weight:500" class="dch-menu0">Запросить смену<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<div style="display:flex;flex-direction:column;gap:4px;margin-top:20px">
+<a href="tel:+79099903667" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">8 (909) 990-36-67</a>
+<a href="tel:+79771055599" style="font-family:Prata,serif;font-size:20px;color:#2F3A26">+7 (977) 105-55-99</a>
+</div>
+<div style="display:flex;gap:10px;margin-top:16px">
+<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;background:#465231;color:#F4F1E4;font-size:14px;font-weight:500" class="dch-menu1">Telegram</a>
+<a href="#" style="flex:1;text-align:center;padding:14px 0;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
+</div>
+</div>
+
+
 
 <div style="position:relative;padding:30px 22px 34px">
 <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:rgba(246,239,224,.62);margin-bottom:16px"><a href="Главная.dc.html" style="color:rgba(246,239,224,.62)">Главная</a><span>·</span><span style="color:#C4A56A">Конные прогулки</span></div>
@@ -68,7 +94,7 @@
 </div>
 
 <div style="padding:34px 22px 36px;background:#F2F0E5">
-<div style="position:relative;border-radius:22px;overflow:hidden;height:300px;margin-bottom:22px"><img src="../static/img/walks-hero.webp" alt="Портрет лошади" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="border-radius:22px;overflow:hidden;height:300px;margin-bottom:22px"><img src="../static/img/walks-hero.webp" alt="Портрет лошади" style="width: 443px; height: 294px; object-fit: cover; display: block" loading="lazy"></div>
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:30px;line-height:1.16;color:#2F3A26;margin:0 0 16px">Время замедлиться</h2>
 <p style="font-size:15px;line-height:1.64;color:#4B5142;margin:0 0 12px">Два часа шагом и рысью по полям и лесным дорогам вокруг хутора. Инструктор подбирает лошадь под вас и проводит инструктаж — дальше вы едете сами, а он сопровождает группу верхом.</p>
 <p style="font-size:15px;line-height:1.64;color:#4B5142;margin:0 0 24px">В полях группа разбирается по уровню: кто-то остаётся шагом, кто-то пробует рысь.</p>
@@ -133,19 +159,19 @@
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:28px;line-height:1.16;color:#2F3A26;margin:0 0 18px">Ближайшие смены</h2>
 <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:16px 18px">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="font-size:15px;color:#2F3A26;font-weight:600">Сб 22 авг · 11:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">Утренняя смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m1">Выбрать</a></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="font-size:15px;color:#2F3A26;font-weight:600">Сб 22 авг · 11:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">Утренняя смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m1">Записаться</a></div>
 <div style="height:5px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:7px"><div style="width:69%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
 <div style="font-size:12.5px;color:#6C7159">Свободно 8 из 26</div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:16px 18px">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="font-size:15px;color:#2F3A26;font-weight:600">Сб 22 авг · 15:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">Дневная смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m2">Выбрать</a></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="font-size:15px;color:#2F3A26;font-weight:600">Сб 22 авг · 15:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">Дневная смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m2">Записаться</a></div>
 <div style="height:5px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:7px"><div style="width:46%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
 <div style="font-size:12.5px;color:#6C7159">Свободно 14 из 26</div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(203,122,69,.3);border-radius:20px;padding:16px 18px">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div><div style="display:flex;align-items:center;gap:8px"><span style="font-size:15px;color:#2F3A26;font-weight:600">Вс 23 авг · 11:00</span><span style="padding:3px 9px;border-radius:999px;background:#F3E0D0;color:#A9541F;font-size:11px;font-weight:600">Мало мест</span></div><div style="font-size:13px;color:#6C7159;margin-top:2px">Утренняя смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m3">Выбрать</a></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px"><div style="min-width:0"><div style="font-size:15px;color:#2F3A26;font-weight:600">Вс 23 авг · 11:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px;white-space:nowrap">Утренняя смена</div></div><a href="../progulki/index.html" style="padding:11px 18px;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:13.5px;font-weight:500;flex:none" class="dch-w-m3">Записаться</a></div>
 <div style="height:5px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:7px"><div style="width:88%;height:100%;background:#CB7A45;border-radius:99px"></div></div>
-<div style="font-size:12.5px;color:#6C7159">Свободно 3 из 26</div>
+<div style="display:flex;align-items:center;gap:8px"><span style="font-size:12.5px;color:#6C7159">Свободно 3 из 26</span><span style="display:inline-flex;align-items:center;justify-content:center;flex:none;padding:4px 9px 5px;border-radius:999px;background:#F3E0D0;color:#A9541F;font-size:11px;font-weight:600;line-height:1;white-space:nowrap">Мало мест</span></div>
 </div>
 </div>
 <div style="padding:16px 18px;border-radius:18px;background:rgba(140,154,108,.14)"><div style="font-size:14px;line-height:1.55;color:#4B5142;margin-bottom:10px">На выходных смены есть всегда. В будни бывают отдельные смены — если их нет, соберём смену под вашу компанию.</div><a href="../progulki/index.html" style="display:inline-flex;align-items:center;gap:10px;padding:12px 18px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:13.5px;font-weight:500">Запросить индивидуальную смену<svg viewBox="0 0 24 24" style="width:15px;height:15px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a></div>
@@ -168,7 +194,7 @@
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:28px;line-height:1.16;color:#2F3A26;margin:0 0 18px">А ещё у нас есть</h2>
 <div style="display:flex;flex-direction:column;gap:14px">
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;overflow:hidden">
-<div style="position:relative;height:170px"><img src="../static/img/cabin-porch.webp" alt="Домик с верандой" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="position:relative;height:170px"><img src="../static/img/houses-wide.webp" alt="Домики хутора" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:18px 20px">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#2F3A26;margin:0 0 8px">Проживание</h3>
 <p style="font-size:14.5px;line-height:1.6;color:#4B5142;margin:0 0 14px">Что может быть лучше, чем домик в деревне?</p>
@@ -176,7 +202,7 @@
 </div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:22px;overflow:hidden">
-<div style="position:relative;height:170px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span></div>
+<div style="position:relative;height:170px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span><img src="../static/img/bath.webp" alt="Баня изнутри" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:18px 20px">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:20px;color:#2F3A26;margin:0 0 8px">Баня</h3>
 <p style="font-size:14.5px;line-height:1.6;color:#8A7F5C;margin:0 0 14px">[текст от заказчика]</p>
@@ -225,7 +251,7 @@
 
 <div style="padding:110px 64px 0;background:#F2F0E5">
 <div style="display:flex;gap:70px;align-items:flex-start">
-<div style="position:relative;flex:none;width:480px;border-radius:26px;overflow:hidden;height:640px"><img src="../static/img/walks-hero.webp" alt="Портрет лошади" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="flex:none;width:480px;border-radius:26px;overflow:hidden;height:640px"><img src="../static/img/walks-hero.webp" alt="Портрет лошади" style="width: 644px; height: 628px; object-fit: cover; display: block" loading="lazy"></div>
 <div style="flex:1;padding-top:20px">
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:56px;line-height:1.12;color:#2F3A26;margin:0 0 28px">Время<br>замедлиться</h2>
 <p style="font-size:18px;line-height:1.65;color:#4B5142;margin:0 0 16px;max-width:560px">Два часа шагом и рысью по полям и лесным дорогам вокруг хутора. Инструктор подбирает лошадь под вас и проводит инструктаж — дальше вы едете сами, а он сопровождает группу верхом.</p>
@@ -313,7 +339,7 @@
 <a href="../progulki/index.html" style="display:block;text-align:center;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15px;font-weight:500" class="dch-w-d7">Выбрать смену</a>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(203,122,69,.32);border-radius:26px;padding:28px 26px">
-<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#8A7F5C;font-weight:600">Вс 23 авг</div><span style="padding:5px 11px;border-radius:999px;background:#F3E0D0;color:#A9541F;font-size:11.5px;font-weight:600">Мало мест</span></div>
+<div style="display:flex;justify-content:space-between;align-items:center;min-height:28px;margin-bottom:10px"><div style="font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#8A7F5C;font-weight:600">Вс 23 авг</div><span style="display:inline-flex;align-items:center;padding:6px 11px 7px;border-radius:999px;background:#F3E0D0;color:#A9541F;font-size:11.5px;font-weight:600;line-height:1">Мало мест</span></div>
 <div style="font-family:Prata,serif;font-size:32px;color:#2F3A26;margin-bottom:4px">11:00</div>
 <div style="font-size:14.5px;color:#6C7159;margin-bottom:22px">Утренняя смена</div>
 <div style="height:6px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:10px"><div style="width:88%;height:100%;background:#CB7A45;border-radius:99px"></div></div>
@@ -354,7 +380,7 @@
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.14;color:#2F3A26;margin:0 0 40px">А ещё у нас есть</h2>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;overflow:hidden;display:flex;flex-direction:column">
-<div style="position:relative;height:300px"><img src="../static/img/cabin-porch.webp" alt="Домик с верандой" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<div style="position:relative;height:300px"><img src="../static/img/houses-wide.webp" alt="Домики хутора" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:30px 32px 32px;display:flex;flex-direction:column;flex:1">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:28px;color:#2F3A26;margin:0 0 12px">Проживание</h3>
 <p style="font-size:17px;line-height:1.6;color:#4B5142;margin:0 0 22px;max-width:440px">Что может быть лучше, чем домик в деревне?</p>
@@ -365,7 +391,7 @@
 </div>
 </div>
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;overflow:hidden;display:flex;flex-direction:column">
-<div style="position:relative;height:300px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span></div>
+<div style="position:relative;height:300px"><span style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;box-sizing:border-box;font-size:13px;color:rgba(35,42,28,.5);background:#EDEBDD">Фото: баня</span><img src="../static/img/bath.webp" alt="Баня изнутри" style="width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
 <div style="padding:30px 32px 32px;display:flex;flex-direction:column;flex:1">
 <h3 style="font-family:Prata,serif;font-weight:400;font-size:28px;color:#2F3A26;margin:0 0 12px">Баня</h3>
 <p style="font-size:17px;line-height:1.6;color:#8A7F5C;margin:0 0 22px;max-width:440px">[текст от заказчика]</p>
@@ -383,7 +409,7 @@
 
   
 
-<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]">
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" x-data="{ menu: false }">
 <div style="background:#232B1C;padding:36px 22px 30px">
 <div style="display:flex;align-items:center;gap:10px;margin-bottom:22px">
 <svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#C4A56A" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
