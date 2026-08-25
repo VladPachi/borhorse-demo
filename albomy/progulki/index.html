@@ -92,7 +92,7 @@
 </div>
 <div x-show="shown !== null" x-cloak @click.self="shown = null" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
 
-<img :src="photos[shown]?.url" :alt="photos[shown]?.caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy">
+<template x-if="shown !== null"><img :src="photos[shown].url" :alt="photos[shown].caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy"></template>
 <div style="position:absolute;left:0;right:0;top:0;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(22,18,12,.72) 0%,rgba(22,18,12,0) 100%)">
 <div style="min-height:44px;display:flex;align-items:center;padding:0 14px;border-radius:999px;background:rgba(22,18,12,.5);font-size:14px;color:#F1EADA" x-text="(shown + 1) + ' из ' + photos.length"></div>
 <button type="button" @click="shown = null" aria-label="Закрыть" style="width:44px;height:44px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA;border:0;cursor:pointer"><svg viewBox="0 0 24 24" style="width:18px;height:18px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
@@ -196,7 +196,7 @@
 </div>
 <div x-show="shown !== null" x-cloak @click.self="shown = null" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
 
-<img :src="photos[shown]?.url" :alt="photos[shown]?.caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy">
+<template x-if="shown !== null"><img :src="photos[shown].url" :alt="photos[shown].caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy"></template>
 <div style="position:absolute;left:0;right:0;top:0;padding:20px 24px;display:flex;align-items:center;justify-content:space-between">
 <div style="min-height:44px;display:flex;align-items:center;padding:0 18px;border-radius:999px;background:rgba(22,18,12,.5);font-size:15px;color:#F1EADA" x-text="(shown + 1) + ' из ' + photos.length + ' · Прогулки'"></div>
 <div style="width:52px;height:52px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA" class="dch-ad-d5"><svg viewBox="0 0 24 24" style="width:20px;height:20px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
