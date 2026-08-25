@@ -17,6 +17,15 @@
 .dch-fade-on { opacity: 1 !important; }
 /* Полоски кнопки меню: display держим в классе, инлайновый Alpine стирает */
 .dch-line { display: block; }
+/* Обёртка, невидимая для раскладки: её дети остаются в ряду родителя */
+.design-contents { display: contents; }
+/* Поля форм. Фокус и ошибка — состояния из макета «Поля формы»:
+   в фокусе фон белый и рамка зелёная, при ошибке рамка и текст красные.
+   Ошибка показывается после отправки, а не во время набора — подсказывать
+   человеку, пока он ещё печатает, значит мешать. */
+.design-field:focus-within { background: #FFFFFF !important; border-color: #465231 !important; }
+.design-field input::placeholder, .design-field textarea::placeholder { color: #6C7159; }
+.design-field-error { margin: 6px 2px 0; font-size: 13px; line-height: 1.4; color: #A9541F; }
 .artboard-desktop { display: none; }
 /* Компьютерный макет нарисован на 1440 px. Шире не растягиваем — иначе
    разделы разъезжаются и страница перестаёт совпадать с согласованным
@@ -49,14 +58,16 @@
 .dch-d7:hover{border-color:rgba(246,239,224,.9) !important}
 .dch-d8:hover{background:#B46633 !important}
 .dch-d9:hover{background:#B46633 !important}
-.dch-d10:hover{background:#38421f !important}
+.dch-d10:hover{background:#B46633 !important}
 .dch-d11:hover{background:#B46633 !important}
-.dch-d12:hover{background:#B46633 !important}
+.dch-d12:hover{background:#38421f !important}
 .dch-d13:hover{background:#B46633 !important}
 .dch-d14:hover{background:#B46633 !important}
 .dch-d15:hover{background:#B46633 !important}
-.dch-d16:hover{background:#38421f !important}
-.dch-d17:hover{border-color:#2F3A26 !important}
+.dch-d16:hover{background:#B46633 !important}
+.dch-d17:hover{background:#B46633 !important}
+.dch-d18:hover{background:#38421f !important}
+.dch-d19:hover{border-color:#2F3A26 !important}
 .dch-w-m0:hover{background:#B46633 !important}
 .dch-w-m1:hover{background:#B46633 !important}
 .dch-w-m2:hover{background:#B46633 !important}
@@ -101,6 +112,78 @@
 .dch-b-d6:hover{background:#B46633 !important}
 .dch-b-d7:hover{border-color:#2F3A26 !important}
 .dch-b-d8:hover{border-color:#2F3A26 !important}
+.dch-c-m0:hover{background:#38421f !important}
+.dch-c-m1:hover{border-color:#2F3A26 !important}
+.dch-c-m2:hover{background:#B46633 !important}
+.dch-c-m3:hover{border-color:#2F3A26 !important}
+.dch-c-d0:hover{color:#CB7A45 !important}
+.dch-c-d1:hover{color:#CB7A45 !important}
+.dch-c-d2:hover{color:#CB7A45 !important}
+.dch-c-d3:hover{color:#CB7A45 !important}
+.dch-c-d4:hover{color:#CB7A45 !important}
+.dch-c-d5:hover{border-color:#2F3A26 !important}
+.dch-c-d6:hover{background:#38421f !important}
+.dch-c-d7:hover{border-color:#2F3A26 !important}
+.dch-c-d8:hover{background:#B46633 !important}
+.dch-c-d9:hover{border-color:#C4A56A !important}
+.dch-rq-m0:hover{background:#B46633 !important}
+.dch-rq-d0:hover{color:#CB7A45 !important}
+.dch-rq-d1:hover{color:#CB7A45 !important}
+.dch-rq-d2:hover{color:#CB7A45 !important}
+.dch-rq-d3:hover{color:#CB7A45 !important}
+.dch-rq-d4:hover{color:#CB7A45 !important}
+.dch-rq-d5:hover{color:#CB7A45 !important}
+.dch-rq-d6:hover{background:#B46633 !important}
+.dch-rq-d7:hover{background:#38421f !important}
+.dch-rq-d8:hover{border-color:#2F3A26 !important}
+.dch-rs-m0:hover{background:#38421f !important}
+.dch-rs-m1:hover{border-color:#2F3A26 !important}
+.dch-rs-m2:hover{border-color:#2F3A26 !important}
+.dch-rs-d0:hover{color:#CB7A45 !important}
+.dch-rs-d1:hover{color:#CB7A45 !important}
+.dch-rs-d2:hover{color:#CB7A45 !important}
+.dch-rs-d3:hover{color:#CB7A45 !important}
+.dch-rs-d4:hover{border-color:#C4A56A !important}
+.dch-rs-d5:hover{border-color:#C4A56A !important}
+.dch-rs-d6:hover{background:#B46633 !important}
+.dch-al-m0:hover{background:#38421f !important}
+.dch-al-d0:hover{color:#CB7A45 !important}
+.dch-al-d1:hover{color:#CB7A45 !important}
+.dch-al-d2:hover{color:#CB7A45 !important}
+.dch-al-d3:hover{color:#CB7A45 !important}
+.dch-al-d4:hover{color:#CB7A45 !important}
+.dch-al-d5:hover{border-color:rgba(44,54,35,.28) !important}
+.dch-al-d6:hover{background:#38421f !important}
+.dch-ad-d0:hover{color:#CB7A45 !important}
+.dch-ad-d1:hover{color:#CB7A45 !important}
+.dch-ad-d2:hover{color:#CB7A45 !important}
+.dch-ad-d3:hover{color:#CB7A45 !important}
+.dch-ad-d4:hover{color:#CB7A45 !important}
+.dch-ad-d5:hover{background:rgba(22,18,12,.75) !important}
+.dch-ad-d6:hover{background:rgba(22,18,12,.75) !important}
+.dch-ad-d7:hover{background:rgba(22,18,12,.75) !important}
+.dch-na-d0:hover{color:#CB7A45 !important}
+.dch-na-d1:hover{color:#CB7A45 !important}
+.dch-na-d2:hover{color:#CB7A45 !important}
+.dch-na-d3:hover{color:#CB7A45 !important}
+.dch-na-d4:hover{background:#38421f !important}
+.dch-na-d5:hover{border-color:rgba(44,54,35,.28) !important}
+.dch-na-d6:hover{border-color:rgba(44,54,35,.28) !important}
+.dch-lg-d0:hover{color:#CB7A45 !important}
+.dch-lg-d1:hover{color:#CB7A45 !important}
+.dch-lg-d2:hover{color:#CB7A45 !important}
+.dch-lg-d3:hover{color:#CB7A45 !important}
+.dch-lg-d4:hover{color:#CB7A45 !important}
+.dch-lg-d5:hover{color:#CB7A45 !important}
+.dch-lg-d6:hover{color:#CB7A45 !important}
+.dch-n-m0:hover{background:#B46633 !important}
+.dch-n-d0:hover{color:#CB7A45 !important}
+.dch-n-d1:hover{color:#CB7A45 !important}
+.dch-n-d2:hover{color:#CB7A45 !important}
+.dch-n-d3:hover{color:#CB7A45 !important}
+.dch-n-d4:hover{color:#CB7A45 !important}
+.dch-n-d5:hover{border-color:rgba(44,54,35,.28) !important}
+.dch-n-d6:hover{background:#B46633 !important}
 .dch-menu0:hover{background:#38421f !important}
 .dch-menu1:hover{background:#38421f !important}
 .dch-menu2:hover{border-color:#2F3A26 !important}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Политика обработки персональных данных — Бородинский хутор</title>
-  <meta name="description" content="Политика обработки персональных данных — Бородинский хутор">
+  <title>Прогулки — Бородинский хутор</title>
+  <meta name="description" content="Прогулки — фотографии Бородинского хутора">
   <meta name="robots" content="noindex, nofollow">
 
   <link rel="manifest" href="../../static/manifest.webmanifest">
@@ -63,26 +63,45 @@
 
 <div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" style="position:relative" x-data="{ menu: false, menuTop: 0, stuck: false, footerNear: false, check() { this.stuck = this.$refs.header.getBoundingClientRect().bottom <= 0; const footer = document.querySelector('.design-footer'); this.footerNear = footer ? footer.getBoundingClientRect().top <= window.innerHeight - 16 : false } }" @scroll.window.passive="check()" @resize.window.passive="check()" x-init="$nextTick(() => { check(); menuTop = $refs.header.getBoundingClientRect().height })" @keydown.escape.window="menu = false" x-effect="document.body.style.overflow = menu ? 'hidden' : ''">
 
-<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(44,54,35,.12)" data-header x-ref="header">
-<a href="../../index.html" aria-label="На главную" style="display:flex;align-items:center;gap:10px">
-<svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#3E4A2C" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
-<div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#3E4A2C;line-height:1.5;font-weight:600">Конная база<br>Бородинский хутор</div>
-</a>
+<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(44,54,35,.12);background:#F2F0E5" data-header x-ref="header">
+<a href="../../albomy/index.html" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;font-size:14.5px;color:#3E4A2C;font-weight:500"><svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg>Все альбомы</a>
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
-<div style="padding:26px 22px 36px">
-<div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#8A7F5C;margin-bottom:14px"><a href="../../index.html" style="color:#8A7F5C">Главная</a><span>·</span><span style="color:#3E4A2C">Документы</span></div>
-<h1 style="font-family:Prata,serif;font-weight:400;font-size:29px;line-height:1.18;color:#2F3A26;margin:0 0 10px;text-wrap:pretty">Политика обработки персональных данных</h1>
-<div style="font-size:12.5px;color:#8A7F5C;margin-bottom:20px">Редакция от 24 августа 2026</div>
-<div style="font-size:15px;line-height:1.7;color:#3A4130;margin-bottom:24px"><p>[текст от заказчика]</p></div>
-<div style="height:1px;background:rgba(44,54,35,.12);margin-bottom:18px"></div>
-<div style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:12px">Другие документы</div>
-<div style="display:flex;flex-direction:column">
+<div x-data="{ shown: null, photos: [{ url: '../../media/albums/hero.webp', caption: 'Кадр 1' },{ url: '../../media/albums/farm.webp', caption: 'Кадр 2' },{ url: '../../media/albums/bath.webp', caption: 'Кадр 3' },{ url: '../../media/albums/cabins-row.webp', caption: 'Кадр 4' }] }">
+
+<div style="padding:24px 22px 36px">
+<h1 style="font-family:Prata,serif;font-weight:400;font-size:30px;line-height:1.14;color:#2F3A26;margin:0 0 10px">Прогулки</h1>
+
+<div style="font-size:12.5px;color:#8A7F5C;margin-bottom:18px">4 фотографии</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+
+<button type="button" @click="shown = 0" :aria-label="'Открыть фото ' + (0 + 1)" style="aspect-ratio:1;border-radius:16px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/hero.webp" alt="Кадр 1" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+
+<button type="button" @click="shown = 1" :aria-label="'Открыть фото ' + (1 + 1)" style="aspect-ratio:1;border-radius:16px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/farm.webp" alt="Кадр 2" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+
+<button type="button" @click="shown = 2" :aria-label="'Открыть фото ' + (2 + 1)" style="aspect-ratio:1;border-radius:16px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/bath.webp" alt="Кадр 3" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+
+<button type="button" @click="shown = 3" :aria-label="'Открыть фото ' + (3 + 1)" style="aspect-ratio:1;border-radius:16px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/cabins-row.webp" alt="Кадр 4" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
 
 
 
 
-<a href="../../dokumenty/bath-rules/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:14.5px;color:#2F3A26;border-bottom:1px solid rgba(44,54,35,.08)">Правила пользования баней<svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></a><a href="../../dokumenty/club-rules/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:14.5px;color:#2F3A26;border-bottom:1px solid rgba(44,54,35,.08)">Правила клуба<svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></a><a href="../../dokumenty/house-rules/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:14.5px;color:#2F3A26;border-bottom:1px solid rgba(44,54,35,.08)">Правила проживания<svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></a><a href="../../dokumenty/offer/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:14.5px;color:#2F3A26;border-bottom:1px solid rgba(44,54,35,.08)">Публичная оферта<svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></a><a href="../../dokumenty/safety-rules/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:14.5px;color:#2F3A26">Техника безопасности<svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></a></div></div>
+
+
+</div>
+</div>
+<div x-show="shown !== null" x-cloak @click.self="shown = null" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
+
+<img :src="photos[shown]?.url" :alt="photos[shown]?.caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy">
+<div style="position:absolute;left:0;right:0;top:0;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(22,18,12,.72) 0%,rgba(22,18,12,0) 100%)">
+<div style="min-height:44px;display:flex;align-items:center;padding:0 14px;border-radius:999px;background:rgba(22,18,12,.5);font-size:14px;color:#F1EADA" x-text="(shown + 1) + ' из ' + photos.length"></div>
+<button type="button" @click="shown = null" aria-label="Закрыть" style="width:44px;height:44px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA;border:0;cursor:pointer"><svg viewBox="0 0 24 24" style="width:18px;height:18px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:0 20px 18px;background:linear-gradient(0deg,rgba(22,18,12,.76) 0%,rgba(22,18,12,0) 100%)">
+<div x-show="photos.length <= 10" style="display:flex;justify-content:center;gap:6px;padding-top:26px"><template x-for="(photo, i) in photos" :key="i"><span style="width:22px;height:3px;border-radius:99px" :style="i === shown ? { background: '#F1EADA' } : { background: 'rgba(241,234,218,.35)' }"></span></template></div>
+</div>
+</div>
+</div>
 
 
 <div x-show="menu" x-cloak x-transition:enter="dch-anim" x-transition:enter-start="dch-fade-off" x-transition:enter-end="dch-fade-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-fade-on" x-transition:leave-end="dch-fade-off" @click="menu = false" style="position:fixed;inset:0;background:rgba(20,16,10,.45);z-index:40"></div>
@@ -129,43 +148,61 @@
 
 <div class="design-artboard artboard-desktop bg-[#F2F0E5]">
 
-<div style="display:flex;align-items:center;justify-content:space-between;padding:26px 64px;border-bottom:1px solid rgba(44,54,35,.12)">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:26px 64px;border-bottom:1px solid rgba(44,54,35,.12);background:#F2F0E5">
 <a href="../../index.html" aria-label="На главную" style="display:flex;align-items:center;gap:14px">
 <svg viewBox="0 0 32 32" style="width:44px;height:44px;color:#3E4A2C" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
 <div style="width:1px;height:34px;background:rgba(44,54,35,.18)"></div>
 <div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#3E4A2C;line-height:1.6;font-weight:600">Конная база<br>Бородинский хутор</div>
 </a>
 <div style="display:flex;align-items:center;gap:34px">
-<a href="../../progulki/index.html" style="font-size:15px;color:#3A4130" class="dch-lg-d0">Конные прогулки</a>
-<a href="../../prozhivanie/index.html" style="font-size:15px;color:#3A4130" class="dch-lg-d1">Проживание</a>
-<a href="../../banya/index.html" style="font-size:15px;color:#3A4130" class="dch-lg-d2">Баня</a>
-<a href="../../albomy/index.html" style="font-size:15px;color:#3A4130" class="dch-lg-d3">Фотоальбомы</a>
-<a href="../../novosti/index.html" style="font-size:15px;color:#3A4130" class="dch-lg-d4">Новости</a>
-<a href="../../kontakty/index.html" style="font-size:15px;color:#3A4130" class="dch-lg-d5">Контакты</a>
+<a href="../../progulki/index.html" style="font-size:15px;color:#3A4130" class="dch-ad-d0">Конные прогулки</a>
+<a href="../../prozhivanie/index.html" style="font-size:15px;color:#3A4130" class="dch-ad-d1">Проживание</a>
+<a href="../../banya/index.html" style="font-size:15px;color:#3A4130" class="dch-ad-d2">Баня</a>
+<a href="../../albomy/index.html" style="font-size:15px;color:#CB7A45;font-weight:500;border-bottom:2px solid #CB7A45;padding-bottom:4px">Фотоальбомы</a>
+<a href="../../novosti/index.html" style="font-size:15px;color:#3A4130" class="dch-ad-d3">Новости</a>
+<a href="../../kontakty/index.html" style="font-size:15px;color:#3A4130" class="dch-ad-d4">Контакты</a>
 <a href="tel:+79099903667" style="font-size:15px;color:#2F3A26;font-weight:500;margin-left:8px">8 (909) 990-36-67</a>
 </div>
 </div>
+<div x-data="{ shown: null, photos: [{ url: '../../media/albums/hero.webp', caption: 'Кадр 1' },{ url: '../../media/albums/farm.webp', caption: 'Кадр 2' },{ url: '../../media/albums/bath.webp', caption: 'Кадр 3' },{ url: '../../media/albums/cabins-row.webp', caption: 'Кадр 4' }] }">
+
 <div style="padding:70px 64px 110px">
-<div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#8A7F5C;margin-bottom:22px"><a href="../../index.html" style="color:#8A7F5C">Главная</a><span>·</span><span style="color:#8A7F5C">Документы</span><span>·</span><span style="color:#3E4A2C">Политика обработки персональных данных</span></div>
-<div style="display:flex;gap:64px;align-items:flex-start">
+<div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#8A7F5C;margin-bottom:22px"><a href="../../index.html" style="color:#8A7F5C">Главная</a><span>·</span><a href="../../albomy/index.html" style="color:#8A7F5C">Фотоальбомы</a><span>·</span><span style="color:#3E4A2C">Прогулки</span></div>
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:60px;margin-bottom:40px">
+<div>
+<h1 style="font-family:Prata,serif;font-weight:400;font-size:64px;line-height:1.08;color:#2F3A26;margin:0 0 16px">Прогулки</h1>
 
-<div style="width:300px;flex:none;background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:24px;padding:26px 24px">
-
-<div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:12px">Другие документы</div>
-<div style="display:flex;flex-direction:column">
-
-
-
-
-<a href="../../dokumenty/bath-rules/index.html" style="display:flex;align-items:center;min-height:40px;font-size:14.5px;color:#4B5142" class="dch-lg-d6">Правила пользования баней</a><a href="../../dokumenty/club-rules/index.html" style="display:flex;align-items:center;min-height:40px;font-size:14.5px;color:#4B5142" class="dch-lg-d6">Правила клуба</a><a href="../../dokumenty/house-rules/index.html" style="display:flex;align-items:center;min-height:40px;font-size:14.5px;color:#4B5142" class="dch-lg-d6">Правила проживания</a><a href="../../dokumenty/offer/index.html" style="display:flex;align-items:center;min-height:40px;font-size:14.5px;color:#4B5142" class="dch-lg-d6">Публичная оферта</a><a href="../../dokumenty/safety-rules/index.html" style="display:flex;align-items:center;min-height:40px;font-size:14.5px;color:#4B5142" class="dch-lg-d6">Техника безопасности</a></div>
 </div>
-
-<div style="width:720px;flex:none">
-<h1 style="font-family:Prata,serif;font-weight:400;font-size:52px;line-height:1.1;color:#2F3A26;margin:0 0 14px;text-wrap:pretty">Политика обработки персональных данных</h1>
-<div style="font-size:15px;color:#8A7F5C;margin-bottom:44px">Редакция от 24 августа 2026</div>
-<div style="font-size:15px;line-height:1.7;color:#3A4130"><p>[текст от заказчика]</p></div>
+<div style="font-size:16px;color:#8A7F5C;flex:none">4 фотографии</div>
 </div>
+<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
 
+<button type="button" @click="shown = 0" :aria-label="'Открыть фото ' + (0 + 1)" style="aspect-ratio:1;border-radius:20px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/hero.webp" alt="Кадр 1" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+
+<button type="button" @click="shown = 1" :aria-label="'Открыть фото ' + (1 + 1)" style="aspect-ratio:1;border-radius:20px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/farm.webp" alt="Кадр 2" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+
+<button type="button" @click="shown = 2" :aria-label="'Открыть фото ' + (2 + 1)" style="aspect-ratio:1;border-radius:20px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/bath.webp" alt="Кадр 3" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+
+<button type="button" @click="shown = 3" :aria-label="'Открыть фото ' + (3 + 1)" style="aspect-ratio:1;border-radius:20px;overflow:hidden;padding:0;border:0;background:none;cursor:pointer"><img src="../../media/albums/cabins-row.webp" alt="Кадр 4" loading="lazy" style="width:100%;height:100%;object-fit:cover;display:block"></button>
+
+
+
+
+
+
+
+
+</div>
+</div>
+<div x-show="shown !== null" x-cloak @click.self="shown = null" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
+
+<img :src="photos[shown]?.url" :alt="photos[shown]?.caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy">
+<div style="position:absolute;left:0;right:0;top:0;padding:20px 24px;display:flex;align-items:center;justify-content:space-between">
+<div style="min-height:44px;display:flex;align-items:center;padding:0 18px;border-radius:999px;background:rgba(22,18,12,.5);font-size:15px;color:#F1EADA" x-text="(shown + 1) + ' из ' + photos.length + ' · Прогулки'"></div>
+<div style="width:52px;height:52px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA" class="dch-ad-d5"><svg viewBox="0 0 24 24" style="width:20px;height:20px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+</div>
+<div style="position:absolute;left:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA" class="dch-ad-d6"><svg viewBox="0 0 24 24" style="width:22px;height:22px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg></div>
+<div style="position:absolute;right:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA" class="dch-ad-d7"><svg viewBox="0 0 24 24" style="width:22px;height:22px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></div>
 </div>
 </div>
 </div>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>У Мальты родился жеребёнок — Бородинский хутор</title>
-  <meta name="description" content="">
+  <meta name="description" content="Знакомиться можно, угощать — только вместе с инструктором. Фото — в альбоме этого лета.">
   <meta name="robots" content="noindex, nofollow">
 
   <link rel="manifest" href="../../static/manifest.webmanifest">
@@ -50,67 +50,120 @@
   </script>
   
 </head>
-<body hx-boost="true"><div style="background:#CB7A45;color:#FFF4E7;padding:14px 20px;text-align:center;font-family:system-ui,sans-serif;font-size:15px;font-weight:500;line-height:1.45">Этот экран ещё не нарисован. Здесь наша временная вёрстка, а не дизайн — смотреть и согласовывать его пока не нужно.</div>
+<body hx-boost="true">
 
   <a href="#content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-surface">
     Перейти к содержимому
   </a>
 
   
-<header x-data="{ open: false }"
-        class="relative z-40 safe-top bg-page text-ink">
-  <div class="mx-auto flex max-w-3xl items-center justify-between px-5 py-4">
-    <a href="../../index.html" class="font-display text-lg ">
-      Бородинский хутор
-    </a>
-
-    <div class="flex items-center gap-2">
-      
-        <a href="tel:89099903667"
-           class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface"
-           aria-label="Позвонить">
-          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-            <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A16 16 0 0 1 4 5a1 1 0 0 1 1-1z"/>
-          </svg>
-        </a>
-      
-      <button type="button" @click="open = !open"
-              class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-surface"
-              :aria-expanded="open" aria-label="Меню">
-        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-          <path x-show="!open" d="M4 7h16M4 12h16M4 17h16"/>
-          <path x-show="open" x-cloak d="M6 6l12 12M18 6L6 18"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  
-<nav x-show="open" x-cloak x-transition.opacity
-     class="absolute inset-x-0 top-full border-t border-ink/10 bg-page px-5 pb-6 text-ink shadow-lg">
-  <ul class="mx-auto max-w-3xl divide-y divide-ink/10 text-[17px]">
-    <li><a href="../../progulki/index.html" class="flex min-h-[52px] items-center">Конные прогулки</a></li>
-    <li><a href="../../prozhivanie/index.html" class="flex min-h-[52px] items-center">Проживание</a></li>
-    <li><a href="../../banya/index.html" class="flex min-h-[52px] items-center">Баня</a></li>
-    <li><a href="../../albomy/index.html" class="flex min-h-[52px] items-center">Фотоальбомы</a></li>
-    <li><a href="../../novosti/index.html" class="flex min-h-[52px] items-center">Новости</a></li>
-    <li><a href="../../kontakty/index.html" class="flex min-h-[52px] items-center">Адрес и контакты</a></li>
-  </ul>
-  <a href="../../zayavka/index.html" class="btn-primary mt-5 w-full">Запросить смену</a>
-</nav>
-
-</header>
-
 
   <main id="content">
     
-  <section class="mx-auto max-w-3xl px-5 py-14">
-    <h1 class="section-title">У Мальты родился жеребёнок</h1>
-    
-  <p class="mt-2 text-sm text-muted">10 июля 2026</p>
-  <div class="mt-5 whitespace-pre-line text-[15px] leading-relaxed text-muted">Знакомиться можно, угощать — только вместе с инструктором. Фото — в альбоме этого лета.</div>
 
-  </section>
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" style="position:relative" x-data="{ menu: false, menuTop: 0, stuck: false, footerNear: false, check() { this.stuck = this.$refs.header.getBoundingClientRect().bottom <= 0; const footer = document.querySelector('.design-footer'); this.footerNear = footer ? footer.getBoundingClientRect().top <= window.innerHeight - 16 : false } }" @scroll.window.passive="check()" @resize.window.passive="check()" x-init="$nextTick(() => { check(); menuTop = $refs.header.getBoundingClientRect().height })" @keydown.escape.window="menu = false" x-effect="document.body.style.overflow = menu ? 'hidden' : ''">
+
+<div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(44,54,35,.12)" data-header x-ref="header">
+<a href="../../novosti/index.html" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;font-size:14.5px;color:#3E4A2C;font-weight:500"><svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg>Все новости</a>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+</div>
+<div style="padding:24px 22px 0">
+<div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">10 июля</div>
+<h1 style="font-family:Prata,serif;font-weight:400;font-size:30px;line-height:1.16;color:#2F3A26;margin:0 0 18px;text-wrap:pretty">У Мальты родился жеребёнок</h1>
+<div style="position:relative;border-radius:20px;overflow:hidden;height:220px;margin-bottom:20px"><img src="../../static/img/slots/home-news-1.webp" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<p style="font-size:15.5px;line-height:1.68;color:#3A4130;margin:0 0 14px">Знакомиться можно, угощать — только вместе с инструктором. Фото — в альбоме этого лета.</p>
+</div>
+<div style="padding:0 22px 36px">
+<div style="height:1px;background:rgba(44,54,35,.12);margin-bottom:20px"></div>
+<div style="display:flex;flex-direction:column;gap:10px">
+
+<a href="../../novosti/domik-u-lesa/index.html" style="display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:18px;background:#FBFAF3;border:1px solid rgba(44,54,35,.1);color:inherit">
+<div style="min-width:0;flex:1;text-align:right"><div style="font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:4px">Следующая</div><div style="font-size:14.5px;line-height:1.35;color:#2F3A26;font-weight:500">Достроили домик у леса</div></div>
+<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C;flex:none" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg>
+</a>
+</div>
+</div>
+
+
+<div x-show="menu" x-cloak x-transition:enter="dch-anim" x-transition:enter-start="dch-fade-off" x-transition:enter-end="dch-fade-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-fade-on" x-transition:leave-end="dch-fade-off" @click="menu = false" style="position:fixed;inset:0;background:rgba(20,16,10,.45);z-index:40"></div>
+<div x-show="menu" x-cloak x-transition:enter="dch-anim" x-transition:enter-start="dch-drop-off" x-transition:enter-end="dch-drop-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-drop-on" x-transition:leave-end="dch-drop-off" :style="{ top: menuTop + 'px', maxHeight: 'calc(100svh - ' + menuTop + 'px)' }" style="position:fixed;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:41;overflow-y:auto;overscroll-behavior:contain;background:#FBFAF3;border-bottom-left-radius:28px;border-bottom-right-radius:28px;box-shadow:0 26px 50px rgba(20,16,10,.24);padding:4px 22px calc(12px + env(safe-area-inset-bottom))">
+<div style="display:flex;flex-direction:column">
+<a href="../../progulki/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Конные прогулки<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../../prozhivanie/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Проживание<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../../banya/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Баня<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="/#prices" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="/#about" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../../albomy/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Фотоальбомы<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../../novosti/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Новости<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../../index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500">Адрес и контакты<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+</div>
+<a href="../../zayavka/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;margin-top:12px;min-height:48px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:15.5px;font-weight:500" class="dch-menu0">Запросить смену<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<div style="display:flex;flex-direction:column;margin-top:10px">
+<a href="tel:+79099903667" style="display:flex;align-items:center;min-height:44px;font-family:Prata,serif;font-size:20px;color:#2F3A26">8 (909) 990-36-67</a>
+<a href="tel:+79771055599" style="display:flex;align-items:center;min-height:44px;font-family:Prata,serif;font-size:20px;color:#2F3A26">+7 (977) 105-55-99</a>
+</div>
+<div style="display:flex;gap:10px;margin-top:8px">
+<a href="#" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:14px;font-weight:500" class="dch-menu1">Telegram</a>
+<a href="#" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
+</div>
+</div>
+
+
+
+<div x-show="stuck || menu" x-cloak x-transition:enter="dch-anim" x-transition:enter-start="dch-drop-off" x-transition:enter-end="dch-drop-on" x-transition:leave="dch-anim" x-transition:leave-start="dch-drop-on" x-transition:leave-end="dch-drop-off" x-ref="stickybar" class="design-sticky" style="position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;z-index:42">
+<div style="display:flex;align-items:center;justify-content:space-between;padding:8px 20px 10px;border-bottom:1px solid rgba(44,54,35,.12);background:#F2F0E5">
+<a href="../../index.html" aria-label="На главную" style="display:flex;align-items:center;gap:10px">
+<svg viewBox="0 0 32 32" style="width:30px;height:30px;color:#3E4A2C" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#3E4A2C;line-height:1.5;font-weight:600">Конная база<br>Бородинский хутор</div>
+</a>
+<div style="display:flex;align-items:center;gap:8px">
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+</div>
+</div>
+</div>
+
+
+</div>
+
+
+<div class="design-artboard artboard-desktop bg-[#F2F0E5]">
+
+<div style="display:flex;align-items:center;justify-content:space-between;padding:26px 64px;border-bottom:1px solid rgba(44,54,35,.12)">
+<a href="../../index.html" aria-label="На главную" style="display:flex;align-items:center;gap:14px">
+<svg viewBox="0 0 32 32" style="width:44px;height:44px;color:#3E4A2C" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="width:1px;height:34px;background:rgba(44,54,35,.18)"></div>
+<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#3E4A2C;line-height:1.6;font-weight:600">Конная база<br>Бородинский хутор</div>
+</a>
+<div style="display:flex;align-items:center;gap:34px">
+<a href="../../progulki/index.html" style="font-size:15px;color:#3A4130" class="dch-na-d0">Конные прогулки</a>
+<a href="../../banya/index.html" style="font-size:15px;color:#3A4130" class="dch-na-d1">Баня</a>
+<a href="../../albomy/index.html" style="font-size:15px;color:#3A4130" class="dch-na-d2">Фотоальбомы</a>
+<a href="../../novosti/index.html" style="font-size:15px;color:#CB7A45;font-weight:500;border-bottom:2px solid #CB7A45;padding-bottom:4px">Новости</a>
+<a href="../../kontakty/index.html" style="font-size:15px;color:#3A4130" class="dch-na-d3">Контакты</a>
+<a href="tel:+79099903667" style="font-size:15px;color:#2F3A26;font-weight:500;margin-left:8px">8 (909) 990-36-67</a>
+</div>
+</div>
+<div style="padding:70px 64px 90px;display:flex;justify-content:center">
+<div style="width:720px">
+<div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#8A7F5C;margin-bottom:22px"><a href="../../index.html" style="color:#8A7F5C">Главная</a><span>·</span><a href="../../novosti/index.html" style="color:#8A7F5C">Новости</a><span>·</span><span style="color:#3E4A2C">28 июля</span></div>
+<div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:14px">10 июля</div>
+<h1 style="font-family:Prata,serif;font-weight:400;font-size:56px;line-height:1.1;color:#2F3A26;margin:0 0 32px;text-wrap:pretty">У Мальты родился жеребёнок</h1>
+<div style="position:relative;border-radius:26px;overflow:hidden;height:420px;margin-bottom:36px"><img src="../../static/img/slots/home-news-1.webp" alt="" style="position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;display:block" loading="lazy"></div>
+<p style="font-size:19px;line-height:1.7;color:#3A4130;margin:0 0 20px">Знакомиться можно, угощать — только вместе с инструктором. Фото — в альбоме этого лета.</p>
+<a href="../../prozhivanie/index.html" style="display:inline-flex;align-items:center;gap:12px;min-height:56px;padding:0 26px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:16px;font-weight:500" class="dch-na-d4">Выбрать домик<svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<div style="height:1px;background:rgba(44,54,35,.12);margin:48px 0 28px"></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+<a href="../../novosti/domik-u-lesa/index.html" style="display:flex;align-items:center;gap:14px;padding:22px 24px;border-radius:22px;background:#FBFAF3;border:1px solid rgba(44,54,35,.1);color:inherit;text-align:right" class="dch-na-d6">
+<div style="flex:1"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:6px">Следующая</div><div style="font-family:Prata,serif;font-size:20px;line-height:1.24;color:#2F3A26">Достроили домик у леса</div></div>
+<svg viewBox="0 0 24 24" style="width:18px;height:18px;color:#8A7F5C;flex:none" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg>
+</a>
+</div>
+</div>
+</div>
+</div>
+
 
   </main>
 
