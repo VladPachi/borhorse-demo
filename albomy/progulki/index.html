@@ -67,7 +67,7 @@
 <a href="../../albomy/index.html" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;font-size:14.5px;color:#3E4A2C;font-weight:500"><svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg>Все альбомы</a>
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
-<div x-data="{ shown: null, photos: [{ url: '../../media/albums/hero.webp', caption: 'Кадр 1' },{ url: '../../media/albums/farm.webp', caption: 'Кадр 2' },{ url: '../../media/albums/bath.webp', caption: 'Кадр 3' },{ url: '../../media/albums/cabins-row.webp', caption: 'Кадр 4' }] }">
+<div x-data="{ shown: null, swipe: 0, photos: [{ url: '../../media/albums/hero.webp', caption: 'Кадр 1' },{ url: '../../media/albums/farm.webp', caption: 'Кадр 2' },{ url: '../../media/albums/bath.webp', caption: 'Кадр 3' },{ url: '../../media/albums/cabins-row.webp', caption: 'Кадр 4' }] }">
 
 <div style="padding:24px 22px 36px">
 <h1 style="font-family:Prata,serif;font-weight:400;font-size:30px;line-height:1.14;color:#2F3A26;margin:0 0 10px">Прогулки</h1>
@@ -90,7 +90,7 @@
 
 </div>
 </div>
-<div x-show="shown !== null" x-cloak @click.self="shown = null" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
+<div x-show="shown !== null" x-cloak @click.self="shown = null" @touchstart.passive="swipe = $event.changedTouches[0].clientX" @touchend.passive="(function (x) { if (Math.abs(x - swipe) < 40) return; if (x < swipe) { shown = shown < photos.length - 1 ? shown + 1 : 0 } else { shown = shown > 0 ? shown - 1 : photos.length - 1 } })($event.changedTouches[0].clientX)" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
 
 <template x-if="shown !== null"><img :src="photos[shown].url" :alt="photos[shown].caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy"></template>
 <div style="position:absolute;left:0;right:0;top:0;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;background:linear-gradient(180deg,rgba(22,18,12,.72) 0%,rgba(22,18,12,0) 100%)">
@@ -164,7 +164,7 @@
 <a href="tel:+79099903667" style="font-size:15px;color:#2F3A26;font-weight:500;margin-left:8px">8 (909) 990-36-67</a>
 </div>
 </div>
-<div x-data="{ shown: null, photos: [{ url: '../../media/albums/hero.webp', caption: 'Кадр 1' },{ url: '../../media/albums/farm.webp', caption: 'Кадр 2' },{ url: '../../media/albums/bath.webp', caption: 'Кадр 3' },{ url: '../../media/albums/cabins-row.webp', caption: 'Кадр 4' }] }">
+<div x-data="{ shown: null, swipe: 0, photos: [{ url: '../../media/albums/hero.webp', caption: 'Кадр 1' },{ url: '../../media/albums/farm.webp', caption: 'Кадр 2' },{ url: '../../media/albums/bath.webp', caption: 'Кадр 3' },{ url: '../../media/albums/cabins-row.webp', caption: 'Кадр 4' }] }">
 
 <div style="padding:70px 64px 110px">
 <div style="display:flex;align-items:center;gap:10px;font-size:13.5px;color:#8A7F5C;margin-bottom:22px"><a href="../../index.html" style="color:#8A7F5C">Главная</a><span>·</span><a href="../../albomy/index.html" style="color:#8A7F5C">Фотоальбомы</a><span>·</span><span style="color:#3E4A2C">Прогулки</span></div>
@@ -194,15 +194,15 @@
 
 </div>
 </div>
-<div x-show="shown !== null" x-cloak @click.self="shown = null" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
+<div x-show="shown !== null" x-cloak @click.self="shown = null" @touchstart.passive="swipe = $event.changedTouches[0].clientX" @touchend.passive="(function (x) { if (Math.abs(x - swipe) < 40) return; if (x < swipe) { shown = shown < photos.length - 1 ? shown + 1 : 0 } else { shown = shown > 0 ? shown - 1 : photos.length - 1 } })($event.changedTouches[0].clientX)" @keydown.escape.window="shown = null" @keydown.arrow-left.window="if (shown !== null && shown > 0) shown--" @keydown.arrow-right.window="if (shown !== null && shown < photos.length - 1) shown++" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" style="position:fixed;inset:0;z-index:60;background:#16120C">
 
 <template x-if="shown !== null"><img :src="photos[shown].url" :alt="photos[shown].caption" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain" loading="lazy"></template>
 <div style="position:absolute;left:0;right:0;top:0;padding:20px 24px;display:flex;align-items:center;justify-content:space-between">
 <div style="min-height:44px;display:flex;align-items:center;padding:0 18px;border-radius:999px;background:rgba(22,18,12,.5);font-size:15px;color:#F1EADA" x-text="(shown + 1) + ' из ' + photos.length + ' · Прогулки'"></div>
 <div style="width:52px;height:52px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA" class="dch-ad-d5"><svg viewBox="0 0 24 24" style="width:20px;height:20px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
-<div style="position:absolute;left:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA" class="dch-ad-d6"><svg viewBox="0 0 24 24" style="width:22px;height:22px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg></div>
-<div style="position:absolute;right:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA" class="dch-ad-d7"><svg viewBox="0 0 24 24" style="width:22px;height:22px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></div>
+<button type="button" @click.stop="shown = shown > 0 ? shown - 1 : photos.length - 1" aria-label="Предыдущее фото" style="position:absolute;left:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA;border:0;cursor:pointer" class="dch-ad-d6"><svg viewBox="0 0 24 24" style="width:22px;height:22px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg></button>
+<button type="button" @click.stop="shown = shown < photos.length - 1 ? shown + 1 : 0" aria-label="Следующее фото" style="position:absolute;right:24px;top:50%;transform:translateY(-50%);width:56px;height:56px;border-radius:50%;background:rgba(22,18,12,.5);display:flex;align-items:center;justify-content:center;color:#F1EADA;border:0;cursor:pointer" class="dch-ad-d7"><svg viewBox="0 0 24 24" style="width:22px;height:22px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 6l6 6-6 6"></path></svg></button>
 </div>
 </div>
 </div>
