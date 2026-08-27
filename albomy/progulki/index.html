@@ -49,6 +49,18 @@
     });
   </script>
   
+  <script>
+    document.addEventListener('htmx:beforeRequest', function (event) {
+      var config = event.detail.requestConfig;
+      if (!config || config.verb !== 'get') return;
+      var target = new URL(config.path, location.href);
+      if (target.pathname !== location.pathname || target.search !== location.search) return;
+      event.preventDefault();
+      document.body.style.overflow = '';
+      if (target.hash) location.hash = target.hash;
+    });
+  </script>
+  
 </head>
 <body hx-boost="true">
 
@@ -110,8 +122,8 @@
 <a href="../../progulki/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Конные прогулки<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="../../prozhivanie/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Проживание<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="../../banya/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Баня<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="../../index.html#prices" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
-<a href="../../index.html#about" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../../index.html#prices" hx-boost="false" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Цены<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
+<a href="../../index.html#about" hx-boost="false" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">О нас<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="../../albomy/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Фотоальбомы<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="../../novosti/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500;border-bottom:1px solid rgba(44,54,35,.09)">Новости<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
 <a href="../../kontakty/index.html" style="display:flex;align-items:center;justify-content:space-between;min-height:44px;font-size:17px;color:#2F3A26;font-weight:500">Адрес и контакты<svg viewBox="0 0 24 24" style="width:16px;height:16px;color:#8A7F5C" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"></path></svg></a>
@@ -223,8 +235,8 @@
 <a href="../../progulki/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Конные прогулки</a>
 <a href="../../prozhivanie/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Проживание</a>
 <a href="../../banya/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Баня</a>
-<a href="../../index.html#prices" style="font-size:14px;color:rgba(241,234,218,.8)">Цены</a>
-<a href="../../index.html#about" style="font-size:14px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="../../index.html#prices" hx-boost="false" style="font-size:14px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="../../index.html#about" hx-boost="false" style="font-size:14px;color:rgba(241,234,218,.8)">О нас</a>
 <a href="../../kontakty/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Контакты</a>
 <a href="../../albomy/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
 <a href="../../novosti/index.html" style="font-size:14px;color:rgba(241,234,218,.8)">Новости</a>
@@ -264,8 +276,8 @@
 <a href="../../albomy/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Фотоальбомы</a>
 </div>
 <div style="display:flex;flex-direction:column;gap:14px">
-<a href="../../index.html#prices" style="font-size:15px;color:rgba(241,234,218,.8)">Цены</a>
-<a href="../../index.html#about" style="font-size:15px;color:rgba(241,234,218,.8)">О нас</a>
+<a href="../../index.html#prices" hx-boost="false" style="font-size:15px;color:rgba(241,234,218,.8)">Цены</a>
+<a href="../../index.html#about" hx-boost="false" style="font-size:15px;color:rgba(241,234,218,.8)">О нас</a>
 <a href="../../kontakty/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Контакты</a>
 <a href="../../novosti/index.html" style="font-size:15px;color:rgba(241,234,218,.8)">Новости</a>
 </div>
