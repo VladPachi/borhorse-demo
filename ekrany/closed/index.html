@@ -1,0 +1,251 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Смена по ссылке — Бородинский хутор</title>
+  <meta name="description" content="Смена по ссылке">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="manifest" href="../../static/manifest.webmanifest">
+  <meta name="theme-color" content="#2F3A26">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="../../static/icons/apple-touch-icon.png">
+  <link rel="icon" href="../../static/icons/icon-192.png" sizes="192x192">
+  <link rel="shortcut icon" href="../../static/icons/icon-192.png">
+
+  
+  <link rel="preload" href="../../static/fonts/GolosText-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin="">
+  <link rel="preload" href="../../static/fonts/Prata-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin="">
+  <link rel="stylesheet" href="../../static/css/output.css">
+  <link rel="stylesheet" href="../../static/design.css">
+
+  
+  
+
+  
+  <script>
+    (function () {
+      function fit() {
+        var board = document.querySelector('.artboard-desktop');
+        if (!board) return;
+        var width = document.documentElement.clientWidth;
+        board.style.zoom = width < 1440 && width >= 1024 ? width / 1440 : '';
+      }
+      addEventListener('resize', fit, {passive: true});
+      addEventListener('DOMContentLoaded', fit);
+      document.addEventListener('htmx:afterSwap', fit);
+    })();
+  </script>
+
+  <script src="../../static/vendor/htmx.min.js" defer=""></script>
+  <script src="../../static/vendor/alpine.min.js" defer=""></script>
+  
+  <script>
+    document.addEventListener('htmx:beforeSwap', function (event) {
+      document.body.style.overflow = '';
+      // «Мест не осталось» сервер отдаёт кодом 409 — это ответ по существу,
+      // а не сбой. Без этой строки htmx молча выбрасывает такие ответы,
+      // и гость остаётся на заполненной форме, не понимая, что произошло
+      if (event.detail.xhr && event.detail.xhr.status === 409) {
+        event.detail.shouldSwap = true;
+        event.detail.isError = false;
+      }
+    });
+  </script>
+  
+  <script>
+    document.addEventListener('htmx:beforeRequest', function (event) {
+      var config = event.detail.requestConfig;
+      if (!config || config.verb !== 'get') return;
+      var target = new URL(config.path, location.href);
+      if (target.pathname !== location.pathname || target.search !== location.search) return;
+      event.preventDefault();
+      document.body.style.overflow = '';
+      if (target.hash) location.hash = target.hash;
+    });
+  </script>
+
+  
+  <script>
+    function showFirstError() {
+      var error = document.querySelector('.design-field-error');
+      if (!error) return;
+      // Родитель, а не closest: сама подпись ошибки — тоже div
+      var block = error.parentElement;
+      (block || error).scrollIntoView({ block: 'center', behavior: 'smooth' });
+      var field = block && block.querySelector('input, textarea, select');
+      if (field) field.focus({ preventScroll: true });
+    }
+    // Ждём Alpine: он перерисовывает поля всадников, и фокус, поставленный
+    // раньше, сбрасывается вместе с ними
+    function afterAlpine() { setTimeout(showFirstError, 60); }
+    // Нижняя панель стоит поверх страницы и закрывала последнюю карточку.
+    // Прокручивать за гостя нельзя — он выбирает смену внизу, а страница
+    // прыгает к началу. Поэтому просто освобождаем под панелью столько места,
+    // сколько она занимает: тогда список докручивается целиком и сам.
+    function makeRoomForBar() {
+      var bar = document.querySelector('[data-bottom-bar]');
+      var room = document.querySelector('[data-bar-room]');
+      if (!room) return;
+      room.style.height = bar ? bar.getBoundingClientRect().height + 24 + 'px' : '0px';
+    }
+    addEventListener('resize', makeRoomForBar, { passive: true });
+    document.addEventListener('DOMContentLoaded', makeRoomForBar);
+    document.addEventListener('htmx:afterSettle', makeRoomForBar);
+
+    document.addEventListener('alpine:initialized', afterAlpine);
+    document.addEventListener('DOMContentLoaded', afterAlpine);
+    document.addEventListener('htmx:afterSettle', afterAlpine);
+
+    // Куски страницы, приехавшие от сервера, Alpine сам не оживляет: привязки
+    // вроде «кнопка выключена, пока не отмечены согласия» в них не работают,
+    // и кнопка оставалась выключенной даже с обеими галочками. Просим Alpine
+    // пройтись по вставленному узлу.
+    function wakeAlpine(node) {
+      if (window.Alpine && node && node.nodeType === 1) {
+        window.Alpine.initTree(node);
+      }
+    }
+    document.addEventListener('htmx:afterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+      backToChoice(event.detail && event.detail.target);
+    });
+
+    // Гость прокрутил страницу до полей контактов, а потом выбрал дату
+    // в календаре слева. Кусок обновился, но экран остался внизу — и там
+    // виден только хвост нового списка. Возвращаем его к началу выбора,
+    // но только если он и правда смотрел ниже: иначе прокрутка дёргалась бы
+    // при каждом нажатии.
+    function backToChoice(node) {
+      // Кусок приезжает заменой целиком, и цель события — уже не тот узел,
+      // что оказался в документе. Поэтому ищем колонку заново
+      var column = document.getElementById('left-column');
+      if (!column) return;
+      var box = column.getBoundingClientRect();
+      if (box.top >= 0) return;
+      window.scrollTo({ top: window.scrollY + box.top - 24, behavior: 'smooth' });
+    }
+    document.addEventListener('htmx:oobAfterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+    });
+
+    // Возврат «назад» на шаг с формой: браузер показывает свой снимок страницы,
+    // а на нём поля пустые — введённое выглядит потерянным, хотя сервер помнит
+    // черновик. Заголовками этот кэш не отключается, поэтому перезапрашиваем
+    // страницу сами — и она приходит уже заполненной.
+    // Страницу с формой не кладём в историю htmx: по «назад» она вернулась бы
+    // снимком с пустыми полями, хотя черновик на сервере есть и подставился бы.
+    // Ставим пометку на теле — htmx смотрит на неё, когда решает, сохранять ли
+    // страницу, — и заодно перезапрашиваем её, если браузер всё же показал свой снимок
+    function keepFormFresh() {
+      if (document.getElementById('zapis')) {
+        document.body.setAttribute('hx-history', 'false');
+      }
+    }
+    document.addEventListener('DOMContentLoaded', keepFormFresh);
+    document.addEventListener('htmx:afterSettle', keepFormFresh);
+    addEventListener('pageshow', function (event) {
+      if (event.persisted && document.getElementById('zapis')) {
+        location.reload();
+      }
+    });
+  </script>
+  
+<style>      .htmx-indicator{opacity:0}      .htmx-request .htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}      .htmx-request.htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}      </style></head>
+<body hx-boost="true"><div style="background:#465231;color:#F4F1E4;padding:12px 20px;font-family:system-ui,sans-serif;font-size:14px;line-height:1.45;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><span><b>5 · Закрытая смена по ссылке</b> — снимок экрана: выбрать и отправить здесь нельзя, это внешний вид</span><a href="../" style="color:#F4F1E4;text-decoration:underline">ко всем экранам</a></div>
+
+  <a href="#content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-surface">
+    Перейти к содержимому
+  </a>
+
+  
+
+  <main id="content">
+    
+
+
+
+
+<div class="design-artboard artboard-phone screen-column mx-auto w-full max-w-[430px] bg-[#F2F0E5]" style="position:relative">
+
+<div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(44,54,35,.1)">
+<div style="flex:1"><div style="font-size:15px;font-weight:600;color:#2F3A26">Запись на прогулку</div><div style="font-size:12px;color:#8A7F5C;margin-top:2px">Смена по ссылке</div></div>
+</div>
+<div style="padding:22px 18px 0">
+<div style="display:inline-flex;align-items:center;gap:9px;padding:9px 16px;border-radius:999px;background:#DFE2CD;margin-bottom:20px">
+<svg viewBox="0 0 24 24" style="width:15px;height:15px;color:#465231" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.5a4 4 0 0 0 5.7 0l2.8-2.8a4 4 0 0 0-5.7-5.7L11.4 6.4"></path><path d="M14 10.5a4 4 0 0 0-5.7 0l-2.8 2.8a4 4 0 0 0 5.7 5.7l1.4-1.4"></path></svg>
+<span style="font-size:13px;color:#3E4A2C;font-weight:600">Смена для вашей компании · 26 мест</span>
+</div>
+<h2 style="font-family:Prata,serif;font-weight:400;font-size:27px;line-height:1.2;color:#2F3A26;margin:0 0 8px">Смена 3 сентября<br>Смена сверки</h2>
+<p style="font-size:14px;line-height:1.6;color:#5E6553;margin:0 0 22px">Эта смена не показывается на сайте — записаться можно только по ссылке.</p>
+<div style="background:#FBFAF3;border:2px solid #465231;border-radius:22px;padding:20px">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:16px">
+<div><div style="font-size:22px;color:#2F3A26;font-weight:600">11:00</div><div style="font-size:13.5px;color:#6C7159;margin-top:4px">Чт 3 сентября · 2 часа</div></div>
+<div style="text-align:right;flex:none"><div style="font-size:19px;color:#CB7A45;font-weight:600">4&nbsp;000 ₽</div><div style="font-size:12px;color:#6C7159">с всадника</div></div>
+</div>
+<div style="height:5px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:8px"><div style="width:0%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
+<div style="font-size:13px;color:#6C7159">Свободно 26 из 26</div>
+</div>
+<div style="margin-top:18px;background:rgba(140,154,108,.14);border-radius:18px;padding:16px 18px;font-size:13.5px;line-height:1.55;color:#4B5142">Можно записать сразу всю компанию и оплатить одной суммой — или каждому записаться самому по этой ссылке. Как платить, компания решает сама.</div>
+</div>
+<div style="margin:18px 14px calc(16px + env(safe-area-inset-bottom));margin-top:auto;border-radius:22px;padding:12px;background:rgba(250,247,238,.72);backdrop-filter:blur(26px) saturate(1.3);-webkit-backdrop-filter:blur(26px) saturate(1.3);border:1px solid rgba(255,255,255,.6);box-shadow:0 18px 44px rgba(20,16,10,.24)">
+<a href="../" style="display:flex;align-items:center;justify-content:center;padding:17px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15.5px;font-weight:500" class="dch-fl320">Записаться</a>
+</div>
+</div>
+
+
+<div class="design-artboard artboard-desktop bg-[#F2F0E5]">
+
+<div style="display:flex;align-items:center;justify-content:space-between;gap:32px;padding:24px 64px;border-bottom:1px solid rgba(44,54,35,.1)">
+<div style="display:flex;align-items:center;gap:14px">
+<svg viewBox="0 0 32 32" style="width:40px;height:40px;color:#3E4A2C" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" stroke-linecap="round"><path d="M16 2.5 27 6v10.5c0 6.4-4.6 11-11 13-6.4-2-11-6.6-11-13V6l11-3.5Z"></path><path d="M18.6 9.4c0-1.4.4-2.4 1-2.6.7.9 1.1 2 1.3 3.2 1 1.8 1.7 3.9 1.9 6.4.2 2.2.2 4 0 5.6h-8c0-1.6.5-2.9 1.4-3.9-1.2-.2-2.5-.6-3.5-1.2-1.2-.8-1.6-1.5-1.5-2.3.2-.8.9-1.4 1.7-2 2-1.2 4.4-3 5.9-4.5"></path><circle cx="18.5" cy="11.9" r=".75" fill="currentColor" stroke="none"></circle></svg>
+<div style="width:1px;height:30px;background:rgba(44,54,35,.2)"></div>
+<div style="font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#3E4A2C;line-height:1.6;font-weight:500">Конная база<br>Бородинский хутор</div>
+</div>
+<div style="font-size:15px;color:#8A7F5C">Смена по ссылке</div>
+</div>
+<div style="display:flex;gap:32px;padding:56px 64px 80px;align-items:flex-start">
+<div style="flex:1">
+<div style="display:inline-flex;align-items:center;gap:10px;padding:11px 20px;border-radius:999px;background:#DFE2CD;margin-bottom:26px">
+<svg viewBox="0 0 24 24" style="width:17px;height:17px;color:#465231" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13.5a4 4 0 0 0 5.7 0l2.8-2.8a4 4 0 0 0-5.7-5.7L11.4 6.4"></path><path d="M14 10.5a4 4 0 0 0-5.7 0l-2.8 2.8a4 4 0 0 0 5.7 5.7l1.4-1.4"></path></svg>
+<span style="font-size:14px;color:#3E4A2C;font-weight:600">Смена для вашей компании · 26 мест</span>
+</div>
+<h1 style="font-family:Prata,serif;font-weight:400;font-size:46px;line-height:1.14;color:#2F3A26;margin:0 0 16px">Смена 3 сентября<br>Смена сверки</h1>
+<p style="font-size:17px;line-height:1.6;color:#5E6553;margin:0 0 30px;max-width:620px">Эта смена не показывается на сайте — записаться можно только по ссылке.</p>
+<div style="background:rgba(140,154,108,.14);border-radius:22px;padding:24px 28px;font-size:16px;line-height:1.6;color:#4B5142;max-width:660px">Можно записать сразу всю компанию и оплатить одной суммой — или каждому записаться самому по этой ссылке. Как платить, компания решает сама.</div>
+</div>
+<div style="width:420px;flex:none;background:#FBFAF3;border:2px solid #465231;border-radius:28px;padding:30px">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:20px">
+<div><div style="font-size:30px;color:#2F3A26;font-weight:600">11:00</div><div style="font-size:15px;color:#6C7159;margin-top:6px">Чт 3 сентября · 2 часа</div></div>
+<div style="text-align:right;flex:none"><div style="font-size:22px;color:#CB7A45;font-weight:600">4&nbsp;000 ₽</div><div style="font-size:13px;color:#6C7159">с всадника</div></div>
+</div>
+<div style="height:6px;border-radius:99px;background:#E4E3D3;overflow:hidden;margin-bottom:10px"><div style="width:0%;height:100%;background:#8C9A6C;border-radius:99px"></div></div>
+<div style="font-size:15px;color:#4B5142;margin-bottom:24px">Свободно 26 из 26</div>
+<a href="../" style="display:flex;align-items:center;justify-content:center;padding:19px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:16.5px;font-weight:500" class="dch-ft330">Записаться</a>
+</div>
+</div>
+</div>
+
+
+
+  </main>
+
+  
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      
+      // На разработке служебный кэш снимаем, а заодно убираем уже поставленный:
+      // иначе браузер показывает вчерашнюю страницу, а ошибку ищешь в сегодняшней.
+      navigator.serviceWorker.getRegistrations().then(function (list) {
+        list.forEach(function (item) { item.unregister(); });
+      });
+      if (window.caches) { caches.keys().then(function (keys) { keys.forEach(function (k) { caches.delete(k); }); }); }
+      
+    }
+  </script>
+  
+
+
+</body></html>

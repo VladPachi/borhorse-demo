@@ -1,0 +1,214 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Даты заняли — Бородинский хутор</title>
+  <meta name="description" content="Даты заняли">
+  <meta name="robots" content="noindex, nofollow">
+
+  <link rel="manifest" href="../../static/manifest.webmanifest">
+  <meta name="theme-color" content="#2F3A26">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="apple-touch-icon" href="../../static/icons/apple-touch-icon.png">
+  <link rel="icon" href="../../static/icons/icon-192.png" sizes="192x192">
+  <link rel="shortcut icon" href="../../static/icons/icon-192.png">
+
+  
+  <link rel="preload" href="../../static/fonts/GolosText-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin="">
+  <link rel="preload" href="../../static/fonts/Prata-400-cyrillic.woff2" as="font" type="font/woff2" crossorigin="">
+  <link rel="stylesheet" href="../../static/css/output.css">
+  <link rel="stylesheet" href="../../static/design.css">
+
+  
+  
+
+  
+  <script>
+    (function () {
+      function fit() {
+        var board = document.querySelector('.artboard-desktop');
+        if (!board) return;
+        var width = document.documentElement.clientWidth;
+        board.style.zoom = width < 1440 && width >= 1024 ? width / 1440 : '';
+      }
+      addEventListener('resize', fit, {passive: true});
+      addEventListener('DOMContentLoaded', fit);
+      document.addEventListener('htmx:afterSwap', fit);
+    })();
+  </script>
+
+  <script src="../../static/vendor/htmx.min.js" defer=""></script>
+  <script src="../../static/vendor/alpine.min.js" defer=""></script>
+  
+  <script>
+    document.addEventListener('htmx:beforeSwap', function (event) {
+      document.body.style.overflow = '';
+      // «Мест не осталось» сервер отдаёт кодом 409 — это ответ по существу,
+      // а не сбой. Без этой строки htmx молча выбрасывает такие ответы,
+      // и гость остаётся на заполненной форме, не понимая, что произошло
+      if (event.detail.xhr && event.detail.xhr.status === 409) {
+        event.detail.shouldSwap = true;
+        event.detail.isError = false;
+      }
+    });
+  </script>
+  
+  <script>
+    document.addEventListener('htmx:beforeRequest', function (event) {
+      var config = event.detail.requestConfig;
+      if (!config || config.verb !== 'get') return;
+      var target = new URL(config.path, location.href);
+      if (target.pathname !== location.pathname || target.search !== location.search) return;
+      event.preventDefault();
+      document.body.style.overflow = '';
+      if (target.hash) location.hash = target.hash;
+    });
+  </script>
+
+  
+  <script>
+    function showFirstError() {
+      var error = document.querySelector('.design-field-error');
+      if (!error) return;
+      // Родитель, а не closest: сама подпись ошибки — тоже div
+      var block = error.parentElement;
+      (block || error).scrollIntoView({ block: 'center', behavior: 'smooth' });
+      var field = block && block.querySelector('input, textarea, select');
+      if (field) field.focus({ preventScroll: true });
+    }
+    // Ждём Alpine: он перерисовывает поля всадников, и фокус, поставленный
+    // раньше, сбрасывается вместе с ними
+    function afterAlpine() { setTimeout(showFirstError, 60); }
+    // Нижняя панель стоит поверх страницы и закрывала последнюю карточку.
+    // Прокручивать за гостя нельзя — он выбирает смену внизу, а страница
+    // прыгает к началу. Поэтому просто освобождаем под панелью столько места,
+    // сколько она занимает: тогда список докручивается целиком и сам.
+    function makeRoomForBar() {
+      var bar = document.querySelector('[data-bottom-bar]');
+      var room = document.querySelector('[data-bar-room]');
+      if (!room) return;
+      room.style.height = bar ? bar.getBoundingClientRect().height + 24 + 'px' : '0px';
+    }
+    addEventListener('resize', makeRoomForBar, { passive: true });
+    document.addEventListener('DOMContentLoaded', makeRoomForBar);
+    document.addEventListener('htmx:afterSettle', makeRoomForBar);
+
+    document.addEventListener('alpine:initialized', afterAlpine);
+    document.addEventListener('DOMContentLoaded', afterAlpine);
+    document.addEventListener('htmx:afterSettle', afterAlpine);
+
+    // Куски страницы, приехавшие от сервера, Alpine сам не оживляет: привязки
+    // вроде «кнопка выключена, пока не отмечены согласия» в них не работают,
+    // и кнопка оставалась выключенной даже с обеими галочками. Просим Alpine
+    // пройтись по вставленному узлу.
+    function wakeAlpine(node) {
+      if (window.Alpine && node && node.nodeType === 1) {
+        window.Alpine.initTree(node);
+      }
+    }
+    document.addEventListener('htmx:afterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+      backToChoice(event.detail && event.detail.target);
+    });
+
+    // Гость прокрутил страницу до полей контактов, а потом выбрал дату
+    // в календаре слева. Кусок обновился, но экран остался внизу — и там
+    // виден только хвост нового списка. Возвращаем его к началу выбора,
+    // но только если он и правда смотрел ниже: иначе прокрутка дёргалась бы
+    // при каждом нажатии.
+    function backToChoice(node) {
+      // Кусок приезжает заменой целиком, и цель события — уже не тот узел,
+      // что оказался в документе. Поэтому ищем колонку заново
+      var column = document.getElementById('left-column');
+      if (!column) return;
+      var box = column.getBoundingClientRect();
+      if (box.top >= 0) return;
+      window.scrollTo({ top: window.scrollY + box.top - 24, behavior: 'smooth' });
+    }
+    document.addEventListener('htmx:oobAfterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+    });
+
+    // Возврат «назад» на шаг с формой: браузер показывает свой снимок страницы,
+    // а на нём поля пустые — введённое выглядит потерянным, хотя сервер помнит
+    // черновик. Заголовками этот кэш не отключается, поэтому перезапрашиваем
+    // страницу сами — и она приходит уже заполненной.
+    // Страницу с формой не кладём в историю htmx: по «назад» она вернулась бы
+    // снимком с пустыми полями, хотя черновик на сервере есть и подставился бы.
+    // Ставим пометку на теле — htmx смотрит на неё, когда решает, сохранять ли
+    // страницу, — и заодно перезапрашиваем её, если браузер всё же показал свой снимок
+    function keepFormFresh() {
+      if (document.getElementById('zapis')) {
+        document.body.setAttribute('hx-history', 'false');
+      }
+    }
+    document.addEventListener('DOMContentLoaded', keepFormFresh);
+    document.addEventListener('htmx:afterSettle', keepFormFresh);
+    addEventListener('pageshow', function (event) {
+      if (event.persisted && document.getElementById('zapis')) {
+        location.reload();
+      }
+    });
+  </script>
+  
+<style>      .htmx-indicator{opacity:0}      .htmx-request .htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}      .htmx-request.htmx-indicator{opacity:1; transition: opacity 200ms ease-in;}      </style></head>
+<body hx-boost="true"><div style="background:#465231;color:#F4F1E4;padding:12px 20px;font-family:system-ui,sans-serif;font-size:14px;line-height:1.45;display:flex;gap:14px;align-items:center;justify-content:center;flex-wrap:wrap"><span><b>2б · Даты заняли, пока заполняли</b> — снимок экрана: выбрать и отправить здесь нельзя, это внешний вид</span><a href="../" style="color:#F4F1E4;text-decoration:underline">ко всем экранам</a></div>
+
+  <a href="#content" class="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-3 focus:rounded-full focus:bg-forest focus:px-4 focus:py-2 focus:text-surface">
+    Перейти к содержимому
+  </a>
+
+  
+
+  <main id="content">
+    
+
+
+
+<div class="design-artboard artboard-phone mx-auto w-full max-w-[430px] bg-[#F2F0E5]" style="position:relative">
+
+<div style="display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid rgba(44,54,35,.1)">
+<a href="../" aria-label="Назад" style="text-decoration:none;width:38px;height:38px;border-radius:50%;border:1px solid rgba(44,54,35,.18);display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H6m5.5-5.5L6 12l5.5 5.5"></path></svg></a>
+<div style="flex:1"><div style="font-size:15px;font-weight:600;color:#2F3A26">Пн 28 — Ср 30 сен</div><div style="font-size:12px;color:#8A7F5C;margin-top:2px">Шаг 2 из 3 · Данные</div></div>
+</div>
+<div style="padding:18px 18px 0">
+<div style="background:#F7E7DA;border:1px solid rgba(203,122,69,.4);border-radius:22px;padding:20px">
+<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:16px">
+<span style="width:36px;height:36px;flex:none;border-radius:50%;background:#CB7A45;color:#FFF4E7;display:flex;align-items:center;justify-content:center"><svg viewBox="0 0 24 24" style="width:19px;height:19px" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 7v6M12 16.5v.5"></path></svg></span>
+<div><div style="font-size:16.5px;color:#8E441A;font-weight:600;margin-bottom:5px">Домик заняли</div><p style="font-size:14px;line-height:1.55;color:#8E441A;margin:0;opacity:.85">Пока вы заполняли данные, двухместный домик № 95 забронировали на 28–30 сентября. Деньги не списаны.</p></div>
+</div>
+<a href="../" style="display:flex;align-items:center;justify-content:center;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:14.5px;font-weight:500" class="dch-hb30">Выбрать другой домик</a>
+</div>
+<div style="margin-top:20px">
+<div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:12px">Свободны на ваши даты</div>
+<div style="display:flex;flex-direction:column;gap:10px">
+<div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.12);border-radius:20px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px"><div><div style="font-size:16px;color:#2F3A26;font-weight:600">Двухместный домик № 8</div><div style="font-size:12.5px;color:#6C7159;margin-top:3px">7&nbsp;500 ₽ за 2 ночи</div></div><a href="../" style="padding:11px 18px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:13.5px;font-weight:500;flex:none">Выбрать</a></div><div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.12);border-radius:20px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px"><div><div style="font-size:16px;color:#2F3A26;font-weight:600">Двухместный домик № 9</div><div style="font-size:12.5px;color:#6C7159;margin-top:3px">7&nbsp;500 ₽ за 2 ночи</div></div><a href="../" style="padding:11px 18px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:13.5px;font-weight:500;flex:none">Выбрать</a></div><div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.12);border-radius:20px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px"><div><div style="font-size:16px;color:#2F3A26;font-weight:600">Двухместный домик № 10</div><div style="font-size:12.5px;color:#6C7159;margin-top:3px">7&nbsp;500 ₽ за 2 ночи</div></div><a href="../" style="padding:11px 18px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:13.5px;font-weight:500;flex:none">Выбрать</a></div><div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.12);border-radius:20px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px"><div><div style="font-size:16px;color:#2F3A26;font-weight:600">Двухместный домик № 12</div><div style="font-size:12.5px;color:#6C7159;margin-top:3px">7&nbsp;500 ₽ за 2 ночи</div></div><a href="../" style="padding:11px 18px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:13.5px;font-weight:500;flex:none">Выбрать</a></div><div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.12);border-radius:20px;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;gap:12px"><div><div style="font-size:16px;color:#2F3A26;font-weight:600">Двухместный домик № 90</div><div style="font-size:12.5px;color:#6C7159;margin-top:3px">7&nbsp;500 ₽ за 2 ночи</div></div><a href="../" style="padding:11px 18px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:13.5px;font-weight:500;flex:none">Выбрать</a></div>
+
+</div>
+<div style="margin-top:16px;text-align:center"><a href="../" style="font-size:14px;color:#465231;border-bottom:1px solid rgba(70,82,49,.35);padding-bottom:2px">Вернуться к выбору дат →</a></div>
+</div>
+</div>
+<div style="height:28px"></div>
+</div>
+
+  </main>
+
+  
+
+  <script>
+    if ("serviceWorker" in navigator) {
+      
+      // На разработке служебный кэш снимаем, а заодно убираем уже поставленный:
+      // иначе браузер показывает вчерашнюю страницу, а ошибку ищешь в сегодняшней.
+      navigator.serviceWorker.getRegistrations().then(function (list) {
+        list.forEach(function (item) { item.unregister(); });
+      });
+      if (window.caches) { caches.keys().then(function (keys) { keys.forEach(function (k) { caches.delete(k); }); }); }
+      
+    }
+  </script>
+  
+
+
+</body></html>
