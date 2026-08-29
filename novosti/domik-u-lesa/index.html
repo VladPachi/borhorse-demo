@@ -20,7 +20,7 @@
   <link rel="preload" href="../../static/fonts/GolosText-400-cyrillic.woff2?v=720bcf67" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../../static/fonts/Prata-400-cyrillic.woff2?v=dfcdd6d6" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../../static/css/output.css?v=0826436c">
-  <link rel="stylesheet" href="../../static/design.css?v=e26172f7">
+  <link rel="stylesheet" href="../../static/design.css?v=d5820bef">
 
   
   
@@ -44,8 +44,15 @@
   <script src="../../static/vendor/alpine.min.js?v=e5c6d791" defer></script>
   
   <script>
-    document.addEventListener('htmx:beforeSwap', function () {
+    document.addEventListener('htmx:beforeSwap', function (event) {
       document.body.style.overflow = '';
+      // «Мест не осталось» сервер отдаёт кодом 409 — это ответ по существу,
+      // а не сбой. Без этой строки htmx молча выбрасывает такие ответы,
+      // и гость остаётся на заполненной форме, не понимая, что произошло
+      if (event.detail.xhr && event.detail.xhr.status === 409) {
+        event.detail.shouldSwap = true;
+        event.detail.isError = false;
+      }
     });
   </script>
   
@@ -58,6 +65,92 @@
       event.preventDefault();
       document.body.style.overflow = '';
       if (target.hash) location.hash = target.hash;
+    });
+  </script>
+
+  
+  <script>
+    function showFirstError() {
+      var error = document.querySelector('.design-field-error');
+      if (!error) return;
+      // Родитель, а не closest: сама подпись ошибки — тоже div
+      var block = error.parentElement;
+      (block || error).scrollIntoView({ block: 'center', behavior: 'smooth' });
+      var field = block && block.querySelector('input, textarea, select');
+      if (field) field.focus({ preventScroll: true });
+    }
+    // Ждём Alpine: он перерисовывает поля всадников, и фокус, поставленный
+    // раньше, сбрасывается вместе с ними
+    function afterAlpine() { setTimeout(showFirstError, 60); }
+    // Нижняя панель стоит поверх страницы и закрывала последнюю карточку.
+    // Прокручивать за гостя нельзя — он выбирает смену внизу, а страница
+    // прыгает к началу. Поэтому просто освобождаем под панелью столько места,
+    // сколько она занимает: тогда список докручивается целиком и сам.
+    function makeRoomForBar() {
+      var bar = document.querySelector('[data-bottom-bar]');
+      var room = document.querySelector('[data-bar-room]');
+      if (!room) return;
+      room.style.height = bar ? bar.getBoundingClientRect().height + 24 + 'px' : '0px';
+    }
+    addEventListener('resize', makeRoomForBar, { passive: true });
+    document.addEventListener('DOMContentLoaded', makeRoomForBar);
+    document.addEventListener('htmx:afterSettle', makeRoomForBar);
+
+    document.addEventListener('alpine:initialized', afterAlpine);
+    document.addEventListener('DOMContentLoaded', afterAlpine);
+    document.addEventListener('htmx:afterSettle', afterAlpine);
+
+    // Куски страницы, приехавшие от сервера, Alpine сам не оживляет: привязки
+    // вроде «кнопка выключена, пока не отмечены согласия» в них не работают,
+    // и кнопка оставалась выключенной даже с обеими галочками. Просим Alpine
+    // пройтись по вставленному узлу.
+    function wakeAlpine(node) {
+      if (window.Alpine && node && node.nodeType === 1) {
+        window.Alpine.initTree(node);
+      }
+    }
+    document.addEventListener('htmx:afterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+      backToChoice(event.detail && event.detail.target);
+    });
+
+    // Гость прокрутил страницу до полей контактов, а потом выбрал дату
+    // в календаре слева. Кусок обновился, но экран остался внизу — и там
+    // виден только хвост нового списка. Возвращаем его к началу выбора,
+    // но только если он и правда смотрел ниже: иначе прокрутка дёргалась бы
+    // при каждом нажатии.
+    function backToChoice(node) {
+      // Кусок приезжает заменой целиком, и цель события — уже не тот узел,
+      // что оказался в документе. Поэтому ищем колонку заново
+      var column = document.getElementById('left-column');
+      if (!column) return;
+      var box = column.getBoundingClientRect();
+      if (box.top >= 0) return;
+      window.scrollTo({ top: window.scrollY + box.top - 24, behavior: 'smooth' });
+    }
+    document.addEventListener('htmx:oobAfterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+    });
+
+    // Возврат «назад» на шаг с формой: браузер показывает свой снимок страницы,
+    // а на нём поля пустые — введённое выглядит потерянным, хотя сервер помнит
+    // черновик. Заголовками этот кэш не отключается, поэтому перезапрашиваем
+    // страницу сами — и она приходит уже заполненной.
+    // Страницу с формой не кладём в историю htmx: по «назад» она вернулась бы
+    // снимком с пустыми полями, хотя черновик на сервере есть и подставился бы.
+    // Ставим пометку на теле — htmx смотрит на неё, когда решает, сохранять ли
+    // страницу, — и заодно перезапрашиваем её, если браузер всё же показал свой снимок
+    function keepFormFresh() {
+      if (document.getElementById('zapis')) {
+        document.body.setAttribute('hx-history', 'false');
+      }
+    }
+    document.addEventListener('DOMContentLoaded', keepFormFresh);
+    document.addEventListener('htmx:afterSettle', keepFormFresh);
+    addEventListener('pageshow', function (event) {
+      if (event.persisted && document.getElementById('zapis')) {
+        location.reload();
+      }
     });
   </script>
   
@@ -77,7 +170,7 @@
 
 <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid rgba(44,54,35,.12)" data-header x-ref="header">
 <a href="../../novosti/index.html" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;font-size:14.5px;color:#3E4A2C;font-weight:500"><svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 6l-6 6 6 6"></path></svg>Все новости</a>
-<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu &amp;&amp; $refs.stickybar) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
 <div style="padding:24px 22px 0">
 <div style="font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#8A7F5C;font-weight:600;margin-bottom:10px">28 июля</div>
@@ -118,8 +211,8 @@
 <a @click="menu = false" href="tel:+79771055599" style="display:flex;align-items:center;min-height:44px;font-family:Prata,serif;font-size:20px;color:#2F3A26">+7 (977) 105-55-99</a>
 </div>
 <div style="display:flex;gap:10px;margin-top:8px">
-<a @click="menu = false" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:14px;font-weight:500" class="dch-menu1">Telegram</a>
-<a @click="menu = false" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
+
+<a @click="menu = false" href="https://wa.me/79099903667" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
 </div>
 </div>
 
@@ -133,7 +226,7 @@
 </a>
 <div style="display:flex;align-items:center;gap:8px">
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
-<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu &amp;&amp; $refs.stickybar) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
 </div>
 </div>
@@ -209,8 +302,8 @@
 <a href="tel:+79771055599" style="font-size:15px;color:#F1EADA;white-space:nowrap">+7 (977) 105-55-99</a>
 </div>
 <div style="display:flex;gap:8px;margin-bottom:24px">
-<a href="#" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">Telegram</a>
-<a href="#" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">WhatsApp</a>
+
+<a href="https://wa.me/79099903667" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">WhatsApp</a>
 </div>
 <div style="height:1px;background:rgba(241,234,218,.14);margin-bottom:16px"></div>
 <div style="display:flex;flex-wrap:wrap;gap:10px 18px">
@@ -222,7 +315,7 @@
 </div>
 
 
-<div class="design-artboard artboard-desktop bg-[#F2F0E5]">
+<div class="design-artboard artboard-desktop design-footer bg-[#F2F0E5]">
 <div style="background:#232B1C;padding:70px 64px 44px">
 <div style="display:flex;justify-content:space-between;gap:60px;margin-bottom:56px">
 <div style="width:300px;flex:none">
@@ -248,8 +341,8 @@
 <a href="tel:+79099903667" style="font-family:Prata,serif;font-size:24px;color:#F1EADA">+7 (909) 990-36-67</a>
 <a href="tel:+79771055599" style="font-family:Prata,serif;font-size:24px;color:#F1EADA">+7 (977) 105-55-99</a>
 <div style="display:flex;gap:10px;margin-top:12px">
-<a href="#" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">Telegram</a>
-<a href="#" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">WhatsApp</a>
+
+<a href="https://wa.me/79099903667" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">WhatsApp</a>
 </div>
 </div>
 </div>

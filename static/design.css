@@ -7,6 +7,39 @@
    такой кадр, поэтому внутри артборда ограничение снимаем. */
 .design-artboard img { max-width: none; }
 
+/* Кружок ожидания на экране «Ждём подтверждения оплаты». В макете правило
+   лежит в его собственном <style>, а он при переносе остаётся в макете. */
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Нижняя панель приезжает снизу, а не возникает: она появляется в ответ
+   на выбор смены, и мгновенное появление читается как подёргивание. */
+[data-bottom-bar] { animation: dch-bar-in .28s cubic-bezier(.2,.7,.3,1) both; }
+@keyframes dch-bar-in { from { opacity: 0; transform: translate(-50%, 14px); } }
+
+/* Нажатие. В макете описано только наведение — оно для мыши, и на телефоне
+   не срабатывает вовсе: гость жал кнопку и не понимал, случилось ли что-то.
+   Затемнение берём по принципу из «Состояний»: наведение 12 %, нажатие 22 %.
+
+   Только кнопки: у них в макете скругление 999 px, и по нему они и опознаются.
+   Обычные ссылки — логотип, пункты меню, «все новости» — не затемняются:
+   подсветка текста при касании выглядит неряшливо. */
+.design-artboard button:not(:disabled):active,
+.design-artboard [style*="border-radius:999px"]:active {
+  box-shadow: inset 0 0 0 999px rgba(35, 42, 28, .22);
+}
+
+/* Кнопки и поля отзываются на касание не мгновенно. */
+.design-artboard button, .design-artboard input {
+  transition: background-color .18s ease, border-color .18s ease, color .18s ease,
+    box-shadow .18s ease;
+}
+
+/* Кому движение мешает — системная настройка его отключает. */
+@media (prefers-reduced-motion: reduce) {
+  [data-bottom-bar] { animation: none; }
+  [style*="animation:spin"] { animation: none !important; }
+}
+
 .dch-anim { transition: opacity .18s ease-out, transform .18s ease-out !important;
   will-change: opacity, transform; }
 .dch-drop-off { opacity: 0 !important; transform: translate(-50%, -12px) !important; }
@@ -26,6 +59,12 @@
 .design-field:focus-within { background: #FFFFFF !important; border-color: #465231 !important; }
 .design-field input::placeholder, .design-field textarea::placeholder { color: #6C7159; }
 .design-field-error { margin: 6px 2px 0; font-size: 13px; line-height: 1.4; color: #A9541F; }
+/* Экран записи с полосой оплаты внизу: колонка во всю высоту окна,
+   а панель в ней прижата к низу. Правило живёт здесь, а не в стиле
+   самого узла: инлайновый display сильнее медиазапроса, которым
+   телефонный артборд прячется на компьютере. */
+.artboard-phone.screen-column { display: flex; flex-direction: column;
+  min-height: 100dvh; }
 .artboard-desktop { display: none; }
 /* Компьютерный макет нарисован на 1440 px. Шире не растягиваем — иначе
    разделы разъезжаются и страница перестаёт совпадать с согласованным
@@ -34,6 +73,7 @@
 .artboard-desktop { max-width: 1440px; margin-left: auto; margin-right: auto; }
 @media (min-width: 1024px) {
   .artboard-phone { display: none; }
+  .artboard-phone.screen-column { display: none; }
   .artboard-desktop { display: block; }
 }
 .dch-m0:hover{background:#B46633 !important}
@@ -64,6 +104,7 @@
 .dch-d16:hover{border-color:#2F3A26 !important}
 .dch-w-m0:hover{background:#B46633 !important}
 .dch-w-m1:hover{background:#B46633 !important}
+.dch-w-m2:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
 .dch-w-mbar0:hover{background:#B46633 !important}
 .dch-w-d0:hover{color:#C4A56A !important}
 .dch-w-d1:hover{color:#C4A56A !important}
@@ -72,9 +113,10 @@
 .dch-w-d4:hover{color:#C4A56A !important}
 .dch-w-d5:hover{background:#B46633 !important}
 .dch-w-d6:hover{background:#B46633 !important}
-.dch-w-d7:hover{background:#38421f !important}
-.dch-w-d8:hover{border-color:#2F3A26 !important}
+.dch-w-d7:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-w-d8:hover{background:#38421f !important}
 .dch-w-d9:hover{border-color:#2F3A26 !important}
+.dch-w-d10:hover{border-color:#2F3A26 !important}
 .dch-h-m0:hover{background:#B46633 !important}
 .dch-h-mbar0:hover{background:#B46633 !important}
 .dch-h-d0:hover{color:#C4A56A !important}
@@ -176,3 +218,128 @@
 .dch-menu0:hover{background:#38421f !important}
 .dch-menu1:hover{background:#38421f !important}
 .dch-menu2:hover{border-color:#2F3A26 !important}
+.dch-fl00:hover{background:#B46633 !important}
+.dch-fl10:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-fl11:hover{background:#B46633 !important}
+.dch-fl12:hover{background:#38421f !important}
+.dch-ft40:hover{color:#CB7A45 !important}
+.dch-ft41:hover{color:#CB7A45 !important}
+.dch-ft42:hover{color:#CB7A45 !important}
+.dch-ft43:hover{color:#CB7A45 !important}
+.dch-ft44:hover{color:#CB7A45 !important}
+.dch-ft45:hover{color:#CB7A45 !important}
+.dch-ft46:hover{background:#B46633 !important}
+.dch-ft47:hover{background:#38421f !important}
+.dch-fl120:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-fl121:hover{background:#B46633 !important}
+.dch-fl122:hover{background:#38421f !important}
+.dch-ft150:hover{color:#CB7A45 !important}
+.dch-ft151:hover{color:#CB7A45 !important}
+.dch-ft152:hover{color:#CB7A45 !important}
+.dch-ft153:hover{color:#CB7A45 !important}
+.dch-ft154:hover{color:#CB7A45 !important}
+.dch-ft155:hover{color:#CB7A45 !important}
+.dch-ft156:hover{background:#B46633 !important}
+.dch-ft157:hover{background:#38421f !important}
+.dch-fl230:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-fl231:hover{background:#B46633 !important}
+.dch-ft250:hover{color:#CB7A45 !important}
+.dch-ft251:hover{color:#CB7A45 !important}
+.dch-ft252:hover{color:#CB7A45 !important}
+.dch-ft253:hover{color:#CB7A45 !important}
+.dch-ft254:hover{color:#CB7A45 !important}
+.dch-ft255:hover{color:#CB7A45 !important}
+.dch-ft256:hover{background:#B46633 !important}
+.dch-fl320:hover{background:#B46633 !important}
+.dch-ft330:hover{background:#B46633 !important}
+.dch-fl340:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-fl341:hover{background:#38421f !important}
+.dch-fl342:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-fl343:hover{background:#38421f !important}
+.dch-ft380:hover{color:#CB7A45 !important}
+.dch-ft381:hover{color:#CB7A45 !important}
+.dch-ft382:hover{color:#CB7A45 !important}
+.dch-ft383:hover{color:#CB7A45 !important}
+.dch-ft384:hover{color:#CB7A45 !important}
+.dch-ft385:hover{color:#CB7A45 !important}
+.dch-ft386:hover{border-color:#2F3A26 !important}
+.dch-ft387:hover{background:#38421f !important}
+.dch-hb00:hover{background:#B46633 !important}
+.dch-hb10:hover{background:#B46633 !important}
+.dch-hb20:hover{background:#B46633 !important}
+.dch-hb30:hover{background:#B46633 !important}
+.dch-hb40:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-hb41:hover{background:#38421f !important}
+.dch-hb42:hover{border-color:#2F3A26 !important}
+.dch-ht70:hover{color:#CB7A45 !important}
+.dch-ht71:hover{color:#CB7A45 !important}
+.dch-ht72:hover{color:#CB7A45 !important}
+.dch-ht73:hover{color:#CB7A45 !important}
+.dch-ht74:hover{color:#CB7A45 !important}
+.dch-ht75:hover{color:#CB7A45 !important}
+.dch-ht76:hover{border-color:#2F3A26 !important}
+.dch-ht77:hover{background:#B46633 !important}
+.dch-hb150:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-hb151:hover{background:#B46633 !important}
+.dch-ht170:hover{color:#CB7A45 !important}
+.dch-ht171:hover{color:#CB7A45 !important}
+.dch-ht172:hover{color:#CB7A45 !important}
+.dch-ht173:hover{color:#CB7A45 !important}
+.dch-ht174:hover{color:#CB7A45 !important}
+.dch-ht175:hover{color:#CB7A45 !important}
+.dch-ht176:hover{background:#38421f !important}
+.dch-ht177:hover{background:#38421f !important}
+.dch-ht178:hover{background:#B46633 !important}
+.dch-hb260:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-hb261:hover{border-color:#2F3A26 !important}
+.dch-hb262:hover{background:#B46633 !important}
+.dch-ht290:hover{color:#CB7A45 !important}
+.dch-ht291:hover{color:#CB7A45 !important}
+.dch-ht292:hover{color:#CB7A45 !important}
+.dch-ht293:hover{color:#CB7A45 !important}
+.dch-ht294:hover{color:#CB7A45 !important}
+.dch-ht295:hover{color:#CB7A45 !important}
+.dch-ht296:hover{border-color:#2F3A26 !important}
+.dch-ht297:hover{background:#B46633 !important}
+.dch-hb370:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-hb371:hover{background:#B46633 !important}
+.dch-ht390:hover{color:#CB7A45 !important}
+.dch-ht391:hover{color:#CB7A45 !important}
+.dch-ht392:hover{color:#CB7A45 !important}
+.dch-ht393:hover{color:#CB7A45 !important}
+.dch-ht394:hover{color:#CB7A45 !important}
+.dch-ht395:hover{color:#CB7A45 !important}
+.dch-ht396:hover{background:#B46633 !important}
+.dch-bb00:hover{border-color:#2F3A26 !important}
+.dch-bb01:hover{background:#B46633 !important}
+.dch-bb02:hover{background:#B46633 !important}
+.dch-bb30:hover{border-color:#2F3A26 !important}
+.dch-bb31:hover{border-color:#2F3A26 !important}
+.dch-bb32:hover{border-color:#2F3A26 !important}
+.dch-bb33:hover{background:#B46633 !important}
+.dch-bt70:hover{border-color:#2F3A26 !important}
+.dch-bt71:hover{border-color:#2F3A26 !important}
+.dch-bt72:hover{border-color:#2F3A26 !important}
+.dch-bt73:hover{background:#B46633 !important}
+.dch-bb110:hover{background:#B46633 !important}
+.dch-bb120:hover{background:#B46633 !important}
+.dch-bt130:hover{background:#B46633 !important}
+.dch-bb140:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-bb141:hover{background:#38421f !important}
+.dch-bb142:hover{border-color:#2F3A26 !important}
+.dch-bt170:hover{color:#CB7A45 !important}
+.dch-bt171:hover{color:#CB7A45 !important}
+.dch-bt172:hover{color:#CB7A45 !important}
+.dch-bt173:hover{color:#CB7A45 !important}
+.dch-bt174:hover{color:#CB7A45 !important}
+.dch-bt175:hover{color:#CB7A45 !important}
+.dch-bt176:hover{border-color:#2F3A26 !important}
+.dch-bb240:hover{border-color:#2F3A26 !important;color:#2F3A26 !important}
+.dch-bb241:hover{background:#B46633 !important}
+.dch-bt260:hover{color:#CB7A45 !important}
+.dch-bt261:hover{color:#CB7A45 !important}
+.dch-bt262:hover{color:#CB7A45 !important}
+.dch-bt263:hover{color:#CB7A45 !important}
+.dch-bt264:hover{color:#CB7A45 !important}
+.dch-bt265:hover{color:#CB7A45 !important}
+.dch-bt266:hover{background:#B46633 !important}

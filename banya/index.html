@@ -20,7 +20,7 @@
   <link rel="preload" href="../static/fonts/GolosText-400-cyrillic.woff2?v=720bcf67" as="font" type="font/woff2" crossorigin>
   <link rel="preload" href="../static/fonts/Prata-400-cyrillic.woff2?v=dfcdd6d6" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="../static/css/output.css?v=0826436c">
-  <link rel="stylesheet" href="../static/design.css?v=e26172f7">
+  <link rel="stylesheet" href="../static/design.css?v=d5820bef">
 
   
   
@@ -44,8 +44,15 @@
   <script src="../static/vendor/alpine.min.js?v=e5c6d791" defer></script>
   
   <script>
-    document.addEventListener('htmx:beforeSwap', function () {
+    document.addEventListener('htmx:beforeSwap', function (event) {
       document.body.style.overflow = '';
+      // «Мест не осталось» сервер отдаёт кодом 409 — это ответ по существу,
+      // а не сбой. Без этой строки htmx молча выбрасывает такие ответы,
+      // и гость остаётся на заполненной форме, не понимая, что произошло
+      if (event.detail.xhr && event.detail.xhr.status === 409) {
+        event.detail.shouldSwap = true;
+        event.detail.isError = false;
+      }
     });
   </script>
   
@@ -58,6 +65,92 @@
       event.preventDefault();
       document.body.style.overflow = '';
       if (target.hash) location.hash = target.hash;
+    });
+  </script>
+
+  
+  <script>
+    function showFirstError() {
+      var error = document.querySelector('.design-field-error');
+      if (!error) return;
+      // Родитель, а не closest: сама подпись ошибки — тоже div
+      var block = error.parentElement;
+      (block || error).scrollIntoView({ block: 'center', behavior: 'smooth' });
+      var field = block && block.querySelector('input, textarea, select');
+      if (field) field.focus({ preventScroll: true });
+    }
+    // Ждём Alpine: он перерисовывает поля всадников, и фокус, поставленный
+    // раньше, сбрасывается вместе с ними
+    function afterAlpine() { setTimeout(showFirstError, 60); }
+    // Нижняя панель стоит поверх страницы и закрывала последнюю карточку.
+    // Прокручивать за гостя нельзя — он выбирает смену внизу, а страница
+    // прыгает к началу. Поэтому просто освобождаем под панелью столько места,
+    // сколько она занимает: тогда список докручивается целиком и сам.
+    function makeRoomForBar() {
+      var bar = document.querySelector('[data-bottom-bar]');
+      var room = document.querySelector('[data-bar-room]');
+      if (!room) return;
+      room.style.height = bar ? bar.getBoundingClientRect().height + 24 + 'px' : '0px';
+    }
+    addEventListener('resize', makeRoomForBar, { passive: true });
+    document.addEventListener('DOMContentLoaded', makeRoomForBar);
+    document.addEventListener('htmx:afterSettle', makeRoomForBar);
+
+    document.addEventListener('alpine:initialized', afterAlpine);
+    document.addEventListener('DOMContentLoaded', afterAlpine);
+    document.addEventListener('htmx:afterSettle', afterAlpine);
+
+    // Куски страницы, приехавшие от сервера, Alpine сам не оживляет: привязки
+    // вроде «кнопка выключена, пока не отмечены согласия» в них не работают,
+    // и кнопка оставалась выключенной даже с обеими галочками. Просим Alpine
+    // пройтись по вставленному узлу.
+    function wakeAlpine(node) {
+      if (window.Alpine && node && node.nodeType === 1) {
+        window.Alpine.initTree(node);
+      }
+    }
+    document.addEventListener('htmx:afterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+      backToChoice(event.detail && event.detail.target);
+    });
+
+    // Гость прокрутил страницу до полей контактов, а потом выбрал дату
+    // в календаре слева. Кусок обновился, но экран остался внизу — и там
+    // виден только хвост нового списка. Возвращаем его к началу выбора,
+    // но только если он и правда смотрел ниже: иначе прокрутка дёргалась бы
+    // при каждом нажатии.
+    function backToChoice(node) {
+      // Кусок приезжает заменой целиком, и цель события — уже не тот узел,
+      // что оказался в документе. Поэтому ищем колонку заново
+      var column = document.getElementById('left-column');
+      if (!column) return;
+      var box = column.getBoundingClientRect();
+      if (box.top >= 0) return;
+      window.scrollTo({ top: window.scrollY + box.top - 24, behavior: 'smooth' });
+    }
+    document.addEventListener('htmx:oobAfterSwap', function (event) {
+      wakeAlpine(event.detail && event.detail.target);
+    });
+
+    // Возврат «назад» на шаг с формой: браузер показывает свой снимок страницы,
+    // а на нём поля пустые — введённое выглядит потерянным, хотя сервер помнит
+    // черновик. Заголовками этот кэш не отключается, поэтому перезапрашиваем
+    // страницу сами — и она приходит уже заполненной.
+    // Страницу с формой не кладём в историю htmx: по «назад» она вернулась бы
+    // снимком с пустыми полями, хотя черновик на сервере есть и подставился бы.
+    // Ставим пометку на теле — htmx смотрит на неё, когда решает, сохранять ли
+    // страницу, — и заодно перезапрашиваем её, если браузер всё же показал свой снимок
+    function keepFormFresh() {
+      if (document.getElementById('zapis')) {
+        document.body.setAttribute('hx-history', 'false');
+      }
+    }
+    document.addEventListener('DOMContentLoaded', keepFormFresh);
+    document.addEventListener('htmx:afterSettle', keepFormFresh);
+    addEventListener('pageshow', function (event) {
+      if (event.persisted && document.getElementById('zapis')) {
+        location.reload();
+      }
     });
   </script>
   
@@ -87,7 +180,7 @@
 </a>
 <div style="display:flex;align-items:center;gap:8px">
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;align-items:center;justify-content:center;color:#EFE7D6"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
-<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#EFE7D6"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#EFE7D6"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(239,231,214,.34);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu &amp;&amp; $refs.stickybar) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#EFE7D6"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#EFE7D6"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
 </div>
 <div style="position:relative;padding:30px 22px 34px">
@@ -111,28 +204,11 @@
 <h2 style="font-family:Prata,serif;font-weight:400;font-size:28px;line-height:1.16;color:#2F3A26;margin:0 0 8px">Выбор часов</h2>
 <p style="font-size:14.5px;line-height:1.6;color:#5E6553;margin:0 0 18px">Минимум два часа подряд. После каждой брони — технический перерыв 30 минут.</p>
 
-<div style="display:flex;gap:7px;margin-bottom:16px;overflow:hidden">
-<span style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#465231;color:#F4F1E4"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75">сб</span><span style="font-size:15px;font-weight:600">22</span></span>
-<span style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.14);color:#3A4130"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">вс</span><span style="font-size:15px;font-weight:600">23</span></span>
-<span style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.14);color:#3A4130"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">пн</span><span style="font-size:15px;font-weight:600">24</span></span>
-<span style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">вт</span><span style="font-size:15px;font-weight:600">25</span></span>
-<span style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.14);color:#3A4130"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">ср</span><span style="font-size:15px;font-weight:600">26</span></span>
+<div style="display:flex;gap:7px;margin-bottom:16px;overflow-x:auto;scrollbar-width:none">
+<a href="../banya/bronirovanie/index.html" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">пн</span><span style="font-size:15px;font-weight:600">24</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">вт</span><span style="font-size:15px;font-weight:600">25</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">ср</span><span style="font-size:15px;font-weight:600">26</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">чт</span><span style="font-size:15px;font-weight:600">27</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em">пт</span><span style="font-size:15px;font-weight:600">28</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#465231;color:#F4F1E4;text-decoration:none"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.75">сб</span><span style="font-size:15px;font-weight:600">29</span><span style="width:4px;height:4px;border-radius:50%;background:#C4A56A;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 14px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.14);color:#3A4130;text-decoration:none"><span style="font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">вс</span><span style="font-size:15px;font-weight:600">30</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a>
 </div>
 
-<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px">
-<span style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130">10:00</span>
-<span style="min-height:52px;border-radius:16px;background:rgba(44,54,35,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#A8A695">11:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:52px;border-radius:16px;background:rgba(44,54,35,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#A8A695">12:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:52px;border-radius:16px;border:1px dashed rgba(44,54,35,.26);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#8A7F5C">13:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">перерыв</span></span>
-<span style="min-height:52px;border-radius:16px;background:#465231;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#F4F1E4;font-weight:500">14:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.75;font-weight:400">выбрано</span></span>
-<span style="min-height:52px;border-radius:16px;background:#465231;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#F4F1E4;font-weight:500">15:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.75;font-weight:400">выбрано</span></span>
-<span style="min-height:52px;border-radius:16px;border:1px dashed rgba(44,54,35,.26);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#8A7F5C">16:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">перерыв</span></span>
-<span style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130">17:00</span>
-<span style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130">18:00</span>
-<span style="min-height:52px;border-radius:16px;background:rgba(44,54,35,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#A8A695">19:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:52px;border-radius:16px;background:rgba(44,54,35,.06);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#A8A695">20:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:52px;border-radius:16px;border:1px dashed rgba(44,54,35,.26);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#8A7F5C">21:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">перерыв</span></span>
-</div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px"><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">10:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">11:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">12:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">13:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">14:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">15:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">16:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">17:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><a href="../banya/bronirovanie/index.html" style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130;text-decoration:none">18:00</a><a href="../banya/bronirovanie/index.html" style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130;text-decoration:none">19:00</a><a href="../banya/bronirovanie/index.html" style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130;text-decoration:none">20:00</a><span style="min-height:52px;border-radius:16px;background:rgba(44,54,35,.06);border:1px solid rgba(44,54,35,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#A8A695;text-decoration:none">21:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">мало времени</span></span></div>
 
 <div style="display:flex;flex-wrap:wrap;gap:10px 16px;margin-bottom:18px">
 <span style="display:flex;align-items:center;gap:7px;font-size:12.5px;color:#6C7159"><span style="width:14px;height:14px;border-radius:5px;background:#FBFAF3;border:1px solid rgba(44,54,35,.2)"></span>свободно</span>
@@ -143,10 +219,10 @@
 
 <div style="background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:20px;padding:18px 20px">
 <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:14px">
-<div><div style="font-size:16px;color:#2F3A26;font-weight:600">Сб 22 авг · 14:00–16:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">2 часа</div></div>
+<div><div style="font-size:16px;color:#2F3A26;font-weight:600">Сб 29 авг · 18:00–20:00</div><div style="font-size:13px;color:#6C7159;margin-top:2px">2 часа</div></div>
 <div style="text-align:right;flex:none"><div style="font-size:17px;color:#232A1C;font-weight:600;white-space:nowrap">5 000 ₽</div><div style="font-size:12px;color:#6C7159;white-space:nowrap">2 500 ₽ × 2 часа</div></div>
 </div>
-<a href="../banya/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15px;font-weight:500" class="dch-b-m1">Забронировать<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<a href="../banya/bronirovanie/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;padding:15px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:15px;font-weight:500" class="dch-b-m1">Забронировать<svg viewBox="0 0 24 24" style="width:16px;height:16px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
 </div>
 </div>
 
@@ -202,8 +278,8 @@
 <a @click="menu = false" href="tel:+79771055599" style="display:flex;align-items:center;min-height:44px;font-family:Prata,serif;font-size:20px;color:#2F3A26">+7 (977) 105-55-99</a>
 </div>
 <div style="display:flex;gap:10px;margin-top:8px">
-<a @click="menu = false" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;background:#465231;color:#F4F1E4;font-size:14px;font-weight:500" class="dch-menu1">Telegram</a>
-<a @click="menu = false" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
+
+<a @click="menu = false" href="https://wa.me/79099903667" style="flex:1;display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:999px;border:1px solid rgba(44,54,35,.22);color:#2F3A26;font-size:14px;font-weight:500" class="dch-menu2">WhatsApp</a>
 </div>
 </div>
 
@@ -217,7 +293,7 @@
 </a>
 <div style="display:flex;align-items:center;gap:8px">
 <div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;align-items:center;justify-content:center;color:#3E4A2C"><svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M5.5 4h3l1.5 4-2 1.5a11.5 11.5 0 0 0 5.5 5.5L15 13l4 1.5v3a1.5 1.5 0 0 1-1.7 1.5C10.8 18.6 5.4 13.2 4 6.7A1.5 1.5 0 0 1 5.5 4Z"></path></svg></div>
-<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
+<div style="width:44px;height:44px;border-radius:50%;border:1px solid rgba(44,54,35,.22);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer" role="button" tabindex="0" :aria-expanded="menu" aria-label="Меню" @keydown.enter.prevent="$el.click()" @keydown.space.prevent="$el.click()" :style="menu ? { background: '#465231', borderColor: 'transparent', color: '#F4F1E4' } : {}" @click="menu = !menu; $nextTick(() => { if (menu &amp;&amp; $refs.stickybar) menuTop = $refs.stickybar.offsetHeight })"><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><span x-show="!menu" class="dch-line" style="width:16px;height:1.3px;background:#3E4A2C"></span><svg x-show="menu" x-cloak viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"></path></svg></div>
 </div>
 </div>
 </div>
@@ -283,27 +359,9 @@
 
 <div style="flex:1;background:#FBFAF3;border:1px solid rgba(44,54,35,.1);border-radius:26px;padding:32px 34px">
 <div style="display:flex;gap:10px;margin-bottom:26px">
-<span style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#465231;color:#F4F1E4"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.78">сб</span><span style="font-size:18px;font-weight:600">22 авг</span></span>
-<span style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.14);color:#3A4130"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">вс</span><span style="font-size:18px;font-weight:600">23 авг</span></span>
-<span style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.14);color:#3A4130"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">пн</span><span style="font-size:18px;font-weight:600">24 авг</span></span>
-<span style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em">вт</span><span style="font-size:18px;font-weight:600">25 авг</span></span>
-<span style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.14);color:#3A4130"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">ср</span><span style="font-size:18px;font-weight:600">26 авг</span></span>
-<span style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.14);color:#3A4130"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">чт</span><span style="font-size:18px;font-weight:600">27 авг</span></span>
+<a href="../banya/bronirovanie/index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em">пн</span><span style="font-size:18px;font-weight:600">24 авг</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em">вт</span><span style="font-size:18px;font-weight:600">25 авг</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em">ср</span><span style="font-size:18px;font-weight:600">26 авг</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em">чт</span><span style="font-size:18px;font-weight:600">27 авг</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px dashed rgba(44,54,35,.2);color:#B0AE9C;text-decoration:none"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em">пт</span><span style="font-size:18px;font-weight:600">28 авг</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#465231;color:#F4F1E4;text-decoration:none"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;opacity:.78">сб</span><span style="font-size:18px;font-weight:600">29 авг</span><span style="width:4px;height:4px;border-radius:50%;background:#C4A56A;margin:3px auto 0"></span></a><a href="../banya/bronirovanie/index.html" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:12px 22px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.14);color:#3A4130;text-decoration:none"><span style="font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:#8A7F5C">вс</span><span style="font-size:18px;font-weight:600">30 авг</span><span style="width:4px;height:4px;border-radius:50%;background:transparent;margin:3px auto 0"></span></a>
 </div>
-<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px">
-<span style="min-height:64px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:17px;color:#3A4130">10:00</span>
-<span style="min-height:64px;border-radius:18px;background:rgba(44,54,35,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#A8A695">11:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:64px;border-radius:18px;background:rgba(44,54,35,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#A8A695">12:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:64px;border-radius:18px;border:1px dashed rgba(44,54,35,.26);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#8A7F5C">13:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">перерыв</span></span>
-<span style="min-height:64px;border-radius:18px;background:#465231;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#F4F1E4;font-weight:500">14:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.78;font-weight:400">выбрано</span></span>
-<span style="min-height:64px;border-radius:18px;background:#465231;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#F4F1E4;font-weight:500">15:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase;opacity:.78;font-weight:400">выбрано</span></span>
-<span style="min-height:64px;border-radius:18px;border:1px dashed rgba(44,54,35,.26);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#8A7F5C">16:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">перерыв</span></span>
-<span style="min-height:64px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:17px;color:#3A4130">17:00</span>
-<span style="min-height:64px;border-radius:18px;background:#F2F0E5;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:17px;color:#3A4130">18:00</span>
-<span style="min-height:64px;border-radius:18px;background:rgba(44,54,35,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#A8A695">19:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:64px;border-radius:18px;background:rgba(44,54,35,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#A8A695">20:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">занято</span></span>
-<span style="min-height:64px;border-radius:18px;border:1px dashed rgba(44,54,35,.26);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:17px;color:#8A7F5C">21:00<span style="font-size:11px;letter-spacing:.06em;text-transform:uppercase">перерыв</span></span>
-</div>
+<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:24px"><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">10:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">11:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">12:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">13:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">14:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">15:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">16:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><span style="min-height:52px;border-radius:16px;background:#EDEBDD;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#B0AE9C;text-decoration:none">17:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">прошло</span></span><a href="../banya/bronirovanie/index.html" style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130;text-decoration:none">18:00</a><a href="../banya/bronirovanie/index.html" style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130;text-decoration:none">19:00</a><a href="../banya/bronirovanie/index.html" style="min-height:52px;border-radius:16px;background:#FBFAF3;border:1px solid rgba(44,54,35,.16);display:flex;align-items:center;justify-content:center;font-size:15px;color:#3A4130;text-decoration:none">20:00</a><span style="min-height:52px;border-radius:16px;background:rgba(44,54,35,.06);border:1px solid rgba(44,54,35,.12);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:15px;color:#A8A695;text-decoration:none">21:00<span style="font-size:10.5px;letter-spacing:.06em;text-transform:uppercase">мало времени</span></span></div>
 <div style="display:flex;flex-wrap:wrap;gap:12px 24px;padding-top:22px;border-top:1px solid rgba(44,54,35,.1)">
 <span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#6C7159"><span style="width:16px;height:16px;border-radius:6px;background:#F2F0E5;border:1px solid rgba(44,54,35,.2)"></span>свободно</span>
 <span style="display:flex;align-items:center;gap:8px;font-size:14px;color:#6C7159"><span style="width:16px;height:16px;border-radius:6px;background:rgba(44,54,35,.12)"></span>занято</span>
@@ -314,15 +372,15 @@
 
 <div style="width:380px;flex:none;background:#232B1C;border-radius:26px;padding:32px 30px">
 <div style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#C4A56A;font-weight:600;margin-bottom:20px">Ваша бронь</div>
-<div style="font-family:Prata,serif;font-size:30px;line-height:1.2;color:#F1EADA;margin-bottom:6px">14:00 — 16:00</div>
-<div style="font-size:15px;color:rgba(241,234,218,.6);margin-bottom:24px">суббота, 22 августа · 2 часа</div>
+<div style="font-family:Prata,serif;font-size:30px;line-height:1.2;color:#F1EADA;margin-bottom:6px">18:00 — 20:00</div>
+<div style="font-size:15px;color:rgba(241,234,218,.6);margin-bottom:24px">Суббота, 29 августа · 2 часа</div>
 <div style="display:flex;flex-direction:column;gap:12px;padding:20px 0;border-top:1px solid rgba(241,234,218,.14);border-bottom:1px solid rgba(241,234,218,.14);margin-bottom:24px">
 <div style="display:flex;justify-content:space-between;font-size:15px"><span style="color:rgba(241,234,218,.7)">Цена за час</span><span style="color:#F1EADA">2 500 ₽</span></div>
 <div style="display:flex;justify-content:space-between;font-size:15px"><span style="color:rgba(241,234,218,.7)">Часов</span><span style="color:#F1EADA">2</span></div>
 <div style="display:flex;justify-content:space-between;font-size:15px"><span style="color:rgba(241,234,218,.7)">Итого</span><span style="color:#C4A56A;font-weight:500">5 000 ₽</span></div>
 </div>
-<a href="../banya/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;padding:17px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:16px;font-weight:500;margin-bottom:14px" class="dch-b-d6">Забронировать<svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
-<div style="font-size:13.5px;line-height:1.55;color:rgba(241,234,218,.55)">После 16:00 — технический перерыв 30 минут, следующая бронь возможна с 16:30.</div>
+<a href="../banya/bronirovanie/index.html" style="display:flex;align-items:center;justify-content:center;gap:12px;padding:17px 0;border-radius:999px;background:#CB7A45;color:#FFF4E7;font-size:16px;font-weight:500;margin-bottom:14px" class="dch-b-d6">Забронировать<svg viewBox="0 0 24 24" style="width:17px;height:17px" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13m-5.5-5.5L18 12l-5.5 5.5"></path></svg></a>
+<div style="font-size:13.5px;line-height:1.55;color:rgba(241,234,218,.55)">После 20:00 — технический перерыв 30 минут, следующая бронь возможна позже.</div>
 </div>
 
 </div>
@@ -397,8 +455,8 @@
 <a href="tel:+79771055599" style="font-size:15px;color:#F1EADA;white-space:nowrap">+7 (977) 105-55-99</a>
 </div>
 <div style="display:flex;gap:8px;margin-bottom:24px">
-<a href="#" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">Telegram</a>
-<a href="#" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">WhatsApp</a>
+
+<a href="https://wa.me/79099903667" style="padding:10px 18px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:13px">WhatsApp</a>
 </div>
 <div style="height:1px;background:rgba(241,234,218,.14);margin-bottom:16px"></div>
 <div style="display:flex;flex-wrap:wrap;gap:10px 18px">
@@ -410,7 +468,7 @@
 </div>
 
 
-<div class="design-artboard artboard-desktop bg-[#F2F0E5]">
+<div class="design-artboard artboard-desktop design-footer bg-[#F2F0E5]">
 <div style="background:#232B1C;padding:70px 64px 44px">
 <div style="display:flex;justify-content:space-between;gap:60px;margin-bottom:56px">
 <div style="width:300px;flex:none">
@@ -436,8 +494,8 @@
 <a href="tel:+79099903667" style="font-family:Prata,serif;font-size:24px;color:#F1EADA">+7 (909) 990-36-67</a>
 <a href="tel:+79771055599" style="font-family:Prata,serif;font-size:24px;color:#F1EADA">+7 (977) 105-55-99</a>
 <div style="display:flex;gap:10px;margin-top:12px">
-<a href="#" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">Telegram</a>
-<a href="#" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">WhatsApp</a>
+
+<a href="https://wa.me/79099903667" style="padding:11px 20px;border-radius:999px;border:1px solid rgba(196,165,106,.45);color:#C4A56A;font-size:14px">WhatsApp</a>
 </div>
 </div>
 </div>
